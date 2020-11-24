@@ -1,22 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
         <title>GT Numérique</title>
-        <meta content="Interface de dépôt destinée aux membres du chantier scientifique de Notre-Dame" name="description">
-        <meta content="" name="keywords">
+        <meta content="Interface de dépôt destinée aux membres du chantier scientifique de Notre-Dame" name="description"/>
+        <meta content="" name="keywords"/>
 
         <!-- Favicons -->
-        <link href="assets/img/favicon.png" rel="icon">
-        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+        <link href="assets/img/favicon.png" rel="icon" />
+        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 
         <!-- CSS Files -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/icofont.min.css" rel="stylesheet">
-        <link href="assets/css/animate.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="assets/css/icofont.min.css" rel="stylesheet"/>
+        <link href="assets/css/animate.min.css" rel="stylesheet"/>
+        <link href="assets/css/style.css" rel="stylesheet"/>
+
         <!-- JS Files -->
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/validate.js"></script>
@@ -24,18 +27,18 @@
         <script src="assets/js/jquery.easing.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/main.js"></script>
-    </head>
+    </h:head>
 
-    <body>
+    <h:body>
         <!-- ======= Header ======= -->
         <header id="header" class="fixed-top ">
             <div class="container d-flex align-items-center">
                 <h1 class="logo">
-                    <a href="index.html">GT Numérique</a>
+                    <a href="index.xhtml">GT Numérique</a>
                 </h1>
                 <nav class="nav-menu d-none d-lg-block">
                     <ul>
-                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="index.xhtml">Accueil</a></li>
                     </ul>
                 </nav>
             </div>
@@ -51,7 +54,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h2>Se connecte</h2>
                         <ol>
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="index.xhtml">Home</a></li>
                             <li>Se connecter</li>
                         </ol>
                     </div>
@@ -67,10 +70,10 @@
                             <p>Veuillez saisir votre login et password pour vous connecter * </p>
                             <form action="">
                                 <div class="col-md-8 form-group">
-                                    <input name="login" type="text" class="form-control" placeholder="Login*">
+                                    <h:inputText value="#{studentBean.lastName}" styleClass="form-control" required="true" a:placeholder="Login*" />
                                 </div>
                                 <div class="col-md-8 form-group">
-                                    <input name="password" type="password" class="form-control" placeholder="Password*">
+                                    <h:inputText value="#{studentBean.lastName}" class="form-control" a:placeholder="Password*" required="true"/>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Se connecter</button>
                             </form>
@@ -91,5 +94,5 @@
         <!-- End Footer -->
 
         <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
-    </body>
+    </h:body>
 </html>

@@ -9,9 +9,10 @@ import java.io.File;
 import java.io.IOException;
 
 @Service
-public class TestImage {
+public class ImageManagement {
 
-    public void main(String[] args) {
+
+    public void imageTraitement() {
         
         Dimension imgSize = new Dimension(500, 100);  // Image origine size
         Dimension boundary = new Dimension(200, 200); // Box size to put image
@@ -34,7 +35,8 @@ public class TestImage {
 
     }
 
-    public Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
+
+    private Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
 
         int original_width = imgSize.width;
         int original_height = imgSize.height;

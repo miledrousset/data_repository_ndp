@@ -25,9 +25,11 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <cdi-api.version>1.2</cdi-api.version>
         <lombok.version>1.18.8</lombok.version>
         <postgresql.version>42.2.9</postgresql.version>
         <joinfaces.version>3.3.0-rc2</joinfaces.version>
+        <pdf-renderer.version>1.0.5</pdf-renderer.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -109,7 +111,13 @@
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
-            <version>1.2</version>
+            <version>${cdi-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>pdf-renderer</artifactId>
+            <version>${pdf-renderer.version}</version>
         </dependency>
 
     </dependencies>
