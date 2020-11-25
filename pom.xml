@@ -30,6 +30,7 @@
         <postgresql.version>42.2.9</postgresql.version>
         <joinfaces.version>3.3.0-rc2</joinfaces.version>
         <pdf-renderer.version>1.0.5</pdf-renderer.version>
+        <xuggle-xuggler.version>5.4</xuggle-xuggler.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -160,7 +161,7 @@
         <dependency>
             <groupId>xuggle</groupId>
             <artifactId>xuggle-xuggler</artifactId>
-            <version>5.4</version>
+            <version>${xuggle-xuggler.version}</version>
         </dependency>
 
     </dependencies>
