@@ -15,13 +15,13 @@ import java.io.File;
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class VideoManagementTest {
+public class VideoManagerTest {
 
     private final static String IMG_PATH = "src/test/resources/SampleVideo.jpg";
     private final static String VIDEO_PATH = "classpath:SampleVideo.mp4";
 
     @Autowired
-    private VideoManagement videoManagement;
+    private VideoManager videoManagement;
 
 
     @Test

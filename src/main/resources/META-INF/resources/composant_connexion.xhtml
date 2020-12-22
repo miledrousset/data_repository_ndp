@@ -1,0 +1,24 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"  
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:b="http://bootsfaces.net/ui" 
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+
+    <h:panelGroup rendered="#{!connexionBean.isUserConnected}">
+        <main>
+            <section id="blog" class="blog">
+                <div class="container">
+                    <div class="col-lg-12 entries">
+                        <article class="entry entry-single" style="width: 100%; text-align: center;">
+                            <h2>
+                                <a href="connexion.xhtml">Vous devez vous connecter !</a>
+                            </h2>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </h:panelGroup>
+
+</ui:fragment>

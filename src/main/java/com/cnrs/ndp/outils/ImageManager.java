@@ -1,5 +1,6 @@
 package com.cnrs.ndp.outils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -8,31 +9,34 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+
 @Service
-public class ImageManagement {
+public class ImageManager {
+
+    @Value("${upload.image.small.width.max}")
+    private int widthSmallMax;
+
+    @Value("${upload.image.small.height.max}")
+    private int heightSmallMax;
 
 
-    public void imageTraitement() {
-        
-        Dimension imgSize = new Dimension(500, 100);  // Image origine size
-        Dimension boundary = new Dimension(200, 200); // Box size to put image
+
+    public void imageTraitement(File inputImageFile, String outputImagePath) throws IOException {
+
+        BufferedImage bimg = ImageIO.read(inputImageFile);
+        Dimension imgSize = new Dimension(bimg.getWidth(), bimg.getHeight());  // Image origine size
+        Dimension boundary = new Dimension(widthSmallMax, heightSmallMax); // Box size to put image
         
         // Calcule de la nouvelle dimonsion de la photo
         Dimension result = getScaledDimension(imgSize, boundary);
-        System.out.println(">>> " + result.getWidth() + " + " + result.getHeight());
-        
-        // Resize photo
-        String inputImagePath = "D:/Photo/Puppy.jpg";
-        String outputImagePath1 = "D:/Photo/Puppy_Fixed.jpg";
  
         try {
             // resize to a fixed width 
-            resize(inputImagePath, outputImagePath1, (int) result.getWidth(), (int) result.getHeight());
+            resize(inputImageFile, outputImagePath, (int) result.getWidth(), (int) result.getHeight());
         } catch (IOException ex) {
             System.out.println("Error resizing the image.");
             ex.printStackTrace();
         }
-
     }
 
 
@@ -67,17 +71,16 @@ public class ImageManagement {
     /**
      * Resizes an image to a absolute width and height (the image may not be
      * proportional)
-     * @param inputImagePath Path of the original image
+     * @param inputFile Path of the original image
      * @param outputImagePath Path to save the resized image
      * @param scaledWidth absolute width in pixels
      * @param scaledHeight absolute height in pixels
      * @throws IOException
      */
-    public void resize(String inputImagePath, String outputImagePath, int scaledWidth, int scaledHeight)
+    public void resize(File inputFile, String outputImagePath, int scaledWidth, int scaledHeight)
             throws IOException {
 
         // reads input image
-        File inputFile = new File(inputImagePath);
         BufferedImage inputImage = ImageIO.read(inputFile);
  
         // creates output image

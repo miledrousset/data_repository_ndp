@@ -1,7 +1,9 @@
-<!DOCTYPE HTML>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
         <meta charset="utf-8"/>
@@ -11,25 +13,29 @@
         <meta content="" name="keywords"/>
 
         <!-- Favicons -->
-        <link href="assets/img/favicon.png" rel="icon" />
-        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+        <link href="assets/img/favicon.png" rel="icon"/>
+        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"/>
 
         <!-- CSS Files -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="assets/css/icofont.min.css" rel="stylesheet"/>
         <link href="assets/css/animate.min.css" rel="stylesheet"/>
         <link href="assets/css/style.css" rel="stylesheet"/>
+        <link href="assets/css/tableau.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 
         <!-- JS Files -->
-        <script src="assets/js/jquery.min.js"></script>
+
         <script src="assets/js/validate.js"></script>
         <script src="assets/js/isotope.pkgd.min.js"></script>
-        <script src="assets/js/jquery.easing.min.js"></script>
         <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/main.js"></script>
     </h:head>
 
     <h:body>
+
+        <p:growl id="messages" showDetail="true" />
         <!-- ======= Header ======= -->
         <header id="header" class="fixed-top ">
             <div class="container d-flex align-items-center">
@@ -62,37 +68,32 @@
                 </div>
             </section><!-- End Breadcrumbs -->
 
-            <section id="blog" class="blog">
-                <div class="col-lg-4 entries" style="display: block; margin-left: auto; margin-right: auto;">
-                    <div class="blog-comments">
-                        <div class="reply-form">
-                            <h4>Authentification</h4>
-                            <p>Veuillez saisir votre login et password pour vous connecter * </p>
-                            <form action="">
-                                <div class="col-md-8 form-group">
-                                    <h:inputText value="#{studentBean.lastName}" styleClass="form-control" required="true" a:placeholder="Login*" />
-                                </div>
-                                <div class="col-md-8 form-group">
-                                    <h:inputText value="#{studentBean.lastName}" class="form-control" a:placeholder="Password*" required="true"/>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Se connecter</button>
-                            </form>
+            <h:panelGroup id="connexionPanel">
+                <section id="blog" class="blog">
+                    <div class="col-lg-4 entries" style="display: block; margin-left: auto; margin-right: auto;">
+                        <div class="blog-comments">
+                            <div class="reply-form">
+                                <h4>Authentification</h4>
+                                <p>Veuillez saisir votre login et password pour vous connecter * </p>
+                                <h:form>
+                                    <div class="col-md-12 form-group">
+                                        <h:inputText value="#{connexionBean.login}" styleClass="form-control" />
+                                    </div>
+                                    <div class="col-md-12 form-group">
+                                        <h:inputText value="#{connexionBean.password}" class="form-control"/>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <p:commandButton value="Se connecter" class="btn btn-success" update="connexionPanel"
+                                                         actionListener="#{connexionBean.connexion()}" />
+                                    </div>
+                                </h:form>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-            </section>
-
+                </section>
+            </h:panelGroup>
         </main><!-- End #main -->
 
-        <!-- ======= Footer ======= -->
-        <footer id="footer">
-            <div class="container">
-                <div class="copyright"> © Copyright <strong><span>GT Numérique</span></strong>. All Rights Reserved </div>
-            </div>
-        </footer>
-        <!-- End Footer -->
-
-        <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+        <ui:include src="footer.xhtml"/>
     </h:body>
 </html>

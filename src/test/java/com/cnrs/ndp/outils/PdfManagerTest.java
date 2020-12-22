@@ -17,13 +17,13 @@ import java.io.IOException;
 @SpringBootTest
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class PdfManagementTest {
+public class PdfManagerTest {
 
     private final static String IMG_PATH = "src/test/resources/file-sample.jpg";
     private final static String PDF_PATH = "classpath:file-sample.pdf";
 
     @Autowired
-    private PdfManagement pdfManagement;
+    private PdfManager pdfManagement;
 
 
     @Test

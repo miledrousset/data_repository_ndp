@@ -4,6 +4,7 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
+  background : #FFFFFF;
 }
 
 a {
@@ -1520,7 +1521,7 @@ section {
 
 .blog .entry .entry-content .read-more a {
   display: inline-block;
-  background: #d9232d;
+  background: #FFFFFF;
   color: #fff;
   padding: 6px 20px 7px;
   transition: 0.3s;
@@ -1529,7 +1530,7 @@ section {
 }
 
 .blog .entry .entry-content .read-more a:hover {
-  background: #e1444d;
+  background: #FFFFFF;
 }
 
 .blog .entry .entry-content h3 {
@@ -1540,7 +1541,7 @@ section {
 
 .blog .entry .entry-content blockquote {
   overflow: hidden;
-  background-color: #fafafa;
+  background-color: #FFFFFF;
   padding: 60px;
   position: relative;
   text-align: center;
@@ -1548,7 +1549,7 @@ section {
 }
 
 .blog .entry .entry-content blockquote p {
-  color: #444444;
+  color: #FFFFFF;
   line-height: 1.6;
   margin-bottom: 0;
   font-style: italic;
@@ -1579,14 +1580,14 @@ section {
   top: 0;
   bottom: 0;
   width: 3px;
-  background-color: #556270;
+  background-color: #FFFFFF;
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
 .blog .entry .entry-footer {
   padding-top: 10px;
-  border-top: 1px solid #e6e6e6;
+  border-top: 1px solid #FFFFFF;
 }
 
 .blog .entry .entry-footer i {
@@ -1734,6 +1735,10 @@ section {
   padding-left: 40px;
 }
 
+.reply-form {
+  background-color: #FFFFFF;
+}
+
 .blog .blog-comments .reply-form {
   margin-top: 30px;
   padding: 30px;
@@ -1783,7 +1788,7 @@ section {
 }
 
 .blog .blog-comments .reply-form .btn-primary:hover {
-  background-color: #d9232d;
+  background-color: #FFFFFF;
 }
 
 .blog .blog-pagination {
@@ -2131,4 +2136,71 @@ section {
 
 #footer .credits a:hover {
   color: white;
+}
+
+.ui-state-highlight .ui-widget-content .ui-state-highlight .ui-widget-header .ui-state-highlight {
+    background-color: #d9232d;
+}
+
+.ui-button, button.ui-button.ui-state-default, .ui-button.ui-state-default {
+    background-color: #d9232d;
+    border-color: #d9232d;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    background-color: #556270;
+    border-color: #556270;
+}
+
+
+
+.reply-form-v2 {
+  background-color: #FFFFFF;
+}
+
+.blog .blog-comments .reply-form-v2 {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.blog .blog-comments .reply-form-v2 h4 {
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.blog .blog-comments .reply-form-v2 p {
+  font-size: 14px;
+}
+
+.blog .blog-comments .reply-form-v2 input {
+  border-radius: 0;
+  font-size: 14px;
+}
+
+.blog .blog-comments .reply-form-v2 input:focus {
+  box-shadow: none;
+  border-color: #e9797f;
+}
+
+.blog .blog-comments .reply-form-v2 textarea {
+  border-radius: 0;
+  font-size: 14px;
+}
+
+.blog .blog-comments .reply-form-v2 textarea:focus {
+  box-shadow: none;
+  border-color: #e9797f;
+}
+
+.blog .blog-comments .reply-form-v2 .form-group {
+  margin-bottom: 25px;
+}
+
+.blog .blog-comments .reply-form-v2 .btn-primary {
+  border-radius: 4;
+  border: 0;
+  background-color: #556270;
+}
+
+.blog .blog-comments .reply-form-v2 .btn-primary:hover {
+  background-color: #FFFFFF;
 }

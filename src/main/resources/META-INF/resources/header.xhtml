@@ -1,0 +1,54 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"  
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+
+    <header id="header" class="fixed-top ">
+        <h:panelGroup id="headerPanel">
+            <h:form>
+                <div class="container d-flex align-items-center">
+                    <h1 class="logo">
+                        <a href="index.html">GT Numérique</a>
+                    </h1>
+                    <nav class="nav-menu d-none d-lg-block">
+                        <ul>
+                            <li><p:link outcome="index" style="#{connexionBean.getTitleMenuStyle('Accueil')}"  
+                                        onclick="#{connexionBean.setItemMenuSelected('Accueil')}" value="Accueil"/></li>
+                                        
+                            <li><p:link rendered="#{connexionBean.isUserConnected}" outcome="depot"  
+                                        onclick="#{connexionBean.setItemMenuSelected('Depot')}" 
+                                        style="#{connexionBean.getTitleMenuStyle('Depot')}" value="Dépôt de données"/></li>
+                                        
+                            <li><p:link rendered="#{connexionBean.isUserConnected}" outcome="gestion_depot" 
+                                        onclick="#{connexionBean.setItemMenuSelected('Gestion du dépôt')}" 
+                                        style="#{connexionBean.getTitleMenuStyle('Gestion du dépôt')}" value="Gestion du dépôt"/></li>
+                                        
+                            <li><p:link rendered="#{connexionBean.isUserConnected}" outcome="utilisateur" 
+                                        onclick="#{connexionBean.setItemMenuSelected('Utilisateur')}"
+                                        style="#{connexionBean.getTitleMenuStyle('Utilisateur')}" value="Utilisateur"/></li>
+                        </ul>
+                    </nav>
+
+                    <p:commandButton rendered="#{connexionBean.isUserConnected}" value="Se déconnecter"
+                                     oncomplete="PF('deconnexionDialog').show();" ajax="true"
+                                     class="get-started-btn ml-auto" update="headerPanel"/> 
+
+                    <p:link rendered="#{!connexionBean.isUserConnected}" outcome="connexion" value="Se connecter" class="get-started-btn ml-auto"/>
+
+                </div>
+            </h:form>
+        </h:panelGroup>
+    </header>
+
+    <p:dialog header="Se déconnecter" widgetVar="deconnexionDialog" modal="true" resizable="false">
+        <div class="modal-body">					
+            <p>Voulez-vous vraiment vous déconnecter ?</p>
+        </div>
+        <div class="modal-footer">
+            <p:commandButton value="Annuler" onclick="PF('deconnexionDialog').hide();" class="btn btn-default"/>
+            <p:commandButton value="Se déconnecter" actionListener="#{connexionBean.deconnexion()}" 
+                             class="btn btn-success" update="headerPanel"/>
+        </div>
+    </p:dialog>
+
+</ui:fragment>

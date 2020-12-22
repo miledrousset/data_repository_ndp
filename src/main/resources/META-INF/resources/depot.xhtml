@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>GT Numérique</title>
+    <meta content="Interface de dépôt destinée aux membres du chantier scientifique de Notre-Dame" name="description"/>
+    <meta content="" name="keywords"/>
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon"/>
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"/>
+
+    <!-- CSS Files -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="assets/css/icofont.min.css" rel="stylesheet"/>
+    <link href="assets/css/animate.min.css" rel="stylesheet"/>
+    <link href="assets/css/style.css" rel="stylesheet"/>
+    <link href="assets/css/tableau.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+
+    <!-- JS Files -->
+    <script src="assets/js/validate.js"></script>
+    <script src="assets/js/isotope.pkgd.min.js"></script>
+</h:head>
+
+<h:body style="background: #FFFFFF">
+    <p:growl id="messages" showDetail="true" />
+
+    <ui:include src="header.xhtml"/>
+
+
+    <main id="main">
+        <section id="breadcrumbs" class="breadcrumbs">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Dépôt de donnée</h2>
+                    <ol>
+                        <li><a href="index.xhtml">Accueil</a></li>
+                        <li>Dépôt de donnée</li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+
+        <ui:include src="composant_connexion.xhtml"/>
+
+        <h:panelGroup id="mainDepos" rendered="#{connexionBean.isUserConnected}">
+            <h:form>
+                <section id="blog" class="blog">
+                    <div class="container">
+                        <div class="col-lg-12 entries">
+
+                            <div class="blog-comments">
+                                <div class="reply-form" style="background-color: #FFFFFF">
+                                    <h1>Chargement du formulaire de dépôt de métadonnées</h1>
+                                    <p style="font-size: 14px;">Veuillez sélectionner un schéma dans la liste</p>
+                                    <p:selectOneMenu value="#{dataDepotManager.schemasSelected}" style="width:100%; font-size: 14px;"
+                                                     disabled="#{dataDepotManager.detailDepotVisible}">
+                                        <f:selectItem itemLabel="Deblin Core" itemValue="1"/>
+                                        <f:selectItem itemLabel="Articke de Press (gt-Emotion)" itemValue="2" />
+                                    </p:selectOneMenu>
+
+                                    <div class="modal-footer">
+                                        <p:commandButton value="Valider" actionListener="#{dataDepotManager.onValiderSchema()}"
+                                                         disabled="#{dataDepotManager.detailDepotVisible}" update="mainDepos" ajax="true"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h:panelGroup rendered="#{dataDepotManager.detailDepotVisible}">
+                                <div class="blog-comments">
+                                    <div class="reply-form" style="background-color: #FFFFFF">
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Groupe de travail :</label>
+                                            <div class="col-sm-10">
+                                                <p:selectOneMenu value="#{dataDepotManager.groupeTravailSelected}" style="width:100%; font-size: 14px;" dynamic="true"
+                                                                 disabled="#{dataDepotManager.uploadFilesVisible}">
+                                                    <f:selectItems value="#{dataDepotManager.groupeTravail}"  />
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Repertoire :</label>
+                                            <div class="col-sm-10">
+                                                <p:selectOneMenu value="#{dataDepotManager.repertoirSelected}" style="width:100%; font-size: 14px;" dynamic="true"
+                                                                 disabled="#{dataDepotManager.uploadFilesVisible}">
+                                                    <f:selectItems value="#{dataDepotManager.repertoireList}" var="repertoire" itemLabel="#{repertoire}" itemValue="#{repertoire}" />
+                                                </p:selectOneMenu>
+                                            </div>
+                                        </div>
+
+                                        <p style="font-size: 14px;">Chargement du métadata</p>
+                                        <div class="input-group">
+                                            <h:form style="width: 100%">
+                                                <p:fileUpload fileUploadListener="#{dataDepotManager.uploadMetadonneFile}"
+                                                              disabled="#{dataDepotManager.uploadFilesVisible}"
+                                                              style="width:100%; font-size: 12px;"
+                                                              mode="advanced"
+                                                              dragDropSupport="true"
+                                                              multiple="false"
+                                                              cancelIcon="true" />
+                                                <p>Nombre total des metadonnées chargés : <B>#{dataDepotManager.listMetadonnes.size()}</B></p>
+                                            </h:form>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <p:commandButton value="Valider" actionListener="#{dataDepotManager.onValiderUploadParams()}"
+                                                             disabled="#{dataDepotManager.uploadFilesVisible}"
+                                                             class="btn btn-success" update="mainDepos" ajax="true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{dataDepotManager.uploadFilesVisible}">
+                                <div class="blog-comments">
+                                    <div class="reply-form" style="background-color: #FFFFFF">
+                                        <h1>Chargement des resources</h1>
+                                        <p style="font-size: 14px;">Veuillez sélectionner le(s) fichier(s) que vous voullez uploader</p>
+                                        <div class="input-group">
+                                            <h:form style="width: 100%">
+
+                                                <h:form>
+                                                    <p:fileUpload fileUploadListener="#{dataDepotManager.uploadFiles}"
+                                                                  mode="advanced"
+                                                                  dragDropSupport="true"
+                                                                  sizeLimit="1000000" fileLimit="3"
+                                                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                                </h:form>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{dataDepotManager.uploadFilesVisible}">
+                                <article class="entry entry-single" style="background-color: #FFFFFF" >
+                                    <ui:include src="depot/deblinCore/tableauResources.xhtml"/>
+                                </article>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </section>
+            </h:form>
+        </h:panelGroup>
+    </main>
+
+    <ui:include src="footer.xhtml"/>
+</h:body>
+</html>

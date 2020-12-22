@@ -1,69 +1,45 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <meta charset="utf-8"/>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
         <title>GT Numérique</title>
+
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
         <meta content="Interface de dépôt destinée aux membres du chantier scientifique de Notre-Dame" name="description"/>
         <meta content="" name="keywords"/>
-
-        <!-- Favicons -->
-        <link href="assets/img/favicon.png" rel="icon" />
-        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 
         <!-- CSS Files -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="assets/css/icofont.min.css" rel="stylesheet"/>
         <link href="assets/css/animate.min.css" rel="stylesheet"/>
         <link href="assets/css/style.css" rel="stylesheet"/>
-        
-        <!-- JS Files -->
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/validate.js"></script>
-        <script src="assets/js/isotope.pkgd.min.js"></script>
-        <script src="assets/js/jquery.easing.min.js"></script>
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/js/main.js"></script>
     </h:head>
 
     <h:body>
-        <!-- ======= Header ======= -->
-        <header id="header" class="fixed-top ">
-            <div class="container d-flex align-items-center">
-                <h1 class="logo">
-                    <a href="index.html">GT Numérique</a>
-                </h1>
-                <nav class="nav-menu d-none d-lg-block">
-                    <ul>
-                        <li class="active"><a href="index.html"><B>Accueil</B></a></li>
-                        <li><a href="depot.html">Dépôt de données</a></li>
-                        <li><a href="gestion_depot.html">Gestion du dépôt</a></li>
-                        <li><a href="utilisateur.html">Utilisateur</a></li>
-                    </ul>
-                </nav>
-                <a href="connexion.xhtml" class="get-started-btn ml-auto">Se connecter</a>
-            </div>
-        </header>
-        <!-- End Header -->
 
-        <!-- ======= banner Section ======= -->
+        <ui:include src="header.xhtml"/>
+
         <section id="hero">
-            <div class="carousel-item active" style="background-image: url(assets/img/index.jpg);	background-position: top left; 
-                 background-size: 100%; background-repeat: repeat;">
-                <div class="carousel-container">
-                    <div class="container">
-                        <h2 class="animate__animated animate__fadeInDown">Bienvenu<br/></h2>
-                        <p class="animate__animated animate__fadeInUp">Interface de dépôt destinée aux membres du chantier scientifique de Notre-Dame</p>
-                        <a href="connexion.xhtml" class="btn-get-started animate__animated animate__fadeInUp scrollto">Se Connecter</a>
+            <h:panelGroup id="indexPanel">
+                <div class="carousel-item active" style="background-image: url(assets/img/index.jpg); background-position: top left; 
+                     background-size: 100%; background-repeat: repeat;">
+                    <div class="carousel-container">
+                        <div class="container">
+                            <h2 class="animate__animated animate__fadeInDown">Bienvenu<br/></h2>
+                            <p class="animate__animated animate__fadeInUp">
+                                <h3 style="color: #FFFFFF">Interface de dépôt destinée aux membres du chantier scientifique de Notre-Dame</h3>
+                            </p>
+                            <p:link rendered="#{!connexionBean.isUserConnected}" outcome="connexion" value="Se connecter" class="get-started-btn ml-auto"/>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </h:panelGroup>
         </section>
-        <!-- End Banner -->
 
-        <!-- ======= Footer ======= -->
         <footer id="footer">
             <div class="footer-top">
                 <div class="container">
@@ -85,7 +61,6 @@
                 <div class="copyright"> © Copyright <strong><span>GT Numérique</span></strong>. All Rights Reserved </div>
             </div>
         </footer>
-        <!-- End Footer -->
 
         <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
     </h:body>

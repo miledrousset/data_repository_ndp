@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class VideoManagement extends MediaListenerAdapter {
+public class VideoManager extends MediaListenerAdapter {
 
     private int mVideoStreamIndex = -1;
     private boolean gotFirst = false;
