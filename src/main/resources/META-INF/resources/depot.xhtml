@@ -127,7 +127,6 @@
                                         <p style="font-size: 14px;">Veuillez sélectionner le(s) fichier(s) que vous voullez uploader</p>
                                         <div class="input-group">
                                             <h:form style="width: 100%">
-
                                                 <h:form>
                                                     <p:fileUpload fileUploadListener="#{dataDepotManager.uploadFiles}"
                                                                   mode="advanced"
@@ -143,7 +142,77 @@
 
                             <h:panelGroup rendered="#{dataDepotManager.uploadFilesVisible}">
                                 <article class="entry entry-single" style="background-color: #FFFFFF" >
-                                    <ui:include src="depot/deblinCore/tableauResources.xhtml"/>
+                                    <div class="container-xl">
+                                        <div class="table-responsive">
+                                            <div class="table-wrapper">
+                                                <div class="table-title">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <h2>Gestion des resources <b>Deblin Core</b></h2>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <a href="#deleteDebianCoreResource" class="btn btn-danger" data-toggle="modal">
+                                                                <i class="material-icons">&#xE15C;</i>
+                                                                <span>Supprimer</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <table id="resourceArray" class="table table-striped table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <span class="custom-checkbox"/>
+                                                        </th>
+                                                        <th >Titre</th>
+                                                        <th>Créateur</th>
+                                                        <th>Type</th>
+                                                        <th>Format</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <ui:repeat value="#{dataDepotManager.deblinCoreUploated}" var="res">
+                                                        <tr>
+                                                            <td>
+                                                                <span class="custom-checkbox">
+                                                                    <p:selectBooleanCheckbox value="#{res.selected}"/>
+                                                                </span>
+                                                            </td>
+                                                            <td><h:outputText value="#{res.titre}"/></td>
+                                                            <td><h:outputText value="#{res.createur}"/></td>
+                                                            <td><h:outputText value="#{res.type}"/></td>
+                                                            <td><h:outputText value="#{res.format}"/></td>
+                                                            <td>
+                                                                <p:commandButton icon="pi pi-save" title="Editer la resource"
+                                                                                 oncomplete="PF('modifierdeblinCore').show();" style="color: #556270;"
+                                                                                 actionListener="#{dataDepotManager.setResourceSelected(res)}"
+                                                                                 ajax="true" update="mainDepos"/>
+
+                                                                <p:commandButton icon="fa-remove" title="Supprimer resource"
+                                                                                 oncomplete="PF('supprimerdeblinCore').show();" style="color: #d9232d;"
+                                                                                 actionListener="#{dataDepotManager.setResourceSelected(res)}"
+                                                                                 ajax="true" update="mainDepos"/>
+                                                            </td>
+                                                        </tr>
+                                                    </ui:repeat>
+                                                    </tbody>
+                                                </table>
+                                                <div class="clearfix">
+                                                    <div class="hint-text">Affichage de <b>1</b> / <b>1</b> resource(s)</div>
+                                                    <ul class="pagination">
+                                                        <li class="page-item disabled"><a href="#">précédant</a></li>
+                                                        <li class="page-item"><a href="#" class="page-link">1</a></li>
+                                                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                                                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                                                        <li class="page-item"><a href="#" class="page-link">5</a></li>
+                                                        <li class="page-item"><a href="#" class="page-link">Suivant</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </article>
                             </h:panelGroup>
                         </div>
@@ -152,6 +221,9 @@
             </h:form>
         </h:panelGroup>
     </main>
+
+    <ui:include src="/depot/deblinCore/modifierResource.xhtml"/>
+    <ui:include src="/depot/deblinCore/supprimerResouce.xhtml"/>
 
     <ui:include src="footer.xhtml"/>
 </h:body>

@@ -1,21 +1,26 @@
-<ui:fragment xmlns="http://www.w3.org/1999/xhtml"  xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:b="http://bootsfaces.net/ui" xmlns:f="http://java.sun.com/jsf/core"
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:ui="http://java.sun.com/jsf/facelets"
              xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:b="http://bootsfaces.net/ui"
              xmlns:p="http://primefaces.org/ui">
 
     <p:dialog header="Supprimer Resource" widgetVar="supprimerdeblinCore" 
               modal="true" resizable="false">
 
-        <div class="modal-body">					
-            <p>Voulez-vous vraiment supprimer <B>#{depotManager.resourceSelected.titre}</B> ?</p>
-            <p class="text-warning"><small>Cette action ne peut pas être annulée.</small></p>
-        </div>
+        <h:form>
 
-        <div class="modal-footer">
-            <b:button value="Annuler" onclick="PF('supprimerdeblinCore').hide();" class="btn btn-default"/>
-            <p:commandButton value="Supprimer" actionListener="#{depotManager.supprimerResource()}" 
-                             class="btn btn-success" update="mainDepos"/>
-        </div>
+            <div class="modal-body">
+                <p>Voulez-vous vraiment supprimer <B>#{dataDepotManager.resourceSelected.titre}</B> ?</p>
+                <p class="text-warning"><small>Cette action ne peut pas être annulée.</small></p>
+            </div>
+
+            <div class="modal-footer">
+                <b:button value="Annuler" onclick="PF('supprimerdeblinCore').hide();" class="btn btn-default"/>
+                <p:commandButton value="Supprimer" actionListener="#{dataDepotManager.supprimerResource()}"
+                                 class="btn btn-success" update="mainDepos"/>
+            </div>
+
+        </h:form>
 
     </p:dialog>
 

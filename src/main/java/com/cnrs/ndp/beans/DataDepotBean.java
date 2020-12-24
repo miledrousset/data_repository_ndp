@@ -1,10 +1,14 @@
 package com.cnrs.ndp.beans;
 
+import com.cnrs.ndp.entity.Depots;
 import com.cnrs.ndp.model.DeblinCore;
 import com.cnrs.ndp.model.Resource;
+import com.cnrs.ndp.repository.DepotsRepository;
 import com.cnrs.ndp.service.FileManager;
-
 import com.cnrs.ndp.service.MetadonneService;
+
+import com.cnrs.ndp.utils.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -16,8 +20,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -25,14 +31,21 @@ import java.util.List;
 @SessionScoped
 public class DataDepotBean implements Serializable {
 
+    private final static String DIRECTORY_NAME = "dd-MM-yyyy_HH:mm";
+
     @Autowired
     private FileManager fileManager;
 
     @Autowired
     private MetadonneService metadonneService;
 
+    @Autowired
+    private DepotsRepository depotsRepository;
+
+
+    private boolean saveDepot;
     private boolean detailDepotVisible, uploadFilesVisible;
-    private String schemasSelected, repertoirSelected, groupeTravailSelected;
+    private String schemasSelected, repertoirSelected, groupeTravailSelected, name;
     private UploadedFile files;
 
     private Resource resourceSelected;
@@ -55,6 +68,9 @@ public class DataDepotBean implements Serializable {
     @Value("${upload.file.format_allow}")
     private String formatAllow;
 
+    @Value("${upload.file.small_name}")
+    private String smallRep;
+
 
     @PostConstruct
     public void initComposant() {
@@ -73,8 +89,15 @@ public class DataDepotBean implements Serializable {
 
     public void supprimerResource() {
 
+        resourceSelected.getFile().delete();
+
+        String name = resourceSelected.getFile().getName();
+        String filePath = resourceSelected.getFile().getPath().substring(0, resourceSelected.getFile().getPath().lastIndexOf("/") + 1) + smallRep +
+                name.substring(0, name.lastIndexOf(".")) + ".png";
+        File smallFile = new File(filePath);
+        smallFile.delete();
+
         deblinCoreUploated.remove(resourceSelected);
-        //TODO deleted file
 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage
                 .SEVERITY_INFO, "", "Resource supprimée avec sucée !"));
@@ -88,9 +111,12 @@ public class DataDepotBean implements Serializable {
 
         String username = "user";
 
+        if (StringUtils.isEmpty(name)) {
+            name = username + "-" + DateUtils.getDateTime(DIRECTORY_NAME);
+        }
         deblinCoreUploated = new ArrayList<>();
         deblinCoreUploated.add(fileManager.uploadFiles(event.getFile(), username, groupeTravailSelected,
-                repertoirSelected, schemasSelected));
+                repertoirSelected, schemasSelected, listMetadonnes));
 
         FacesMessage message = new FacesMessage("Successful", "All files are uploaded.");
         FacesContext.getCurrentInstance().addMessage(null, message);
@@ -99,11 +125,23 @@ public class DataDepotBean implements Serializable {
         if (pf.isAjaxRequest()) {
             pf.ajax().update("mainDepos");
         }
+
+        if (saveDepot) {
+            saveDepot = false;
+            Depots depots = new Depots();
+            depots.setNomDepot(name);
+            depots.setRepertoir(repertoirSelected);
+            depots.setGroupeTravail(groupeTravailSelected);
+            depots.setArcheodrid("A venir");
+            depots.setDepotHumaNum("A venir");
+            depots.setDateDepot(new Date());
+            depotsRepository.save(depots);
+        }
     }
 
     public void uploadMetadonneFile(FileUploadEvent event) throws IOException {
         UploadedFile file = event.getFile();
-        if (file.getFileName().toLowerCase().endsWith(".xsls")) {
+        if (file.getFileName().toLowerCase().endsWith(".xlsx")) {
             InputStream is = event.getFile().getInputstream();
             File fileUploated = new File(event.getFile().getFileName());
             fileManager.uploadFile(is, fileUploated);
@@ -134,6 +172,7 @@ public class DataDepotBean implements Serializable {
 
     public void onValiderUploadParams() {
         uploadFilesVisible = true;
+        saveDepot = true;
         PrimeFaces pf = PrimeFaces.current();
         if (pf.isAjaxRequest()) {
             pf.ajax().update("mainDepos");

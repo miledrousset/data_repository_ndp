@@ -17,7 +17,7 @@ import java.io.*;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
+import java.util.List;
 
 
 @Service
@@ -39,36 +39,49 @@ public class FileManager {
     private String smallDirectory;
 
     private final static int BUFFER_SIZE = 8192;
-    private final static String DIRECTORY_NAME = "dd-MM-yyyy_HH:mm";
 
 
-    public Resource uploadFiles(UploadedFile file, String username, String roupeTravailSelected,
-                                String repertoirSelected, String schemasSelected) {
+    public Resource uploadFiles(UploadedFile file, String repoName, String groupeTravailSelected,
+                                String repertoirSelected, String schemasSelected, List<Resource> listMetadonnes) {
         Resource resource = null;
         try {
-            String destinationPath = createDestinationDirectoryPath(username, roupeTravailSelected, repertoirSelected);
+            String destinationPath = createDestinationDirectoryPath(repoName, groupeTravailSelected, repertoirSelected);
             String fileName = StringUtils.formatFileName(file.getFileName());
             File fileOut = new File(destinationPath + fileName);
             InputStream is = file.getInputstream();
             copyFile(is, fileOut, destinationPath + smallDirectory + fileName);
-            resource = createResource(schemasSelected, fileName);
+            String titre = StringUtils.formatFileName(fileName.substring(0, fileName.lastIndexOf(".")));
+            resource = createResource(schemasSelected, titre, listMetadonnes, fileOut);
             resource.setFile(fileOut);
         } catch (Exception e) { }
         return resource;
     }
 
-    private Resource createResource(String schemasSelected, String fileName) {
-        Resource resource;
-        switch(schemasSelected) {
-            case "1" :
-                resource = new DeblinCore();
-                break;
-            default :
-                resource = new ArticlePresse();
-                break;
+    private Resource createResource(String schemasSelected, String fileName, List<Resource> listMetadonnes,  File fileOut) {
+        Resource resource = getResourceFromMetadonnes(listMetadonnes, fileName);
+        if (resource == null) {
+            switch(schemasSelected) {
+                case "1" :
+                    resource = new DeblinCore();
+                    break;
+                default :
+                    resource = new ArticlePresse();
+                    break;
+            }
+            resource.setTitre(fileName);
         }
-        resource.setTitre(fileName);
+        resource.setFile(fileOut);
         return resource;
+    }
+
+    private Resource getResourceFromMetadonnes(List<Resource> listMetadonnes, String fileName) {
+        Resource resourceFound = null;
+        for (Resource resource : listMetadonnes) {
+            if (resource.getTitre().equalsIgnoreCase(fileName)) {
+                resourceFound = resource;
+            }
+        }
+        return resourceFound;
     }
 
     private void copyFile(InputStream is, File fileOut, String destinationPath) throws Exception {
@@ -113,11 +126,11 @@ public class FileManager {
         }
     }
 
-    public String createDestinationDirectoryPath(String username, String groupeTravailSelected, String repertoirSelected)
+    public String createDestinationDirectoryPath(String repoName, String groupeTravailSelected, String repertoirSelected)
             throws IOException {
 
         String path = pathUpload + "/" + groupeTravailSelected + "/" + repertoirSelected + "/"
-                + username + "-" + DateUtils.getDateTime(DIRECTORY_NAME) + "/";
+                + repoName + "/";
         Files.createDirectories(Paths.get(path));
         Files.createDirectories(Paths.get(path + smallDirectory));
         return path;
