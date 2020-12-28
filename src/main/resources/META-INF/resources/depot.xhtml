@@ -60,10 +60,20 @@
                                 <div class="reply-form" style="background-color: #FFFFFF">
                                     <h1>Chargement du formulaire de dépôt de métadonnées</h1>
                                     <p style="font-size: 14px;">Veuillez sélectionner un schéma dans la liste</p>
-                                    <p:selectOneMenu value="#{dataDepotManager.schemasSelected}" style="width:100%; font-size: 14px;"
+                                    <p:selectOneMenu value="#{dataDepotManager.schemasSelected}"
+                                                     style="width:100%; font-size: 14px;"
                                                      disabled="#{dataDepotManager.detailDepotVisible}">
                                         <f:selectItem itemLabel="Deblin Core" itemValue="1"/>
-                                        <f:selectItem itemLabel="Articke de Press (gt-Emotion)" itemValue="2" />
+                                        <f:selectItem itemLabel="Article de Press (gt-Emotion)" itemValue="2" />
+                                        <f:selectItem itemLabel="URL" itemValue="3" />
+                                        <f:selectItem itemLabel="Vidéo" itemValue="4" />
+                                        <f:selectItem itemLabel="Image (LRMH)" itemValue="5" />
+                                        <f:selectItem itemLabel="Audio Wawe BWF" itemValue="6" />
+                                        <f:selectItem itemLabel="Données laser brutes (stations)" itemValue="7" />
+                                        <f:selectItem itemLabel="Données Laser Conso. (nuage)" itemValue="8" />
+                                        <f:selectItem itemLabel="Nuage de points photogrammétrie" itemValue="9" />
+                                        <f:selectItem itemLabel="Maillage 3D photogrammétrie" itemValue="10" />
+                                        <f:selectItem itemLabel="Restitution 3D Geometry" itemValue="11" />
                                     </p:selectOneMenu>
 
                                     <div class="modal-footer">
@@ -76,13 +86,12 @@
                             <h:panelGroup rendered="#{dataDepotManager.detailDepotVisible}">
                                 <div class="blog-comments">
                                     <div class="reply-form" style="background-color: #FFFFFF">
-
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label">Groupe de travail :</label>
                                             <div class="col-sm-10">
                                                 <p:selectOneMenu value="#{dataDepotManager.groupeTravailSelected}" style="width:100%; font-size: 14px;" dynamic="true"
                                                                  disabled="#{dataDepotManager.uploadFilesVisible}">
-                                                    <f:selectItems value="#{dataDepotManager.groupeTravail}"  />
+                                                    <f:selectItems value="#{dataDepotManager.groupeTravail}" var="groupe" itemLabel="#{groupe}" itemValue="#{groupe}" />
                                                 </p:selectOneMenu>
                                             </div>
                                         </div>
@@ -148,7 +157,7 @@
                                                 <div class="table-title">
                                                     <div class="row">
                                                         <div class="col-sm-6">
-                                                            <h2>Gestion des resources <b>Deblin Core</b></h2>
+                                                            <h2>Gestion des resources <b>#{dataDepotManager.name}</b></h2>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <a href="#deleteDebianCoreResource" class="btn btn-danger" data-toggle="modal">
@@ -185,9 +194,9 @@
                                                             <td><h:outputText value="#{res.format}"/></td>
                                                             <td>
                                                                 <p:commandButton icon="pi pi-save" title="Editer la resource"
-                                                                                 oncomplete="PF('modifierdeblinCore').show();" style="color: #556270;"
+                                                                                 oncomplete="#{dataDepotManager.afficherModifierResourceDialog()}"
                                                                                  actionListener="#{dataDepotManager.setResourceSelected(res)}"
-                                                                                 ajax="true" update="mainDepos"/>
+                                                                                 ajax="true" update="mainDepos" style="color: #556270;"/>
 
                                                                 <p:commandButton icon="fa-remove" title="Supprimer resource"
                                                                                  oncomplete="PF('supprimerdeblinCore').show();" style="color: #d9232d;"
@@ -211,6 +220,12 @@
                                                     </ul>
                                                 </div>
                                             </div>
+
+
+                                            <div class="modal-footer">
+                                                <p:commandButton value="Valider" actionListener="#{dataDepotManager.validerDepot()}"
+                                                                 class="btn btn-success" update="mainDepos"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </article>
@@ -218,12 +233,22 @@
                         </div>
                     </div>
                 </section>
+
+                <ui:include src="/depot/url.xhtml"/>
+                <ui:include src="/depot/video.xhtml"/>
+                <ui:include src="/depot/image.xhtml"/>
+                <ui:include src="/depot/audio.xhtml"/>
+                <ui:include src="/depot/deblinCore.xhtml"/>
+                <ui:include src="/depot/articlePress.xhtml"/>
+                <ui:include src="/depot/supprimerResouce.xhtml"/>
+                <ui:include src="/depot/donneesLaserConso.xhtml"/>
+                <ui:include src="/depot/donneesLaserBrutes.xhtml"/>
+                <ui:include src="/depot/maillage3dGeommetry.xhtml"/>
+                <ui:include src="/depot/nuagePointsPhotogrammetrie.xhtml"/>
+                <ui:include src="/depot/maillage3dPhotogrammetrice.xhtml"/>
             </h:form>
         </h:panelGroup>
     </main>
-
-    <ui:include src="/depot/deblinCore/modifierResource.xhtml"/>
-    <ui:include src="/depot/deblinCore/supprimerResouce.xhtml"/>
 
     <ui:include src="footer.xhtml"/>
 </h:body>

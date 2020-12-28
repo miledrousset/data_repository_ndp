@@ -1,7 +1,6 @@
 package com.cnrs.ndp.service;
 
-import com.cnrs.ndp.model.DeblinCore;
-import com.cnrs.ndp.model.Resource;
+import com.cnrs.ndp.model.resources.Resource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

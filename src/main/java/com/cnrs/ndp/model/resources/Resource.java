@@ -1,4 +1,4 @@
-package com.cnrs.ndp.model;
+package com.cnrs.ndp.model.resources;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -30,6 +30,7 @@ public class Resource implements Serializable {
     String identifiantUnique;
     String relation;
     String gestionDesDroits;
+    String notesInternes;
     String citationBibliographie;
 
 }

@@ -1,4 +1,4 @@
-package com.cnrs.ndp.model;
+package com.cnrs.ndp.model.resources;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

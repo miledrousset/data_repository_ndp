@@ -1,9 +1,10 @@
 package com.cnrs.ndp.service;
 
-import com.cnrs.ndp.model.*;
+import com.cnrs.ndp.model.resources.ArticlePresse;
+import com.cnrs.ndp.model.resources.DeblinCore;
+import com.cnrs.ndp.model.resources.Resource;
 import com.cnrs.ndp.outils.ImageManager;
 import com.cnrs.ndp.outils.PdfManager;
-import com.cnrs.ndp.utils.DateUtils;
 import com.cnrs.ndp.utils.StringUtils;
 import com.cnrs.ndp.outils.VideoManager;
 

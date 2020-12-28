@@ -86,10 +86,17 @@
                                                         <td><h:outputText value="#{depot.depotHumaNum}"/></td>
                                                         <td><h:outputText value="#{depot.archeodrid}"/></td>
                                                         <td>
-                                                            <p:commandButton icon="fa-remove" title="Modifier un dépot"
-                                                                             oncomplete="PF('modifierDepot').show();" style="color: #d9232d;"
-                                                                             actionListener="#{depotManagerBean.setDepotSelected(depot)}"
-                                                                             ajax="true" update="mainDepos"/> 
+                                                            <p:commandButton id="dynaButton" value="Show" type="button" icon="pi pi-home"/>
+                                                            <p:menu overlay="true" trigger="dynaButton" my="left top" at="left bottom">
+                                                                <p:menuitem value="Modifier status" oncomplete="PF('modifierDepot').show();"
+                                                                            actionListener="#{depotManagerBean.setDepotSelected(depot)}"
+                                                                            icon="pi pi-save" ajax="true" update="mainDepos"/>
+                                                                <p:menuitem value="Télécharger Metadonné file" icon="pi pi-refresh"
+                                                                            actionListener="#{depotManagerBean.dowloadMetadonneFile(depot)}"/>
+                                                                <p:menuitem value="Télécharger Depot" icon="pi pi-refresh"
+                                                                            actionListener="#{depotManagerBean.dowloadDepot(depot)}"/>
+                                                                <p:menuitem value="Supprimer" icon="pi pi-refresh"/>
+                                                            </p:menu>
                                                         </td>
                                                     </tr>
                                                 </ui:repeat>
@@ -97,15 +104,6 @@
                                         </table>
                                     </h:form>
                                 </div>
-
-
-                                <h:form enctype="multipart/form-data">
-                                    <p:fileUpload value="#{fileUploadView.files}" mode="simple" skinSimple="true" multiple="true" />
-                                    <br />
-                                    <p:commandButton value="Submit" ajax="false" action="#{fileUploadView.uploadMultiple}" disabled="true" />
-                                </h:form>
-
-
                             </article>
                         </div>
                     </div>
