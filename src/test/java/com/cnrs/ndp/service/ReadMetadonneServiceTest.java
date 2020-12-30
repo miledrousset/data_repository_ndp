@@ -29,7 +29,7 @@ public class ReadMetadonneServiceTest {
     public void createDeblinCoreRepportTest() throws IOException {
 
         File file = ResourceUtils.getFile("classpath:test_metadonne.xlsx");
-        List<Resource> list = readMetadonneService.readDeblinCoreMetadonne(file);
+        List<Resource> list = readMetadonneService.readDeblinCoreMetadonne(file, "1");
 
         Assert.assertNotNull(list);
         Assert.assertFalse(list.isEmpty());

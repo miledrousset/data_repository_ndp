@@ -1,8 +1,6 @@
 package com.cnrs.ndp.service;
 
-import com.cnrs.ndp.model.resources.ArticlePresse;
-import com.cnrs.ndp.model.resources.DeblinCore;
-import com.cnrs.ndp.model.resources.Resource;
+import com.cnrs.ndp.model.resources.*;
 import com.cnrs.ndp.outils.ImageManager;
 import com.cnrs.ndp.outils.PdfManager;
 import com.cnrs.ndp.utils.StringUtils;
@@ -61,12 +59,39 @@ public class FileManager {
     private Resource createResource(String schemasSelected, String fileName, List<Resource> listMetadonnes,  File fileOut) {
         Resource resource = getResourceFromMetadonnes(listMetadonnes, fileName);
         if (resource == null) {
-            switch(schemasSelected) {
-                case "1" :
+            switch(Integer.parseInt(schemasSelected)) {
+                case 1 :
                     resource = new DeblinCore();
                     break;
-                default :
+                case 2:
                     resource = new ArticlePresse();
+                    break;
+                case 3:
+                    resource = new Url();
+                    break;
+                case 4:
+                    resource = new Video();
+                    break;
+                case 5:
+                    resource = new Image();
+                    break;
+                case 6:
+                    resource = new AudioWaweBwf();
+                    break;
+                case 7:
+                    resource = new DonneeLaserBrut();
+                    break;
+                case 8:
+                    resource = new DonneeLaserConso();
+                    break;
+                case 9:
+                    resource = new NuagePointsPhotogrammetrie();
+                    break;
+                case 10:
+                    resource = new Maillage3dPhotogrammetrie();
+                    break;
+                case 11:
+                    resource = new Maillage3dGeometry();
                     break;
             }
             resource.setTitre(fileName);

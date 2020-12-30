@@ -3,6 +3,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
@@ -32,6 +33,16 @@
 
     <h:body>
 
+        <script type="text/javascript">
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+        </script>
+
         <ui:include src="header.xhtml"/>
 
         <main id="main">
@@ -51,129 +62,142 @@
 
             <ui:include src="composant_connexion.xhtml"/>
 
-            <h:panelGroup id="mainDepos" rendered="#{connexionBean.isUserConnected}">
-                <section id="blog" class="blog">
-                    <div class="container">
+            <h:form id="mainDepos">
+                <h:panelGroup rendered="#{connexionBean.isUserConnected}">
+                    <section id="blog" class="blog">
+                        <div class="container">
 
-                        <div class="col-lg-12 entries">
+                            <div class="col-lg-12 entries">
 
-                            <article class="entry entry-single">
+                                <article class="entry entry-single">
 
-                                <h2 class="entry-title">
-                                    <a href="blog-single.html">Liste des dépôts effectués</a>
-                                </h2>
+                                    <h2 class="entry-title">
+                                        <a href="blog-single.html">Liste des dépôts effectués</a>
+                                    </h2>
 
-                                <div class="entry-content">
-                                    <h:form>
-                                        <table id="resourceArray" class="table table-striped table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nom</th>
-                                                    <th>Groupe</th>
-                                                    <th>Répertoire</th>
-                                                    <th>Dépôt</th>
-                                                    <th>Archeogrid</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                <ui:repeat value="#{depotManagerBean.depotsList}" var="depot">
+                                    <div class="entry-content">
+                                        <h:form>
+                                            <table id="resourceArray" class="table table-striped table-hover">
+                                                <thead>
                                                     <tr>
-                                                        <td><h:outputText value="#{depot.nomDepot}"/></td>
-                                                        <td><h:outputText value="#{depot.groupeTravail}"/></td>
-                                                        <td><h:outputText value="#{depot.repertoir}"/></td>
-                                                        <td><h:outputText value="#{depot.depotHumaNum}"/></td>
-                                                        <td><h:outputText value="#{depot.archeodrid}"/></td>
-                                                        <td>
-                                                            <p:commandButton id="dynaButton" value="Show" type="button" icon="pi pi-home"/>
-                                                            <p:menu overlay="true" trigger="dynaButton" my="left top" at="left bottom">
-                                                                <p:menuitem value="Modifier status" oncomplete="PF('modifierDepot').show();"
-                                                                            actionListener="#{depotManagerBean.setDepotSelected(depot)}"
-                                                                            icon="pi pi-save" ajax="true" update="mainDepos"/>
-                                                                <p:menuitem value="Télécharger Metadonné file" icon="pi pi-refresh"
-                                                                            actionListener="#{depotManagerBean.dowloadMetadonneFile(depot)}"/>
-                                                                <p:menuitem value="Télécharger Depot" icon="pi pi-refresh"
-                                                                            actionListener="#{depotManagerBean.dowloadDepot(depot)}"/>
-                                                                <p:menuitem value="Supprimer" icon="pi pi-refresh"/>
-                                                            </p:menu>
-                                                        </td>
+                                                        <th>Nom</th>
+                                                        <th>Groupe</th>
+                                                        <th>Répertoire</th>
+                                                        <th>Dépôt</th>
+                                                        <th>Archeogrid</th>
+                                                        <th>Action</th>
                                                     </tr>
-                                                </ui:repeat>
-                                            </tbody>
-                                        </table>
-                                    </h:form>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-                </section>
+                                                </thead>
 
-                <p:dialog header="Modifier un dépôt" widgetVar="modifierDepot" modal="true" 
-                          height="300" width="350">
+                                                <tbody>
+                                                    <ui:repeat value="#{depotManagerBean.depotsList}" var="depot">
+                                                        <tr>
+                                                            <td><h:outputText value="#{depot.nomDepot}"/></td>
+                                                            <td><h:outputText value="#{depot.groupeTravail}"/></td>
+                                                            <td><h:outputText value="#{depot.repertoir}"/></td>
+                                                            <td><h:outputText value="#{depot.depotHumaNum}"/></td>
+                                                            <td><h:outputText value="#{depot.archeodrid}"/></td>
+                                                            <td>
+                                                                <b:commandButton value="Modifier" type="button" update="mainDepos"
+                                                                                 onclick="#{depotManagerBean.setDepotSelected(depot)}"/>
 
-                    <h:form>
-                        <div class="reply-form">
-                            <div class="form-group row">
-                                <label for="colFormLabel" class="col-sm-4 col-form-label">Nom du dépôt</label>
-                                <div class="col-sm-8">
-                                    <h:outputText value="#{depotManagerBean.depotSelected.nomDepot}" />
-                                </div>
-                            </div>
+                                                                <p:commandButton value="Supprimer" ajax="true" update="mainDepos"
+                                                                                 actionListener="#{depotManagerBean.deleteDepot(depot)}">
+                                                                    <p:confirm header="Confirmation" message="Voulez vous vraiment supprimer le dépôt ?" icon="pi pi-exclamation-triangle" />
+                                                                </p:commandButton>
 
-                            <div class="form-group row">
-                                <label for="colFormLabel" class="col-sm-4 col-form-label">Date du dépôt</label>
-                                <div class="col-sm-8">
-                                    <h:outputText value="#{depotManagerBean.depotSelected.dateDepot}" />
-                                </div>
-                            </div>
+                                                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                                                    <b:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                                                                    <b:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                                                                </p:confirmDialog>
 
-                            <div class="form-group row">
-                                <label for="colFormLabel" class="col-sm-4 col-form-label">Groupe de travail</label>
-                                <div class="col-sm-8">
-                                    <h:outputText value="#{depotManagerBean.depotSelected.groupeTravail}" />
-                                </div>
-                            </div>
+                                                                <b:commandButton value="Télécharger Metadonné" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);">
+                                                                    <p:fileDownload value="#{depotManagerBean.dowloadMetadonneFile(depot)}" />
+                                                                </b:commandButton>
 
-                            <div class="form-group row">
-                                <label for="colFormLabel" class="col-sm-4 col-form-label">Répertoire</label>
-                                <div class="col-sm-8">
-                                    <h:outputText value="#{depotManagerBean.depotSelected.repertoir}" />
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="colFormLabel" class="col-sm-4 col-form-label">Dépôt Huma-Num</label>
-                                <div class="col-sm-8">
-                                    <p:selectOneMenu value="#{depotManagerBean.depotSelected.depotHumaNum}" 
-                                                     style="width:100%; font-size: 14px;">
-                                        <f:selectItem itemLabel="A venir" itemValue="A venir"/>
-                                        <f:selectItem itemLabel="Déposé" itemValue="Déposé" />
-                                    </p:selectOneMenu>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="colFormLabel" class="col-sm-4 col-form-label">Archeogrid</label>
-                                <div class="col-sm-8">
-                                    <p:selectOneMenu value="#{depotManagerBean.depotSelected.archeodrid}" 
-                                                     style="width:100%; font-size: 14px;">
-                                        <f:selectItem itemLabel="A venir" itemValue="A venir"/>
-                                        <f:selectItem itemLabel="Consultable" itemValue="Consultable" />
-                                    </p:selectOneMenu>
-                                </div>
+                                                                <b:commandButton value="Télécharger dépôt" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);">
+                                                                    <p:fileDownload value="#{depotManagerBean.dowloadDepot(depot)}" />
+                                                                </b:commandButton>
+                                                            </td>
+                                                        </tr>
+                                                    </ui:repeat>
+                                                </tbody>
+                                            </table>
+                                        </h:form>
+                                    </div>
+                                </article>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <p:commandButton value="Annuler" actionListener="#{depotManagerBean.annuler()}"
-                                             class="btn btn-success" update="mainDepos"/>
-                            <p:commandButton value="Enregistrer" actionListener="#{depotManagerBean.modifierDepot()}"
-                                             class="btn btn-success" update="mainDepos"/>
-                        </div>
-                    </h:form>
-                </p:dialog>
+                    </section>
 
-            </h:panelGroup>
+                    <p:dialog header="Basic Dialog" widgetVar="dlg1" minHeight="40">
+                        <h:outputText value="Resistance to PrimeFaces is futile!" />
+                    </p:dialog>
+
+                    <p:dialog header="Modifier un dépôt" widgetVar="modifierDepot" modal="true"
+                              height="320" width="380">
+
+                        <h:form>
+                            <div class="reply-form">
+                                <div class="form-group row">
+                                    <label for="colFormLabel" class="col-sm-6 col-form-label">Nom du dépôt</label>
+                                    <div class="col-sm-6">
+                                        <h:outputText value="#{depotManagerBean.depotSelected.nomDepot}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="colFormLabel" class="col-sm-6 col-form-label">Date du dépôt</label>
+                                    <div class="col-sm-6">
+                                        <h:outputText value="#{depotManagerBean.depotSelected.dateDepot}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="colFormLabel" class="col-sm-6 col-form-label">Groupe de travail</label>
+                                    <div class="col-sm-6">
+                                        <h:outputText value="#{depotManagerBean.depotSelected.groupeTravail}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="colFormLabel" class="col-sm-6 col-form-label">Répertoire</label>
+                                    <div class="col-sm-6">
+                                        <h:outputText value="#{depotManagerBean.depotSelected.repertoir}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="colFormLabel" class="col-sm-6 col-form-label">Dépôt Huma-Num</label>
+                                    <div class="col-sm-6">
+                                        <p:selectOneMenu value="#{depotManagerBean.depotSelected.depotHumaNum}"
+                                                         style="width:100%; font-size: 14px;">
+                                            <f:selectItem itemLabel="A venir" itemValue="A venir"/>
+                                            <f:selectItem itemLabel="Déposé" itemValue="Déposé" />
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="colFormLabel" class="col-sm-6 col-form-label">Archeogrid</label>
+                                    <div class="col-sm-6">
+                                        <p:selectOneMenu value="#{depotManagerBean.depotSelected.archeodrid}"
+                                                         style="width:100%; font-size: 14px;">
+                                            <f:selectItem itemLabel="A venir" itemValue="A venir"/>
+                                            <f:selectItem itemLabel="Consultable" itemValue="Consultable" />
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <b:commandButton value="Annuler" onclick="#{depotManagerBean.annuler()}" />
+                                <b:commandButton value="Enregistrer" actionListener="#{depotManagerBean.modifierDepot()}"
+                                                 class="get-started-btn ml-auto" update="mainDepos" />
+                            </div>
+                        </h:form>
+                    </p:dialog>
+                </h:panelGroup>
+            </h:form>
         </main>
 
         <ui:include src="footer.xhtml"/>

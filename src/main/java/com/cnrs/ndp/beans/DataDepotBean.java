@@ -1,8 +1,7 @@
 package com.cnrs.ndp.beans;
 
 import com.cnrs.ndp.entity.Depots;
-import com.cnrs.ndp.model.resources.DeblinCore;
-import com.cnrs.ndp.model.resources.Resource;
+import com.cnrs.ndp.model.resources.*;
 import com.cnrs.ndp.repository.DepotsRepository;
 import com.cnrs.ndp.service.FileManager;
 import com.cnrs.ndp.service.MetadonneService;
@@ -70,10 +69,20 @@ public class DataDepotBean implements Serializable {
 
 
     private boolean saveDepot, detailDepotVisible, uploadFilesVisible;
-    private String schemasSelected, repertoirSelected, groupeTravailSelected, name;
+    private String schemasSelected, repertoirSelected, groupeTravailSelected, depotName, resourceName;
     private UploadedFile files;
 
-    private Resource resourceSelected;
+    private DeblinCore deblinCoreSelected;
+    private ArticlePresse articlePresseSelected;
+    private Url urlSelected;
+    private Image imageSelected;
+    private Video videoSelected;
+    private AudioWaweBwf audioSelected;
+    private DonneeLaserBrut donneeLaserBrutSelected;
+    private DonneeLaserConso donneeLaserConsoSelected;
+    private Maillage3dGeometry maillage3dGeometrySelected;
+    private NuagePointsPhotogrammetrie nuagePointsPhotogrammetrieSelected;
+    private Maillage3dPhotogrammetrie maillage3dPhotogrammetrieSelected;
     private List<Resource> deblinCoreUploated, listMetadonnes;
 
 
@@ -82,16 +91,33 @@ public class DataDepotBean implements Serializable {
         schemasSelected = "1";
         detailDepotVisible = false;
         uploadFilesVisible = false;
-        resourceSelected = new DeblinCore();
+
+        repertoirSelected = "";
+        groupeTravailSelected = "";
+        depotName = "";
+        resourceName = "";
+
+        urlSelected = new Url();
+        imageSelected = new Image();
+        videoSelected = new Video();
+        audioSelected = new AudioWaweBwf();
+        deblinCoreSelected = new DeblinCore();
+        articlePresseSelected = new ArticlePresse();
+        donneeLaserBrutSelected = new DonneeLaserBrut();
+        donneeLaserConsoSelected = new DonneeLaserConso();
+        maillage3dGeometrySelected = new Maillage3dGeometry();
+        nuagePointsPhotogrammetrieSelected = new NuagePointsPhotogrammetrie();
+        maillage3dPhotogrammetrieSelected = new Maillage3dPhotogrammetrie();
+
         deblinCoreUploated = new ArrayList<>();
         listMetadonnes = new ArrayList<>();
     }
 
     public void validerDepot() {
         String depoFile = new StringBuffer(pathDepot).append("/").append(groupeTravailSelected).append("/")
-                .append(repertoirSelected).append("/").toString();
+                .append(repertoirSelected).append("/").append(depotName).append("/").toString();
 
-        repportService.createDeblinCoreRepport(deblinCoreUploated, depoFile, name, schemasSelected);
+        repportService.createDeblinCoreRepport(deblinCoreUploated, depoFile, depotName, schemasSelected);
 
         showMessage(FacesMessage.SEVERITY_INFO, "Dépôt crée avec sucée !");
     }
@@ -101,17 +127,55 @@ public class DataDepotBean implements Serializable {
         PrimeFaces.current().ajax().update("mainDepos");
     }
 
+    public void annulerDepot() {
+
+        if (StringUtils.isNotEmpty(depotName)) {
+            Depots depot = depotsRepository.findByNomDepot(depotName);
+            depotsRepository.delete(depot);
+        }
+
+        initComposant();
+
+        PrimeFaces.current().ajax().update("mainDepos");
+    }
+
     public void supprimerResource() {
 
-        resourceSelected.getFile().delete();
-
-        String name = resourceSelected.getFile().getName();
-        String filePath = resourceSelected.getFile().getPath().substring(0, resourceSelected.getFile().getPath().lastIndexOf("/") + 1)
-                + smallRep + name.substring(0, name.lastIndexOf(".")) + ".png";
-        File smallFile = new File(filePath);
-        smallFile.delete();
-
-        deblinCoreUploated.remove(resourceSelected);
+        switch (Integer.parseInt(schemasSelected)) {
+            case 1:
+                delete(deblinCoreSelected);
+                break;
+            case 2:
+                delete(articlePresseSelected);
+                break;
+            case 3:
+                delete(urlSelected);
+                break;
+            case 4:
+                delete(videoSelected);
+                break;
+            case 5:
+                delete(imageSelected);
+                break;
+            case 6:
+                delete(audioSelected);
+                break;
+            case 7:
+                delete(donneeLaserBrutSelected);
+                break;
+            case 8:
+                delete(donneeLaserConsoSelected);
+                break;
+            case 9:
+                delete(nuagePointsPhotogrammetrieSelected);
+                break;
+            case 10:
+                delete(maillage3dPhotogrammetrieSelected);
+                break;
+            case 11:
+                delete(maillage3dGeometrySelected);
+                break;
+        }
 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage
                 .SEVERITY_INFO, "", "Resource supprimée avec sucée !"));
@@ -121,15 +185,26 @@ public class DataDepotBean implements Serializable {
         PrimeFaces.current().ajax().update("messageIndex");
     }
 
+    private void delete(Resource resource) {
+        resource.getFile().delete();
+
+        String name = resource.getFile().getName();
+        String filePath = resource.getFile().getPath().substring(0, resource.getFile().getPath().lastIndexOf("/") + 1)
+                + smallRep + name.substring(0, name.lastIndexOf(".")) + ".png";
+        new File(filePath).delete();
+
+        deblinCoreUploated.remove(resource);
+    }
+
     public void uploadFiles(FileUploadEvent event) {
 
         String username = "user";
 
-        if (StringUtils.isEmpty(name)) {
-            name = username + "-" + DateUtils.getDateTime(DIRECTORY_NAME);
+        if (StringUtils.isEmpty(depotName)) {
+            depotName = username + "-" + DateUtils.getDateTime(DIRECTORY_NAME);
         }
         deblinCoreUploated = new ArrayList<>();
-        deblinCoreUploated.add(fileManager.uploadFiles(event.getFile(), name, groupeTravailSelected,
+        deblinCoreUploated.add(fileManager.uploadFiles(event.getFile(), depotName, groupeTravailSelected,
                 repertoirSelected, schemasSelected, listMetadonnes));
 
         FacesMessage message = new FacesMessage("Successful", "All files are uploaded.");
@@ -143,7 +218,7 @@ public class DataDepotBean implements Serializable {
         if (saveDepot) {
             saveDepot = false;
             Depots depots = new Depots();
-            depots.setNomDepot(name);
+            depots.setNomDepot(depotName);
             depots.setRepertoir(repertoirSelected);
             depots.setGroupeTravail(groupeTravailSelected);
             depots.setArcheodrid("A venir");
@@ -171,6 +246,7 @@ public class DataDepotBean implements Serializable {
 
     public void onValiderSchema() {
         detailDepotVisible = true;
+
         PrimeFaces pf = PrimeFaces.current();
         if (pf.isAjaxRequest()) {
             pf.ajax().update("mainDepos");
@@ -249,12 +325,43 @@ public class DataDepotBean implements Serializable {
         this.files = files;
     }
 
-    public Resource getResourceSelected() {
-        return resourceSelected;
-    }
-
     public void setResourceSelected(Resource resourceSelected) {
-        this.resourceSelected = resourceSelected;
+
+        switch (Integer.parseInt(schemasSelected)) {
+            case 1:
+                deblinCoreSelected = (DeblinCore) resourceSelected;
+                break;
+            case 2:
+                articlePresseSelected = (ArticlePresse) resourceSelected;
+                break;
+            case 3:
+                urlSelected = (Url) resourceSelected;
+                break;
+            case 4:
+                videoSelected = (Video) resourceSelected;
+                break;
+            case 5:
+                imageSelected = (Image) resourceSelected;
+                break;
+            case 6:
+                audioSelected = (AudioWaweBwf) resourceSelected;
+                break;
+            case 7:
+                donneeLaserBrutSelected = (DonneeLaserBrut) resourceSelected;
+                break;
+            case 8:
+                donneeLaserConsoSelected = (DonneeLaserConso) resourceSelected;
+                break;
+            case 9:
+                nuagePointsPhotogrammetrieSelected = (NuagePointsPhotogrammetrie) resourceSelected;
+                break;
+            case 10:
+                maillage3dPhotogrammetrieSelected = (Maillage3dPhotogrammetrie) resourceSelected;
+                break;
+            case 11:
+                maillage3dGeometrySelected = (Maillage3dGeometry) resourceSelected;
+                break;
+        }
     }
 
     public List<Resource> getDeblinCoreUploated() {
@@ -345,7 +452,59 @@ public class DataDepotBean implements Serializable {
         this.listMetadonnes = listMetadonnes;
     }
 
-    public String getName() {
-        return name;
+    public String getDepotName() {
+        return depotName;
+    }
+
+    public ArticlePresse getArticlePresseSelected() {
+        return articlePresseSelected;
+    }
+
+    public Url getUrlSelected() {
+        return urlSelected;
+    }
+
+    public Video getVideoSelected() {
+        return videoSelected;
+    }
+
+    public Image getImageSelected() {
+        return imageSelected;
+    }
+
+    public AudioWaweBwf getAudioSelected() {
+        return audioSelected;
+    }
+
+    public DonneeLaserBrut getDonneeLaserBrutSelected() {
+        return donneeLaserBrutSelected;
+    }
+
+    public DonneeLaserConso getDonneeLaserConsoSelected() {
+        return donneeLaserConsoSelected;
+    }
+
+    public Maillage3dGeometry getMaillage3dGeometrySelected() {
+        return maillage3dGeometrySelected;
+    }
+
+    public Maillage3dPhotogrammetrie getMaillage3dPhotogrammetrieSelected() {
+        return maillage3dPhotogrammetrieSelected;
+    }
+
+    public NuagePointsPhotogrammetrie getNuagePointsPhotogrammetrieSelected() {
+        return nuagePointsPhotogrammetrieSelected;
+    }
+
+    public DeblinCore getDeblinCoreSelected() {
+        return deblinCoreSelected;
+    }
+
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
     }
 }

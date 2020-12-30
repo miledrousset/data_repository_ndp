@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DepotsRepository extends JpaRepository<Depots, Long> {
 
+    Depots findByNomDepot(String depotName);
+
 }

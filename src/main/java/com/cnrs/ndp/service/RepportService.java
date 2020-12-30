@@ -436,7 +436,7 @@ public class RepportService {
                     deblinCore.getDescription(),
                     deblinCore.getEditeur(),
                     deblinCore.getContributeur(),
-                    DateUtils.formatDateToString(deblinCore.getDateMiseDisposition()),
+                    deblinCore.getDateMiseDisposition() != null ? DateUtils.formatDateToString(deblinCore.getDateMiseDisposition()) : "",
                     deblinCore.getType(),
                     deblinCore.getFormat(),
                     deblinCore.getIdentifiantUnique(),

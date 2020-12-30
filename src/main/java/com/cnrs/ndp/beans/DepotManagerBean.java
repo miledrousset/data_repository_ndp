@@ -12,10 +12,12 @@ import java.nio.file.Path;
 import java.util.List;
 
 import com.cnrs.ndp.service.DirectoryService;
+import org.primefaces.PrimeFaces;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.FileSystemUtils;
 
 
 @Named(value = "depotManagerBean")
@@ -72,13 +74,22 @@ public class DepotManagerBean implements Serializable {
             return null;
         }
     }
+
+    public void deleteDepot(Depots depots) {
+        File depoFile = new File(pathDepot + "/" + depots.getGroupeTravail() + "/" + depots.getRepertoir()
+                + "/" + depots.getNomDepot());
+        FileSystemUtils.deleteRecursively(depoFile);
+        depotsRepository.delete(depots);
+        depotsList = depotsRepository.findAll();
+    }
     
     public void modifierDepot() {
         depotsRepository.save(depotSelected);
     }
 
-    public void annuler() {
+    public String annuler() {
         depotSelected = depotsRepository.findById(depotSelected.getId()).get();
+        return "PF('modifierDepot').hide();";
     }
     
     public List<Depots> getDepotsList() {
@@ -93,8 +104,9 @@ public class DepotManagerBean implements Serializable {
         return depotSelected;
     }
 
-    public void setDepotSelected(Depots depotSelected) {
+    public String setDepotSelected(Depots depotSelected) {
         this.depotSelected = depotSelected;
+        return "PF('modifierDepot').show();";
     }
     
 }
