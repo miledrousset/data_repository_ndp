@@ -4,15 +4,11 @@ package com.cnrs.ndp.beans;
 import com.cnrs.ndp.entity.Depots;
 import com.cnrs.ndp.repository.DepotsRepository;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 import com.cnrs.ndp.service.DirectoryService;
-import org.primefaces.PrimeFaces;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;

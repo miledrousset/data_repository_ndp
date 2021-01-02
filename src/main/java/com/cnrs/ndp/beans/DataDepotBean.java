@@ -6,14 +6,17 @@ import com.cnrs.ndp.repository.DepotsRepository;
 import com.cnrs.ndp.service.FileManager;
 import com.cnrs.ndp.service.MetadonneService;
 import com.cnrs.ndp.service.RepportService;
+import com.cnrs.ndp.service.ThesaurusService;
 import com.cnrs.ndp.utils.DateUtils;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -22,7 +25,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -45,11 +50,14 @@ public class DataDepotBean implements Serializable {
     @Autowired
     private RepportService repportService;
 
+    @Autowired
+    private ThesaurusService thesaurusService;
 
-    @Value("#{'${upload.file.repertoires}'.split(',')}")
+
+    @Value("#{'${upload.file.repertoires}'.split(';')}")
     private List<String> repertoireList;
 
-    @Value("#{'${upload.file.groupes_travail}'.split(',')}")
+    @Value("#{'${upload.file.groupes_travail}'.split(';')}")
     private List<String> groupeTravail;
 
     @Value("${upload.file.nbr_file_max}")
@@ -111,6 +119,18 @@ public class DataDepotBean implements Serializable {
 
         deblinCoreUploated = new ArrayList<>();
         listMetadonnes = new ArrayList<>();
+    }
+
+    public void rechercheMotCle(String name) {
+        if (CollectionUtils.isEmpty(deblinCoreSelected.getMotsCles())) {
+            deblinCoreSelected.setMotsCles(new ArrayList<>());
+        }
+        deblinCoreSelected.getMotsCles().add(name);
+        deblinCoreSelected.setMotCle("");
+    }
+
+    public List<String> rechercheMotsCle(String query) {
+        return thesaurusService.getListTermes(query);
     }
 
     public void validerDepot() {
@@ -198,34 +218,42 @@ public class DataDepotBean implements Serializable {
 
     public void uploadFiles(FileUploadEvent event) {
 
-        String username = "user";
+        if (fileManager.validateFormatFile(schemasSelected, FilenameUtils.getExtension(event.getFile().getFileName()))) {
 
-        if (StringUtils.isEmpty(depotName)) {
-            depotName = username + "-" + DateUtils.getDateTime(DIRECTORY_NAME);
+            String username = "user";
+
+            if (StringUtils.isEmpty(depotName)) {
+                depotName = username + "-" + DateUtils.getDateTime(DIRECTORY_NAME);
+            }
+            deblinCoreUploated = new ArrayList<>();
+            deblinCoreUploated.add(fileManager.uploadFiles(event.getFile(), depotName, groupeTravailSelected,
+                    repertoirSelected, schemasSelected, listMetadonnes));
+
+            FacesMessage message = new FacesMessage("Successful", "All files are uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+
+            PrimeFaces pf = PrimeFaces.current();
+            if (pf.isAjaxRequest()) {
+                pf.ajax().update("mainDepos");
+            }
+
+            if (saveDepot) {
+                saveDepot = false;
+                Depots depots = new Depots();
+                depots.setNomDepot(depotName);
+                depots.setRepertoir(repertoirSelected);
+                depots.setGroupeTravail(groupeTravailSelected);
+                depots.setArcheodrid("A venir");
+                depots.setDepotHumaNum("A venir");
+                depots.setDateDepot(new Date());
+                depotsRepository.save(depots);
+            }
+
+        } else {
+            showMessage(FacesMessage.SEVERITY_WARN, "Le format du fichier '" + event.getFile().getFileName()
+                    + "' n'est pas valide !");
         }
-        deblinCoreUploated = new ArrayList<>();
-        deblinCoreUploated.add(fileManager.uploadFiles(event.getFile(), depotName, groupeTravailSelected,
-                repertoirSelected, schemasSelected, listMetadonnes));
 
-        FacesMessage message = new FacesMessage("Successful", "All files are uploaded.");
-        FacesContext.getCurrentInstance().addMessage(null, message);
-
-        PrimeFaces pf = PrimeFaces.current();
-        if (pf.isAjaxRequest()) {
-            pf.ajax().update("mainDepos");
-        }
-
-        if (saveDepot) {
-            saveDepot = false;
-            Depots depots = new Depots();
-            depots.setNomDepot(depotName);
-            depots.setRepertoir(repertoirSelected);
-            depots.setGroupeTravail(groupeTravailSelected);
-            depots.setArcheodrid("A venir");
-            depots.setDepotHumaNum("A venir");
-            depots.setDateDepot(new Date());
-            depotsRepository.save(depots);
-        }
     }
 
     public void uploadMetadonneFile(FileUploadEvent event) throws IOException {

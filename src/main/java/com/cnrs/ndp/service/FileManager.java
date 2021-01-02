@@ -6,6 +6,7 @@ import com.cnrs.ndp.outils.PdfManager;
 import com.cnrs.ndp.utils.StringUtils;
 import com.cnrs.ndp.outils.VideoManager;
 
+import org.apache.commons.io.FileUtils;
 import org.primefaces.model.UploadedFile;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,36 @@ public class FileManager {
 
     @Value("${upload.file.small_name}")
     private String smallDirectory;
+
+    @Value("${upload.file.default_icon}")
+    private String defaultIcon;
+
+    @Value("#{'${upload.file.format.image}'.split(';')}")
+    private List<String> imagesFormat;
+
+    @Value("#{'${upload.file.format.video}'.split(';')}")
+    private List<String> videosFormat;
+
+    @Value("#{'${upload.file.format.audio}'.split(';')}")
+    private List<String> audiosFormat;
+
+    @Value("#{'${upload.file.format.text}'.split(';')}")
+    private List<String> textsFormat;
+
+    @Value("#{'${upload.file.format.url}'.split(';')}")
+    private List<String> urlsFormat;
+
+    @Value("#{'${upload.file.format.tableau}'.split(';')}")
+    private List<String> tableausFormat;
+
+    @Value("#{'${upload.file.format.representations_2d}'.split(';')}")
+    private List<String> representations2DsFormat;
+
+    @Value("#{'${upload.file.format.representations_3d}'.split(';')}")
+    private List<String> representations3DsFormat;
+
+    @Value("#{'${upload.file.format.nuage_point}'.split(';')}")
+    private List<String> nuagePointsFormat;
 
     private final static int BUFFER_SIZE = 8192;
 
@@ -148,8 +179,13 @@ public class FileManager {
                 videoManager.videoTraitement(file.getPath(), destinationPath);
                 break;
             default:
-                //TODO copie icon nodDisponible
+                createDefaultImage(new File(destinationPath));
         }
+    }
+
+    private void createDefaultImage(File destination) throws IOException {
+        File original = new File(defaultIcon);
+        FileUtils.copyFile(original, destination);
     }
 
     public String createDestinationDirectoryPath(String repoName, String groupeTravailSelected, String repertoirSelected)
@@ -160,6 +196,48 @@ public class FileManager {
         Files.createDirectories(Paths.get(path));
         Files.createDirectories(Paths.get(path + smallDirectory));
         return path;
+    }
+
+    public boolean validateFormatFile(String schemaSelected, String extentionFile) {
+        boolean response = false;
+
+        switch(Integer.parseInt(schemaSelected)) {
+            case 1 :
+                response = true;
+                break;
+            case 2:
+                response = textsFormat.contains(extentionFile);
+                break;
+            case 3:
+                response = urlsFormat.contains(extentionFile);
+                break;
+            case 4:
+                response = videosFormat.contains(extentionFile);
+                break;
+            case 5:
+                response = imagesFormat.contains(extentionFile);
+                break;
+            case 6:
+                response = audiosFormat.contains(extentionFile);
+                break;
+            case 7 :
+                response = true;
+                break;
+            case 8 :
+                response = true;
+                break;
+            case 9:
+                response = nuagePointsFormat.contains(extentionFile);
+                break;
+            case 10:
+                response = representations2DsFormat.contains(extentionFile);
+                break;
+            case 11:
+                response = representations3DsFormat.contains(extentionFile);
+                break;
+        }
+
+        return response;
     }
 
 }

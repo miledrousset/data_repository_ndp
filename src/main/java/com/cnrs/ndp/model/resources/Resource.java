@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.List;
 
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
@@ -19,7 +20,8 @@ public class Resource implements Serializable {
     String nomFichier;
     String titre;
     String createur;
-    String motsCles;
+    String motCle;
+    List<String> motsCles;
     String description;
     String editeur;
     String contributeur;

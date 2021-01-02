@@ -3,6 +3,7 @@ package com.cnrs.ndp.service;
 import com.cnrs.ndp.model.resources.*;
 import com.cnrs.ndp.utils.DateUtils;
 import com.opencsv.CSVWriter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -15,6 +16,10 @@ import java.util.List;
 
 @Service
 public class RepportService {
+
+
+    @Value("${format.mot_cle.separateur}")
+    private String motCleSeparateur;
 
     private final static String FORMAT_REPPORT = ".csv";
     private final static char SEPARATEUR = ';';
@@ -141,10 +146,16 @@ public class RepportService {
 
         for (Resource rowData : resources) {
             NuagePointsPhotogrammetrie nuagePointsPhotogrammetrie = (NuagePointsPhotogrammetrie) rowData;
+
+            StringBuffer motsCle = new StringBuffer();
+            for (String s : nuagePointsPhotogrammetrie.getMotsCles()) {
+                motsCle.append(s).append(motCleSeparateur);
+            }
+
             data.add(new String[] {
                     nuagePointsPhotogrammetrie.getTitre(),
                     nuagePointsPhotogrammetrie.getCreateur(),
-                    nuagePointsPhotogrammetrie.getMotsCles(),
+                    motsCle.toString(),
                     nuagePointsPhotogrammetrie.getDescription(),
                     nuagePointsPhotogrammetrie.getEditeur(),
                     nuagePointsPhotogrammetrie.getContributeur(),
@@ -175,10 +186,16 @@ public class RepportService {
 
         for (Resource rowData : resources) {
             DonneeLaserConso donneeLaserConso = (DonneeLaserConso) rowData;
+
+            StringBuffer motsCle = new StringBuffer();
+            for (String s : donneeLaserConso.getMotsCles()) {
+                motsCle.append(s).append(motCleSeparateur);
+            }
+
             data.add(new String[] {
                     donneeLaserConso.getTitre(),
                     donneeLaserConso.getCreateur(),
-                    donneeLaserConso.getMotsCles(),
+                    motsCle.toString(),
                     donneeLaserConso.getDescription(),
                     donneeLaserConso.getEditeur(),
                     donneeLaserConso.getContributeur(),
@@ -209,10 +226,16 @@ public class RepportService {
 
         for (Resource rowData : resources) {
             DonneeLaserBrut donneeLaserBrut = (DonneeLaserBrut) rowData;
+
+            StringBuffer motsCle = new StringBuffer();
+            for (String s : donneeLaserBrut.getMotsCles()) {
+                motsCle.append(s).append(motCleSeparateur);
+            }
+
             data.add(new String[] {
                     donneeLaserBrut.getTitre(),
                     donneeLaserBrut.getCreateur(),
-                    donneeLaserBrut.getMotsCles(),
+                    motsCle.toString(),
                     donneeLaserBrut.getDescription(),
                     donneeLaserBrut.getEditeur(),
                     donneeLaserBrut.getContributeur(),
@@ -247,10 +270,16 @@ public class RepportService {
 
         for (Resource rowData : resources) {
             AudioWaweBwf audioWaweBwf = (AudioWaweBwf) rowData;
+
+            StringBuffer motsCle = new StringBuffer();
+            for (String s : audioWaweBwf.getMotsCles()) {
+                motsCle.append(s).append(motCleSeparateur);
+            }
+
             data.add(new String[] {
                     audioWaweBwf.getTitre(),
                     audioWaweBwf.getCreateur(),
-                    audioWaweBwf.getMotsCles(),
+                    motsCle.toString(),
                     audioWaweBwf.getEditeur(),
                     audioWaweBwf.getContributeur(),
                     audioWaweBwf.getFormat(),
@@ -289,10 +318,16 @@ public class RepportService {
 
         for (Resource rowData : resources) {
             Image video = (Image) rowData;
+
+            StringBuffer motsCle = new StringBuffer();
+            for (String s : video.getMotsCles()) {
+                motsCle.append(s).append(motCleSeparateur);
+            }
+
             data.add(new String[] {
                     video.getTitre(),
                     video.getCreateur(),
-                    video.getMotsCles(),
+                    motsCle.toString(),
                     video.getEditeur(),
                     video.getContributeur(),
                     video.getDateCreation(),
@@ -331,10 +366,16 @@ public class RepportService {
 
         for (Resource rowData : resources) {
             Video video = (Video) rowData;
+
+            StringBuffer motsCle = new StringBuffer();
+            for (String s : video.getMotsCles()) {
+                motsCle.append(s).append(motCleSeparateur);
+            }
+
             data.add(new String[] {
                     video.getTitre(),
                     video.getCreateur(),
-                    video.getMotsCles(),
+                    motsCle.toString(),
                     video.getDescription(),
                     video.getMedia(),
                     video.getEditeur(),
@@ -393,10 +434,16 @@ public class RepportService {
 
         for (Resource rowData : resources) {
             ArticlePresse articlePresse = (ArticlePresse) rowData;
+
+            StringBuffer motsCle = new StringBuffer();
+            for (String s : articlePresse.getMotsCles()) {
+                motsCle.append(s).append(motCleSeparateur);
+            }
+
             data.add(new String[] {
                     articlePresse.getTitre(),
                     articlePresse.getCreateur(),
-                    articlePresse.getMotsCles(),
+                    motsCle.toString(),
                     articlePresse.getDescription(),
                     articlePresse.getMedia(),
                     articlePresse.getEditeur(),
@@ -430,9 +477,15 @@ public class RepportService {
                 "Source", "Langue", "Relation", "Couverture", "Gestion des droits" });
         for (Resource rowData : resources) {
             DeblinCore deblinCore = (DeblinCore) rowData;
+
+            StringBuffer motsCle = new StringBuffer();
+            for (String s : deblinCore.getMotsCles()) {
+                motsCle.append(s).append(motCleSeparateur);
+            }
+
             data.add(new String[] { deblinCore.getTitre(),
                     deblinCore.getCreateur(),
-                    deblinCore.getMotsCles(),
+                    motsCle.toString(),
                     deblinCore.getDescription(),
                     deblinCore.getEditeur(),
                     deblinCore.getContributeur(),
