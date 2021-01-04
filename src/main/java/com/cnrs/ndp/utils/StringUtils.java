@@ -6,8 +6,8 @@ public class StringUtils {
     
     public static String formatFileName(String name) {
         String newString = name;
-        newString = newString.replace(' ', '_');
-        newString = StringUtils.removeSpecialCharacter(name);
+        newString = newString.replaceAll(" ", "_");
+        newString = StringUtils.removeSpecialCharacter(newString);
         return newString;
     }
 

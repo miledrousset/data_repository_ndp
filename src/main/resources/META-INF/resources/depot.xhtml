@@ -115,6 +115,9 @@
                                                               disabled="#{dataDepotManager.uploadFilesVisible}"
                                                               style="width:100%; font-size: 12px;"
                                                               mode="advanced"
+                                                              uploadLabel="Charger"
+                                                              cancelLabel="Annuler"
+                                                              label="Selectionner"
                                                               dragDropSupport="true"
                                                               multiple="false"
                                                               cancelIcon="true" />
@@ -137,14 +140,16 @@
                                         <h1>Chargement des resources</h1>
                                         <p style="font-size: 14px;">Veuillez sélectionner le(s) fichier(s) que vous voullez uploader</p>
                                         <div class="input-group">
-                                            <h:form style="width: 100%">
-                                                <h:form>
-                                                    <p:fileUpload fileUploadListener="#{dataDepotManager.uploadFiles}"
-                                                                  mode="advanced"
-                                                                  dragDropSupport="true"
-                                                                  sizeLimit="1000000" fileLimit="3"
-                                                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-                                                </h:form>
+                                            <h:form style="width: 100%" enctype="multipart/form-data">
+                                                <p:fileUpload fileUploadListener="#{dataDepotManager.uploadFiles}"
+                                                              label="Parcourir"
+                                                              mode="advanced"
+                                                              update="mainDepos"
+                                                              auto="true"
+                                                              multiple="true"
+                                                              uploadLabel="Charger"
+                                                              cancelLabel="Annuler"
+                                                              dragDropSupport="true"/>
                                             </h:form>
                                         </div>
                                     </div>
@@ -198,7 +203,7 @@
 
                                                                 <p:commandButton icon="fa-remove" title="Supprimer resource"
                                                                                  oncomplete="PF('supprimerdeblinCore').show();" style="color: #d9232d;"
-                                                                                 actionListener="#{dataDepotManager.setResourceName(res.file.name)}"
+                                                                                 actionListener="#{dataDepotManager.setResourceSelected(res)}"
                                                                                  ajax="true" update="mainDepos"/>
                                                             </td>
                                                         </tr>
@@ -208,6 +213,36 @@
                                                 <div class="clearfix">
                                                     <div class="hint-text">Nombre des resources : <b>#{dataDepotManager.deblinCoreUploated.size()}</b></div>
                                                 </div>
+
+                                                <p:dialog header="Supprimer Resource" widgetVar="supprimerdeblinCore"
+                                                          modal="true" resizable="false">
+
+                                                    <div class="modal-body">
+                                                        <p>Voulez-vous vraiment supprimer le fichier <B>#{dataDepotManager.resourceName}</B> ?</p>
+                                                        <p class="text-warning"><small>Cette action ne peut pas être annulée.</small></p>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <b:button value="Annuler" onclick="PF('supprimerdeblinCore').hide();" class="btn btn-default"/>
+                                                        <p:commandButton value="Supprimer" actionListener="#{dataDepotManager.supprimerResource()}"
+                                                                         class="btn btn-success" update="mainDepos" ajax="true"/>
+                                                    </div>
+
+                                                </p:dialog>
+
+
+                                                <ui:include src="/depot/url.xhtml"/>
+                                                <ui:include src="/depot/video.xhtml"/>
+                                                <ui:include src="/depot/image.xhtml"/>
+                                                <ui:include src="/depot/audio.xhtml"/>
+                                                <ui:include src="/depot/deblinCore.xhtml"/>
+                                                <ui:include src="/depot/articlePress.xhtml"/>
+                                                <ui:include src="/depot/donneesLaserConso.xhtml"/>
+                                                <ui:include src="/depot/donneesLaserBrutes.xhtml"/>
+                                                <ui:include src="/depot/maillage3dGeommetry.xhtml"/>
+                                                <ui:include src="/depot/maillage3dPhotogrammetrice.xhtml"/>
+                                                <ui:include src="/depot/nuagePointsPhotogrammetrie.xhtml"/>
+
                                             </div>
 
                                             <div class="modal-footer">
@@ -231,21 +266,6 @@
                         </div>
                     </div>
                 </section>
-
-
-                <ui:include src="/depot/url.xhtml"/>
-                <ui:include src="/depot/video.xhtml"/>
-                <ui:include src="/depot/image.xhtml"/>
-                <ui:include src="/depot/audio.xhtml"/>
-                <ui:include src="/depot/deblinCore.xhtml"/>
-                <ui:include src="/depot/articlePress.xhtml"/>
-                <ui:include src="/depot/supprimerResouce.xhtml"/>
-                <ui:include src="/depot/donneesLaserConso.xhtml"/>
-                <ui:include src="/depot/donneesLaserBrutes.xhtml"/>
-                <ui:include src="/depot/maillage3dGeommetry.xhtml"/>
-                <ui:include src="/depot/maillage3dPhotogrammetrice.xhtml"/>
-                <ui:include src="/depot/nuagePointsPhotogrammetrie.xhtml"/>
-
             </h:form>
         </h:panelGroup>
     </main>

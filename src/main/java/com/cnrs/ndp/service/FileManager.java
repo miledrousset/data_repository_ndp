@@ -179,12 +179,16 @@ public class FileManager {
                 videoManager.videoTraitement(file.getPath(), destinationPath);
                 break;
             default:
-                createDefaultImage(new File(destinationPath));
+                File destination = new File(destinationPath.substring(0, destinationPath.lastIndexOf(".")+1) + "jpg");
+                createDefaultImage(destination);
         }
     }
 
     private void createDefaultImage(File destination) throws IOException {
-        File original = new File(defaultIcon);
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        File original = new File(classLoader.getResource(defaultIcon).getFile());
+
         FileUtils.copyFile(original, destination);
     }
 

@@ -34,8 +34,8 @@ public class ReadMetadonneServiceTest {
         Assert.assertNotNull(list);
         Assert.assertFalse(list.isEmpty());
 
-        Assert.assertEquals("Titre", list.get(0).getTitre());
-        Assert.assertEquals("Mots", list.get(0).getMotsCles());
+        Assert.assertEquals("Titre_test", list.get(0).getTitre());
+        Assert.assertEquals("Mots", list.get(0).getMotsCles().get(0));
         Assert.assertEquals("Langue", list.get(0).getLangue());
         Assert.assertEquals("Type", list.get(0).getType());
     }

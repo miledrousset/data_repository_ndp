@@ -26,7 +26,7 @@ public class RepportService {
 
 
     public void createDeblinCoreRepport(List<Resource> resources, String filePath, String fileName, String schemaSelected) {
-
+        motCleSeparateur = "|";
         if (!CollectionUtils.isEmpty(resources)) {
 
             File file = new File(filePath + fileName + FORMAT_REPPORT);
@@ -410,7 +410,7 @@ public class RepportService {
             Url url = (Url) rowData;
             data.add(new String[] {
                     url.getTitre(),
-                    url.getDateCreationFichier(),
+                    url.getDateCreationFichier() != null ? DateUtils.formatDateToString(url.getDateCreationFichier()) : "",
                     url.getLienInternet(),
                     url.getCreateur(),
                     url.getType(),
@@ -449,17 +449,17 @@ public class RepportService {
                     articlePresse.getEditeur(),
                     articlePresse.getContributeur(),
                     articlePresse.getLangue(),
-                    articlePresse.getDateCreationFichier(),
+                    articlePresse.getDateCreationFichier() != null ? DateUtils.formatDateToString(articlePresse.getDateCreationFichier()) : "",
                     articlePresse.getType(),
                     articlePresse.getSupport(),
                     articlePresse.getFormat(),
                     articlePresse.getIdentifiantUnique(),
                     articlePresse.getExtension(),
                     articlePresse.getLienInternet(),
-                    articlePresse.getDateConsultation(),
+                    articlePresse.getDateConsultation() != null ? DateUtils.formatDateToString(articlePresse.getDateConsultation()) : "",
                     articlePresse.getRelation(),
                     articlePresse.getRelationLien(),
-                    articlePresse.getDateCreationPDF(),
+                    articlePresse.getDateCreationPDF() != null ? DateUtils.formatDateToString(articlePresse.getDateCreationPDF()) : "",
                     articlePresse.getNotesInternes(),
                     articlePresse.getPreparation(),
                     articlePresse.getCollecteur(),

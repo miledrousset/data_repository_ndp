@@ -2204,3 +2204,24 @@ section {
 .blog .blog-comments .reply-form-v2 .btn-primary:hover {
   background-color: #FFFFFF;
 }
+
+.ui-button .ui-widget .ui-state-default .ui-corner-all .ui-button-text-icon-left .ui-fileupload-choose {
+  background-color: #ffffff;
+  border-color: #000000;
+}
+
+.ui-button, button.ui-button.ui-state-default, .ui-button.ui-state-default {
+  background-color: #ffffff;
+  border-color: #000000;
+}
+
+ui-button-icon-left ui-icon ui-c ui-icon-plusthick {
+  background-color: #000000;
+  border-color: #000000;
+}
+
+.btn-success.disabled, .btn-success:disabled {
+  color: #fff;
+  background-color: #8f8f8f;
+  border-color: #777777;
+}

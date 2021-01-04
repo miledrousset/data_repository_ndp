@@ -133,17 +133,17 @@ public class MetadonneService {
             articlePresse.setEditeur(row.getCell(6).getStringCellValue());
             articlePresse.setContributeur(row.getCell(7).getStringCellValue());
             articlePresse.setLangue(row.getCell(8).getStringCellValue());
-            articlePresse.setDateCreationFichier(row.getCell(9).getStringCellValue());
+            articlePresse.setDateCreationFichier(DateUtils.formatStringToDate(row.getCell(9).getStringCellValue()));
             articlePresse.setType(row.getCell(10).getStringCellValue());
             articlePresse.setSupport(row.getCell(11).getStringCellValue());
             articlePresse.setFormat(row.getCell(12).getStringCellValue());
             articlePresse.setIdentifiantUnique(row.getCell(13).getStringCellValue());
             articlePresse.setExtension(row.getCell(14).getStringCellValue());
             articlePresse.setLienInternet(row.getCell(15).getStringCellValue());
-            articlePresse.setDateConsultation(row.getCell(16).getStringCellValue());
+            articlePresse.setDateConsultation(DateUtils.formatStringToDate(row.getCell(16).getStringCellValue()));
             articlePresse.setRelation(row.getCell(17).getStringCellValue());
             articlePresse.setRelationLien(row.getCell(18).getStringCellValue());
-            articlePresse.setDateCreationPDF(row.getCell(19).getStringCellValue());
+            articlePresse.setDateCreationPDF(DateUtils.formatStringToDate(row.getCell(19).getStringCellValue()));
             articlePresse.setNotesInternes(row.getCell(20).getStringCellValue());
             articlePresse.setPreparation(row.getCell(21).getStringCellValue());
             articlePresse.setCollecteur(row.getCell(22).getStringCellValue());
@@ -160,7 +160,7 @@ public class MetadonneService {
         try {
             Url url = new Url();
             url.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
-            url.setDateCreationFichier(row.getCell(1).getStringCellValue());
+            url.setDateCreationFichier(DateUtils.formatStringToDate(row.getCell(1).getStringCellValue()));
             url.setLienInternet(row.getCell(2).getStringCellValue());
             url.setCreateur(row.getCell(3).getStringCellValue());
             url.setType(row.getCell(4).getStringCellValue());

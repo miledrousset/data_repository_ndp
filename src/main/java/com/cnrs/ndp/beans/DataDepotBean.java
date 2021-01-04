@@ -3,10 +3,7 @@ package com.cnrs.ndp.beans;
 import com.cnrs.ndp.entity.Depots;
 import com.cnrs.ndp.model.resources.*;
 import com.cnrs.ndp.repository.DepotsRepository;
-import com.cnrs.ndp.service.FileManager;
-import com.cnrs.ndp.service.MetadonneService;
-import com.cnrs.ndp.service.RepportService;
-import com.cnrs.ndp.service.ThesaurusService;
+import com.cnrs.ndp.service.*;
 import com.cnrs.ndp.utils.DateUtils;
 
 import org.apache.commons.io.FilenameUtils;
@@ -25,11 +22,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import java.io.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Named(value = "dataDepotManager")
@@ -52,6 +45,9 @@ public class DataDepotBean implements Serializable {
 
     @Autowired
     private ThesaurusService thesaurusService;
+
+    @Autowired
+    private FormValidateur formValidateur;
 
 
     @Value("#{'${upload.file.repertoires}'.split(';')}")
@@ -78,7 +74,7 @@ public class DataDepotBean implements Serializable {
 
     private boolean saveDepot, detailDepotVisible, uploadFilesVisible;
     private String schemasSelected, repertoirSelected, groupeTravailSelected, depotName, resourceName;
-    private UploadedFile files;
+    //private UploadedFile files;
 
     private DeblinCore deblinCoreSelected;
     private ArticlePresse articlePresseSelected;
@@ -122,11 +118,87 @@ public class DataDepotBean implements Serializable {
     }
 
     public void rechercheMotCle(String name) {
-        if (CollectionUtils.isEmpty(deblinCoreSelected.getMotsCles())) {
-            deblinCoreSelected.setMotsCles(new ArrayList<>());
+
+        switch (Integer.parseInt(schemasSelected)) {
+            case 1:
+                if (CollectionUtils.isEmpty(deblinCoreSelected.getMotsCles())) {
+                    deblinCoreSelected.setMotsCles(new ArrayList<>());
+                }
+                deblinCoreSelected.getMotsCles().add(name);
+                deblinCoreSelected.setMotCle("");
+                break;
+            case 2:
+                if (CollectionUtils.isEmpty(articlePresseSelected.getMotsCles())) {
+                    articlePresseSelected.setMotsCles(new ArrayList<>());
+                }
+                articlePresseSelected.getMotsCles().add(name);
+                articlePresseSelected.setMotCle("");
+                break;
+            case 3:
+                if (CollectionUtils.isEmpty(urlSelected.getMotsCles())) {
+                    urlSelected.setMotsCles(new ArrayList<>());
+                }
+                urlSelected.getMotsCles().add(name);
+                urlSelected.setMotCle("");
+                break;
+            case 4:
+                if (CollectionUtils.isEmpty(videoSelected.getMotsCles())) {
+                    videoSelected.setMotsCles(new ArrayList<>());
+                }
+                videoSelected.getMotsCles().add(name);
+                videoSelected.setMotCle("");
+                break;
+            case 5:
+                if (CollectionUtils.isEmpty(imageSelected.getMotsCles())) {
+                    imageSelected.setMotsCles(new ArrayList<>());
+                }
+                imageSelected.getMotsCles().add(name);
+                imageSelected.setMotCle("");
+                break;
+            case 6:
+                if (CollectionUtils.isEmpty(audioSelected.getMotsCles())) {
+                    audioSelected.setMotsCles(new ArrayList<>());
+                }
+                audioSelected.getMotsCles().add(name);
+                audioSelected.setMotCle("");
+                break;
+            case 7:
+                if (CollectionUtils.isEmpty(donneeLaserBrutSelected.getMotsCles())) {
+                    donneeLaserBrutSelected.setMotsCles(new ArrayList<>());
+                }
+                donneeLaserBrutSelected.getMotsCles().add(name);
+                donneeLaserBrutSelected.setMotCle("");
+                break;
+            case 8:
+                if (CollectionUtils.isEmpty(donneeLaserConsoSelected.getMotsCles())) {
+                    donneeLaserConsoSelected.setMotsCles(new ArrayList<>());
+                }
+                donneeLaserConsoSelected.getMotsCles().add(name);
+                donneeLaserConsoSelected.setMotCle("");
+                break;
+            case 9:
+                if (CollectionUtils.isEmpty(nuagePointsPhotogrammetrieSelected.getMotsCles())) {
+                    nuagePointsPhotogrammetrieSelected.setMotsCles(new ArrayList<>());
+                }
+                nuagePointsPhotogrammetrieSelected.getMotsCles().add(name);
+                nuagePointsPhotogrammetrieSelected.setMotCle("");
+                break;
+            case 10:
+                if (CollectionUtils.isEmpty(maillage3dPhotogrammetrieSelected.getMotsCles())) {
+                    maillage3dPhotogrammetrieSelected.setMotsCles(new ArrayList<>());
+                }
+                maillage3dPhotogrammetrieSelected.getMotsCles().add(name);
+                maillage3dPhotogrammetrieSelected.setMotCle("");
+                break;
+            case 11:
+                if (CollectionUtils.isEmpty(maillage3dGeometrySelected.getMotsCles())) {
+                    maillage3dGeometrySelected.setMotsCles(new ArrayList<>());
+                }
+                maillage3dGeometrySelected.getMotsCles().add(name);
+                maillage3dGeometrySelected.setMotCle("");
+                break;
         }
-        deblinCoreSelected.getMotsCles().add(name);
-        deblinCoreSelected.setMotCle("");
+
     }
 
     public List<String> rechercheMotsCle(String query) {
@@ -134,17 +206,72 @@ public class DataDepotBean implements Serializable {
     }
 
     public void validerDepot() {
-        String depoFile = new StringBuffer(pathDepot).append("/").append(groupeTravailSelected).append("/")
-                .append(repertoirSelected).append("/").append(depotName).append("/").toString();
 
-        repportService.createDeblinCoreRepport(deblinCoreUploated, depoFile, depotName, schemasSelected);
+        boolean isValide = true;
+        for (Resource resource : deblinCoreUploated) {
+            if (!formValidateur.forumValidateur(schemasSelected, resource)) {
+                isValide = false;
+            }
+        }
 
-        showMessage(FacesMessage.SEVERITY_INFO, "Dépôt crée avec sucée !");
+        if (isValide) {
+            String depoFile = new StringBuffer(pathDepot).append("/").append(groupeTravailSelected).append("/")
+                    .append(repertoirSelected).append("/").append(depotName).append("/").toString();
+
+            repportService.createDeblinCoreRepport(deblinCoreUploated, depoFile, depotName, schemasSelected);
+
+            showMessage(FacesMessage.SEVERITY_INFO, "Dépôt crée avec sucée !");
+        } else {
+            showMessage(FacesMessage.SEVERITY_ERROR, "Le formulaire n'est pas complet !");
+        }
     }
 
     public void modifierResource() {
-        PrimeFaces.current().executeScript("PF('modifierdeblinCore').hide();");
-        PrimeFaces.current().ajax().update("mainDepos");
+
+        Resource resource = null;
+        switch (Integer.parseInt(schemasSelected)) {
+            case 1:
+                resource = deblinCoreSelected;
+                break;
+            case 2:
+                resource = articlePresseSelected;
+                break;
+            case 3:
+                resource = urlSelected;
+                break;
+            case 4:
+                resource = videoSelected;
+                break;
+            case 5:
+                resource = imageSelected;
+                break;
+            case 6:
+                resource = audioSelected;
+                break;
+            case 7:
+                resource = donneeLaserBrutSelected;
+                break;
+            case 8:
+                resource = donneeLaserConsoSelected;
+                break;
+            case 9:
+                resource = nuagePointsPhotogrammetrieSelected;
+                break;
+            case 10:
+                resource = maillage3dPhotogrammetrieSelected;
+                break;
+            case 11:
+                resource = maillage3dGeometrySelected;
+                break;
+        }
+
+        if (!formValidateur.forumValidateur(schemasSelected, resource)) {
+            showMessage(FacesMessage.SEVERITY_ERROR, "Le formulaire n'est pas complet !");
+        } else {
+            PrimeFaces.current().executeScript("PF('modifierdeblinCore').hide();");
+            PrimeFaces.current().ajax().update("mainDepos");
+
+        }
     }
 
     public void annulerDepot() {
@@ -220,10 +347,10 @@ public class DataDepotBean implements Serializable {
 
         if (fileManager.validateFormatFile(schemasSelected, FilenameUtils.getExtension(event.getFile().getFileName()))) {
 
-            String username = "user";
+            String username = "nom.prenom";
 
             if (StringUtils.isEmpty(depotName)) {
-                depotName = username + "-" + DateUtils.getDateTime(DIRECTORY_NAME);
+                depotName = username + "_" + DateUtils.getDateTime(DIRECTORY_NAME);
             }
             deblinCoreUploated = new ArrayList<>();
             deblinCoreUploated.add(fileManager.uploadFiles(event.getFile(), depotName, groupeTravailSelected,
@@ -257,8 +384,10 @@ public class DataDepotBean implements Serializable {
     }
 
     public void uploadMetadonneFile(FileUploadEvent event) throws IOException {
+
         UploadedFile file = event.getFile();
-        if (file.getFileName().toLowerCase().endsWith(".xlsx")) {
+        if (file.getFileName().toLowerCase().endsWith(".xlsx")
+                || file.getFileName().toLowerCase().endsWith(".numbers")) {
             InputStream is = event.getFile().getInputstream();
             File fileUploated = new File(event.getFile().getFileName());
             fileManager.uploadFile(is, fileUploated);
@@ -345,15 +474,9 @@ public class DataDepotBean implements Serializable {
         this.schemasSelected = schemasSelected;
     }
 
-    public UploadedFile getFiles() {
-        return files;
-    }
-
-    public void setFiles(UploadedFile files) {
-        this.files = files;
-    }
-
     public void setResourceSelected(Resource resourceSelected) {
+
+        this.resourceName = resourceSelected.getFile().getName();
 
         switch (Integer.parseInt(schemasSelected)) {
             case 1:
@@ -530,9 +653,5 @@ public class DataDepotBean implements Serializable {
 
     public String getResourceName() {
         return resourceName;
-    }
-
-    public void setResourceName(String resourceName) {
-        this.resourceName = resourceName;
     }
 }
