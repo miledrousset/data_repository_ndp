@@ -3,6 +3,8 @@ package com.cnrs.ndp.model.resources;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
 @NoArgsConstructor
@@ -14,10 +16,10 @@ public class AudioWaweBwf extends Resource {
 
     String source;
     String couverture;
-    String icrd;
+    Date icrd;
     String ignr;
     String originatorReference;
-    String originationDate;
+    Date originationDate;
     String originationTime;
     String timeReferenceTranslated;
     String timeReference;

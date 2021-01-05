@@ -2219,9 +2219,3 @@ ui-button-icon-left ui-icon ui-c ui-icon-plusthick {
   background-color: #000000;
   border-color: #000000;
 }
-
-.btn-success.disabled, .btn-success:disabled {
-  color: #fff;
-  background-color: #8f8f8f;
-  border-color: #777777;
-}

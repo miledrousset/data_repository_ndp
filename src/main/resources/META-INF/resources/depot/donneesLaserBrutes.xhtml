@@ -17,63 +17,69 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Title</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Title *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.titre}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Créateur</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Créateur *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.createur}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Mots clés</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Mots clés *</label>
                     <div class="col-sm-8">
-                        <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.motsCles}" class="form-control" />
+                        <p:autoComplete value="#{dataDepotManager.donneeLaserBrutSelected.motCle}"
+                                        completeMethod="#{dataDepotManager.rechercheMotsCle}">
+                            <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.donneeLaserBrutSelected.motCle)}"
+                                    update="motcle"/>
+                        </p:autoComplete>
+                        <br/>
+                        <p:chips id="motcle" value="#{dataDepotManager.donneeLaserBrutSelected.motsCles}"/>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Description</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Description *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.description}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Editeur</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Editeur *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.editeur}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Contributeur</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Contributeur *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.contributeur}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Date de mise à disposition</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Date de mise à disposition *</label>
                     <div class="col-sm-8">
-                        <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.dateMiseDisposition}" class="form-control" />
+                        <p:calendar value="#{dataDepotManager.donneeLaserBrutSelected.dateMiseDisposition}" pattern="yyyy-MM-dd" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Type</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Type *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.type}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Format</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Format *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.format}" class="form-control" />
                     </div>
@@ -101,7 +107,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Nuage</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Nuage *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.nuage}" class="form-control" />
                     </div>
@@ -115,14 +121,14 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Couverture</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Couverture *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.couverture}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Gestio des droits</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Gestio des droits *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.donneeLaserBrutSelected.gestionDesDroits}" class="form-control" />
                     </div>

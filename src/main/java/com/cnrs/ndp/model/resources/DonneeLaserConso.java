@@ -3,6 +3,8 @@ package com.cnrs.ndp.model.resources;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
 @NoArgsConstructor
@@ -12,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class DonneeLaserConso extends Resource {
 
     String source;
-    String dateMiseDisposition;
+    Date dateMiseDisposition;
     String couverture;
     String idSources;
     String logiciel;

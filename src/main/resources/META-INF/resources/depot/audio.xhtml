@@ -17,42 +17,48 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Title</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Title *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.audioSelected.titre}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Créateur</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Créateur *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.audioSelected.createur}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Mots clés</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Mots clés *</label>
                     <div class="col-sm-8">
-                        <h:inputText value="#{dataDepotManager.audioSelected.motsCles}" class="form-control" />
+                        <p:autoComplete value="#{dataDepotManager.audioSelected.motCle}"
+                                        completeMethod="#{dataDepotManager.rechercheMotsCle}">
+                            <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.audioSelected.motCle)}"
+                                    update="motcleArticlePress"/>
+                        </p:autoComplete>
+                        <br/>
+                        <p:chips id="motcleArticlePress" value="#{dataDepotManager.audioSelected.motsCles}"/>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Editeur</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Editeur *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.audioSelected.editeur}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Contributeur</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Contributeur *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.audioSelected.contributeur}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Format</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Format *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.audioSelected.format}" class="form-control" />
                     </div>
@@ -87,7 +93,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Source</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Source *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.audioSelected.source}" class="form-control" />
                     </div>
@@ -101,16 +107,16 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Couverture</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Couverture *</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.audioSelected.couverture}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">ICRD</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">ICRD *</label>
                     <div class="col-sm-8">
-                        <h:inputText value="#{dataDepotManager.audioSelected.icrd}" class="form-control" />
+                        <p:calendar value="#{dataDepotManager.audioSelected.icrd}" pattern="yyyy-MM-dd"
                     </div>
                 </div>
 
@@ -131,7 +137,7 @@
                 <div class="form-group row">
                     <label for="colFormLabel" class="col-sm-4 col-form-label">Origination Date</label>
                     <div class="col-sm-8">
-                        <h:inputText value="#{dataDepotManager.audioSelected.originationDate}" class="form-control" />
+                        <p:calendar value="#{dataDepotManager.audioSelected.originationDate}" pattern="yyyy-MM-dd" />
                     </div>
                 </div>
 

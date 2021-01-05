@@ -93,11 +93,11 @@ public class FormValidateur {
                 || CollectionUtils.isEmpty(image.getMotsCles())
                 || StringUtils.isEmpty(image.getEditeur())
                 || StringUtils.isEmpty(image.getContributeur())
-                || StringUtils.isEmpty(image.getDateCreation())
+                || Objects.isNull(image.getDateCreation())
                 || StringUtils.isEmpty(image.getType())
                 || StringUtils.isEmpty(image.getSupportOriginalFichier())
                 || StringUtils.isEmpty(image.getExtension())
-                || StringUtils.isEmpty(image.getDateMiseDisposition())
+                || Objects.isNull(image.getDateMiseDisposition())
                 || StringUtils.isEmpty(image.getGestionDesDroits())) {
             return false;
         }
@@ -105,12 +105,18 @@ public class FormValidateur {
     }
 
     private boolean isVideoValide(Video video) {
-        if (StringUtils.isEmpty(video.getTitre()) || StringUtils.isEmpty(video.getCreateur())
-                || CollectionUtils.isEmpty(video.getMotsCles()) || StringUtils.isEmpty(video.getDescription())
-                || StringUtils.isEmpty(video.getMedia()) || StringUtils.isEmpty(video.getEditeur())
-                || StringUtils.isEmpty(video.getContributeur()) || StringUtils.isEmpty(video.getLangue())
-                || StringUtils.isEmpty(video.getDateCreationFichier()) || StringUtils.isEmpty(video.getType())
-                || StringUtils.isEmpty(video.getSupport()) || StringUtils.isEmpty(video.getFormat())
+        if (StringUtils.isEmpty(video.getTitre())
+                || StringUtils.isEmpty(video.getCreateur())
+                || CollectionUtils.isEmpty(video.getMotsCles())
+                || StringUtils.isEmpty(video.getDescription())
+                || StringUtils.isEmpty(video.getMedia())
+                || StringUtils.isEmpty(video.getEditeur())
+                || StringUtils.isEmpty(video.getContributeur())
+                || StringUtils.isEmpty(video.getLangue())
+                || Objects.isNull(video.getDateCreationFichier())
+                || StringUtils.isEmpty(video.getType())
+                || StringUtils.isEmpty(video.getSupport())
+                || StringUtils.isEmpty(video.getFormat())
                 || StringUtils.isEmpty(video.getExtension())) {
             return false;
         }
@@ -124,7 +130,9 @@ public class FormValidateur {
                 || StringUtils.isEmpty(audioWaweBwf.getEditeur())
                 || StringUtils.isEmpty(audioWaweBwf.getContributeur())
                 || StringUtils.isEmpty(audioWaweBwf.getFormat())
-                || StringUtils.isEmpty(audioWaweBwf.getIcrd())) {
+                || StringUtils.isEmpty(audioWaweBwf.getSource())
+                || StringUtils.isEmpty(audioWaweBwf.getCouverture())
+                || Objects.isNull(audioWaweBwf.getIcrd())) {
             return false;
         }
         return true;
@@ -137,7 +145,7 @@ public class FormValidateur {
                 || StringUtils.isEmpty(donneeLaserBrut.getDescription())
                 || StringUtils.isEmpty(donneeLaserBrut.getEditeur())
                 || StringUtils.isEmpty(donneeLaserBrut.getContributeur())
-                || StringUtils.isEmpty(donneeLaserBrut.getDateMiseDisposition())
+                || Objects.isNull(donneeLaserBrut.getDateMiseDisposition())
                 || StringUtils.isEmpty(donneeLaserBrut.getType())
                 || StringUtils.isEmpty(donneeLaserBrut.getFormat())
                 || StringUtils.isEmpty(donneeLaserBrut.getNuage())
@@ -155,7 +163,7 @@ public class FormValidateur {
                 || StringUtils.isEmpty(donneeLaserConso.getDescription())
                 || StringUtils.isEmpty(donneeLaserConso.getEditeur())
                 || StringUtils.isEmpty(donneeLaserConso.getContributeur())
-                || StringUtils.isEmpty(donneeLaserConso.getDateMiseDisposition())
+                || Objects.isNull(donneeLaserConso.getDateMiseDisposition())
                 || StringUtils.isEmpty(donneeLaserConso.getType())
                 || StringUtils.isEmpty(donneeLaserConso.getFormat())
                 || StringUtils.isEmpty(donneeLaserConso.getIdentifiantUnique())
@@ -177,7 +185,7 @@ public class FormValidateur {
                 || StringUtils.isEmpty(nuagePointsPhotogrammetrie.getDescription())
                 || StringUtils.isEmpty(nuagePointsPhotogrammetrie.getEditeur())
                 || StringUtils.isEmpty(nuagePointsPhotogrammetrie.getContributeur())
-                || StringUtils.isEmpty(nuagePointsPhotogrammetrie.getDateMiseDisposition())
+                || Objects.isNull(nuagePointsPhotogrammetrie.getDateMiseDisposition())
                 || StringUtils.isEmpty(nuagePointsPhotogrammetrie.getType())
                 || StringUtils.isEmpty(nuagePointsPhotogrammetrie.getFormat())
                 || StringUtils.isEmpty(nuagePointsPhotogrammetrie.getIdentifiantUnique())
@@ -206,8 +214,14 @@ public class FormValidateur {
     }
 
     private boolean isMaillage3dGeometryValide(Maillage3dGeometry maillage3dGeometry) {
-        if (StringUtils.isEmpty(maillage3dGeometry.getCreateur()) || StringUtils.isEmpty(maillage3dGeometry.getDateFichier())
-                || StringUtils.isEmpty(maillage3dGeometry.getFormat()) || StringUtils.isEmpty(maillage3dGeometry.getType())) {
+        if (StringUtils.isEmpty(maillage3dGeometry.getAxeOrientation())
+                || Objects.isNull(maillage3dGeometry.getAxeVertical())
+                || StringUtils.isEmpty(maillage3dGeometry.getUniteMesure())
+                || StringUtils.isEmpty(maillage3dGeometry.getLogicielTraitement())
+                || StringUtils.isEmpty(maillage3dGeometry.getDimensionX())
+                || StringUtils.isEmpty(maillage3dGeometry.getDimensionY())
+                || StringUtils.isEmpty(maillage3dGeometry.getDimensionZ())
+                || Objects.isNull(maillage3dGeometry.getDateFichier())) {
             return false;
         }
         return true;

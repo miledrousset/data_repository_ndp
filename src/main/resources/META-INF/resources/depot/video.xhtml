@@ -18,83 +18,90 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Title</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Title*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.titre}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Créateur</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Créateur*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.createur}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Mots clés</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Mots clés*</label>
                     <div class="col-sm-8">
-                        <h:inputText value="#{dataDepotManager.videoSelected.motsCles}" class="form-control" />
+                        <p:autoComplete value="#{dataDepotManager.videoSelected.motCle}"
+                                        completeMethod="#{dataDepotManager.rechercheMotsCle}">
+                            <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.videoSelected.motCle)}"
+                                    update="motcleArticlePress"/>
+                        </p:autoComplete>
+                        <br/>
+                        <p:chips id="motcleArticlePress" value="#{dataDepotManager.videoSelected.motsCles}"/>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Description</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Description*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.description}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Media</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Media*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.media}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Editeur</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Editeur*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.editeur}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Contributeur</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Contributeur*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.contributeur}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Langue</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Langue*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.langue}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Date de création</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Date de création*</label>
                     <div class="col-sm-8">
+                        <p:calendar value="#{dataDepotManager.videoSelected.dateCreationFichier}" pattern="yyyy-MM-dd" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Type</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Type*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.type}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Support</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Support*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.support}" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Format</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Format*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.format}" class="form-control" />
                     </div>
@@ -108,7 +115,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Extension</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Extension*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.extension}" class="form-control" />
                     </div>
@@ -124,13 +131,14 @@
                 <div class="form-group row">
                     <label for="colFormLabel" class="col-sm-4 col-form-label">Date de consultation</label>
                     <div class="col-sm-8">
+                        <p:calendar value="#{dataDepotManager.videoSelected.dateConsultation}" pattern="yyyy-MM-dd" />
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label for="colFormLabel" class="col-sm-4 col-form-label">Date de création du MP4</label>
                     <div class="col-sm-8">
-                        <h:inputText value="#{dataDepotManager.videoSelected.dateCreationMp4}" class="form-control" />
+                        <p:calendar value="#{dataDepotManager.videoSelected.dateCreationMp4}" pattern="yyyy-MM-dd" />
                     </div>
                 </div>
 
@@ -176,7 +184,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-4 col-form-label">Gestion des droits</label>
+                    <label for="colFormLabel" class="col-sm-4 col-form-label">Gestion des droits*</label>
                     <div class="col-sm-8">
                         <h:inputText value="#{dataDepotManager.videoSelected.gestionDesDroits}" class="form-control" />
                     </div>

@@ -3,6 +3,8 @@ package com.cnrs.ndp.model.resources;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
 @NoArgsConstructor
@@ -11,10 +13,10 @@ import lombok.experimental.FieldDefaults;
 @Setter
 public class Image extends Resource {
 
-    String dateCreation;
+    Date dateCreation;
     String supportOriginalFichier;
     String extension;
-    String dateMiseDisposition;
+    Date dateMiseDisposition;
     String fileSize;
     String model;
     String imageSize;

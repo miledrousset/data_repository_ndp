@@ -3,6 +3,8 @@ package com.cnrs.ndp.model.resources;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
 @NoArgsConstructor
@@ -12,11 +14,11 @@ import lombok.experimental.FieldDefaults;
 public class Video extends Resource {
 
     String media;
-    String dateCreationFichier;
+    Date dateCreationFichier;
     String lienInternet;
     String extension;
     String dateConsultation;
-    String dateCreationMp4;
+    Date dateCreationMp4;
     String preparation;
     String collecteur;
 

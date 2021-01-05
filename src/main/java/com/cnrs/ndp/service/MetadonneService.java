@@ -187,7 +187,7 @@ public class MetadonneService {
             video.setEditeur(row.getCell(6).getStringCellValue());
             video.setContributeur(row.getCell(7).getStringCellValue());
             video.setLangue(row.getCell(8).getStringCellValue());
-            video.setDateCreationFichier(row.getCell(9).getStringCellValue());
+            video.setDateCreationFichier(DateUtils.formatStringToDate(row.getCell(9).getStringCellValue()));
             video.setType(row.getCell(10).getStringCellValue());
             video.setSupport(row.getCell(11).getStringCellValue());
             video.setFormat(row.getCell(12).getStringCellValue());
@@ -195,7 +195,7 @@ public class MetadonneService {
             video.setExtension(row.getCell(14).getStringCellValue());
             video.setLienInternet(row.getCell(15).getStringCellValue());
             video.setDateConsultation(row.getCell(16).getStringCellValue());
-            video.setDateCreationMp4(row.getCell(17).getStringCellValue());
+            video.setDateCreationMp4(DateUtils.formatStringToDate(row.getCell(17).getStringCellValue()));
             video.setRelation(row.getCell(18).getStringCellValue());
             video.setNotesInternes(row.getCell(19).getStringCellValue());
             video.setPreparation(row.getCell(20).getStringCellValue());
@@ -217,11 +217,11 @@ public class MetadonneService {
             image.setMotsCles(Arrays.asList(row.getCell(2).getStringCellValue().split(motCleSeparateur)));
             image.setEditeur(row.getCell(3).getStringCellValue());
             image.setContributeur(row.getCell(4).getStringCellValue());
-            image.setDateCreation(row.getCell(5).getStringCellValue());
+            image.setDateCreation(DateUtils.formatStringToDate(row.getCell(5).getStringCellValue()));
             image.setType(row.getCell(6).getStringCellValue());
             image.setSupportOriginalFichier(row.getCell(7).getStringCellValue());
             image.setExtension(row.getCell(8).getStringCellValue());
-            image.setDateMiseDisposition(row.getCell(9).getStringCellValue());
+            image.setDateMiseDisposition(DateUtils.formatStringToDate(row.getCell(9).getStringCellValue()));
             image.setCitationBibliographie(row.getCell(10).getStringCellValue());
             image.setGestionDesDroits(row.getCell(11).getStringCellValue());
             image.setIdentifiantUnique(row.getCell(12).getStringCellValue());
@@ -261,10 +261,10 @@ public class MetadonneService {
             audioWaweBwf.setSource(row.getCell(10).getStringCellValue());
             audioWaweBwf.setGestionDesDroits(row.getCell(11).getStringCellValue());
             audioWaweBwf.setCouverture(row.getCell(12).getStringCellValue());
-            audioWaweBwf.setIcrd(row.getCell(13).getStringCellValue());
+            audioWaweBwf.setOriginationDate(DateUtils.formatStringToDate(row.getCell(13).getStringCellValue()));
             audioWaweBwf.setIgnr(row.getCell(14).getStringCellValue());
             audioWaweBwf.setOriginatorReference(row.getCell(15).getStringCellValue());
-            audioWaweBwf.setOriginationDate(row.getCell(16).getStringCellValue());
+            audioWaweBwf.setOriginationDate(DateUtils.formatStringToDate(row.getCell(16).getStringCellValue()));
             audioWaweBwf.setOriginationTime(row.getCell(17).getStringCellValue());
             audioWaweBwf.setTimeReferenceTranslated(row.getCell(18).getStringCellValue());
             audioWaweBwf.setTimeReference(row.getCell(19).getStringCellValue());
@@ -291,7 +291,7 @@ public class MetadonneService {
             donneeLaserBrut.setDescription(row.getCell(3).getStringCellValue());
             donneeLaserBrut.setEditeur(row.getCell(4).getStringCellValue());
             donneeLaserBrut.setContributeur(row.getCell(5).getStringCellValue());
-            donneeLaserBrut.setDateMiseDisposition(row.getCell(6).getStringCellValue());
+            donneeLaserBrut.setDateMiseDisposition(DateUtils.formatStringToDate(row.getCell(6).getStringCellValue()));
             donneeLaserBrut.setType(row.getCell(7).getStringCellValue());
             donneeLaserBrut.setFormat(row.getCell(8).getStringCellValue());
             donneeLaserBrut.setIdentifiantUnique(row.getCell(9).getStringCellValue());
@@ -324,7 +324,7 @@ public class MetadonneService {
             donneeLaserConso.setDescription(row.getCell(3).getStringCellValue());
             donneeLaserConso.setEditeur(row.getCell(4).getStringCellValue());
             donneeLaserConso.setContributeur(row.getCell(5).getStringCellValue());
-            donneeLaserConso.setDateMiseDisposition(row.getCell(6).getStringCellValue());
+            donneeLaserConso.setDateMiseDisposition(DateUtils.formatStringToDate(row.getCell(6).getStringCellValue()));
             donneeLaserConso.setType(row.getCell(7).getStringCellValue());
             donneeLaserConso.setFormat(row.getCell(8).getStringCellValue());
             donneeLaserConso.setIdentifiantUnique(row.getCell(9).getStringCellValue());
@@ -353,7 +353,7 @@ public class MetadonneService {
             nuagePointsPhotogrammetrie.setDescription(row.getCell(3).getStringCellValue());
             nuagePointsPhotogrammetrie.setEditeur(row.getCell(4).getStringCellValue());
             nuagePointsPhotogrammetrie.setContributeur(row.getCell(5).getStringCellValue());
-            nuagePointsPhotogrammetrie.setDateMiseDisposition(row.getCell(6).getStringCellValue());
+            nuagePointsPhotogrammetrie.setDateMiseDisposition(DateUtils.formatStringToDate(row.getCell(6).getStringCellValue()));
             nuagePointsPhotogrammetrie.setType(row.getCell(7).getStringCellValue());
             nuagePointsPhotogrammetrie.setFormat(row.getCell(8).getStringCellValue());
             nuagePointsPhotogrammetrie.setIdentifiantUnique(row.getCell(9).getStringCellValue());
@@ -387,7 +387,7 @@ public class MetadonneService {
             maillage3dGeometry.setDimensionZ(row.getCell(7).getStringCellValue());
             maillage3dGeometry.setCheminFichier(row.getCell(8).getStringCellValue());
             maillage3dGeometry.setCreateur(row.getCell(9).getStringCellValue());
-            maillage3dGeometry.setDateFichier(row.getCell(10).getStringCellValue());
+            maillage3dGeometry.setDateFichier(DateUtils.formatStringToDate(row.getCell(10).getStringCellValue()));
             maillage3dGeometry.setFormatFichier(row.getCell(11).getStringCellValue());
             maillage3dGeometry.setDescription(row.getCell(12).getStringCellValue());
             maillage3dGeometry.setEncodage(row.getCell(13).getStringCellValue());

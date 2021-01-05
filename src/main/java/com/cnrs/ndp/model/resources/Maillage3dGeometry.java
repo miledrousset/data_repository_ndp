@@ -3,6 +3,8 @@ package com.cnrs.ndp.model.resources;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
 @NoArgsConstructor
@@ -20,7 +22,7 @@ public class Maillage3dGeometry extends Resource {
     String dimensionZ;
     String cheminFichier;
     String createur;
-    String dateFichier;
+    Date dateFichier;
     String formatFichier;
     String description;
     String encodage;
