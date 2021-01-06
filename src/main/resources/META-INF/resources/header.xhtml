@@ -30,7 +30,7 @@
                         </ul>
                     </nav>
 
-                    <p:commandButton rendered="#{connexionBean.isUserConnected}" value="Se déconnecter"
+                    <b:commandButton rendered="#{connexionBean.isUserConnected}" value="Se déconnecter"
                                      oncomplete="PF('deconnexionDialog').show();" ajax="true"
                                      class="get-started-btn ml-auto" update="headerPanel"/>
 

@@ -52,7 +52,7 @@
                 </div>
             </section><!-- End Breadcrumbs -->
 
-            <b:panel id="connexionPanel">
+            <p:panel id="connexionPanel">
                 <section id="blog" class="blog">
                     <div class="col-lg-4 entries" style="display: block; margin-left: auto; margin-right: auto;">
                         <div class="blog-comments">
@@ -67,7 +67,7 @@
                                         <h:inputText value="#{connexionBean.password}" class="form-control"/>
                                     </div>
                                     <div class="modal-footer">
-                                        <b:commandButton value="Se connecter" class="btn btn-success" update="connexionPanel"
+                                        <p:commandButton value="Se connecter" class="btn btn-success" update="connexionPanel"
                                                          style="color: #ffffff; background-color: #d9232d; border-color: #d9232d;"
                                                          actionListener="#{connexionBean.connexion()}" />
                                     </div>
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 </section>
-            </b:panel>
+            </p:panel>
         </main><!-- End #main -->
 
         <ui:include src="footer.xhtml"/>
