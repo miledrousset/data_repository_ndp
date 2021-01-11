@@ -49,7 +49,7 @@ public class VideoManager extends MediaListenerAdapter {
                     return;
             }
 
-            ImageIO.write(event.getImage(), "jpg", new File(saveFile));
+            ImageIO.write(event.getImage(), "jpg", new File(saveFile.substring(0, saveFile.lastIndexOf(".")+1) + "jpg"));
             gotFirst = true;
 
         } catch (Exception e) {

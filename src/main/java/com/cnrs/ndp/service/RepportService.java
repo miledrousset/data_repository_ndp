@@ -30,6 +30,9 @@ public class RepportService {
         if (!CollectionUtils.isEmpty(resources)) {
 
             File file = new File(filePath + fileName + FORMAT_REPPORT);
+            if (file.exists()) {
+                file.delete();
+            }
 
             try {
                 FileWriter outputfile = new FileWriter(file);
@@ -81,7 +84,6 @@ public class RepportService {
                 writer.close();
             }
             catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -148,8 +150,10 @@ public class RepportService {
             NuagePointsPhotogrammetrie nuagePointsPhotogrammetrie = (NuagePointsPhotogrammetrie) rowData;
 
             StringBuffer motsCle = new StringBuffer();
-            for (String s : nuagePointsPhotogrammetrie.getMotsCles()) {
-                motsCle.append(s).append(motCleSeparateur);
+            if (!CollectionUtils.isEmpty(nuagePointsPhotogrammetrie.getMotsCles())) {
+                for (String s : nuagePointsPhotogrammetrie.getMotsCles()) {
+                    motsCle.append(s).append(motCleSeparateur);
+                }
             }
 
             data.add(new String[] {
@@ -188,8 +192,10 @@ public class RepportService {
             DonneeLaserConso donneeLaserConso = (DonneeLaserConso) rowData;
 
             StringBuffer motsCle = new StringBuffer();
-            for (String s : donneeLaserConso.getMotsCles()) {
-                motsCle.append(s).append(motCleSeparateur);
+            if (!CollectionUtils.isEmpty(donneeLaserConso.getMotsCles())) {
+                for (String s : donneeLaserConso.getMotsCles()) {
+                    motsCle.append(s).append(motCleSeparateur);
+                }
             }
 
             data.add(new String[] {
@@ -228,8 +234,10 @@ public class RepportService {
             DonneeLaserBrut donneeLaserBrut = (DonneeLaserBrut) rowData;
 
             StringBuffer motsCle = new StringBuffer();
-            for (String s : donneeLaserBrut.getMotsCles()) {
-                motsCle.append(s).append(motCleSeparateur);
+            if (!CollectionUtils.isEmpty(donneeLaserBrut.getMotsCles())) {
+                for (String s : donneeLaserBrut.getMotsCles()) {
+                    motsCle.append(s).append(motCleSeparateur);
+                }
             }
 
             data.add(new String[] {
@@ -272,8 +280,10 @@ public class RepportService {
             AudioWaweBwf audioWaweBwf = (AudioWaweBwf) rowData;
 
             StringBuffer motsCle = new StringBuffer();
-            for (String s : audioWaweBwf.getMotsCles()) {
-                motsCle.append(s).append(motCleSeparateur);
+            if (!CollectionUtils.isEmpty(audioWaweBwf.getMotsCles())) {
+                for (String s : audioWaweBwf.getMotsCles()) {
+                    motsCle.append(s).append(motCleSeparateur);
+                }
             }
 
             data.add(new String[] {
@@ -320,8 +330,10 @@ public class RepportService {
             Image video = (Image) rowData;
 
             StringBuffer motsCle = new StringBuffer();
-            for (String s : video.getMotsCles()) {
-                motsCle.append(s).append(motCleSeparateur);
+            if (!CollectionUtils.isEmpty(video.getMotsCles())) {
+                for (String s : video.getMotsCles()) {
+                    motsCle.append(s).append(motCleSeparateur);
+                }
             }
 
             data.add(new String[] {
@@ -368,8 +380,10 @@ public class RepportService {
             Video video = (Video) rowData;
 
             StringBuffer motsCle = new StringBuffer();
-            for (String s : video.getMotsCles()) {
-                motsCle.append(s).append(motCleSeparateur);
+            if (!CollectionUtils.isEmpty(video.getMotsCles())) {
+                for (String s : video.getMotsCles()) {
+                    motsCle.append(s).append(motCleSeparateur);
+                }
             }
 
             data.add(new String[] {
@@ -436,8 +450,10 @@ public class RepportService {
             ArticlePresse articlePresse = (ArticlePresse) rowData;
 
             StringBuffer motsCle = new StringBuffer();
-            for (String s : articlePresse.getMotsCles()) {
-                motsCle.append(s).append(motCleSeparateur);
+            if (!CollectionUtils.isEmpty(articlePresse.getMotsCles())) {
+                for (String s : articlePresse.getMotsCles()) {
+                    motsCle.append(s).append(motCleSeparateur);
+                }
             }
 
             data.add(new String[] {
@@ -479,8 +495,10 @@ public class RepportService {
             DeblinCore deblinCore = (DeblinCore) rowData;
 
             StringBuffer motsCle = new StringBuffer();
-            for (String s : deblinCore.getMotsCles()) {
-                motsCle.append(s).append(motCleSeparateur);
+            if (!CollectionUtils.isEmpty(deblinCore.getMotsCles())) {
+                for (String s : deblinCore.getMotsCles()) {
+                    motsCle.append(s).append(motCleSeparateur);
+                }
             }
 
             data.add(new String[] { deblinCore.getTitre(),

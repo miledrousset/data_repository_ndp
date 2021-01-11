@@ -8,9 +8,12 @@ import com.cnrs.ndp.utils.DateUtils;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.file.UploadedFiles;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
@@ -49,6 +52,9 @@ public class DataDepotBean implements Serializable {
     @Autowired
     private FormValidateur formValidateur;
 
+    @Autowired
+    private ConnexionBean connexionBean;
+
 
     @Value("#{'${upload.file.repertoires}'.split(';')}")
     private List<String> repertoireList;
@@ -74,7 +80,7 @@ public class DataDepotBean implements Serializable {
 
     private boolean saveDepot, detailDepotVisible, uploadFilesVisible;
     private String schemasSelected, repertoirSelected, groupeTravailSelected, depotName, resourceName;
-    //private UploadedFile files;
+    private UploadedFiles files;
 
     private DeblinCore deblinCoreSelected;
     private ArticlePresse articlePresseSelected;
@@ -202,7 +208,7 @@ public class DataDepotBean implements Serializable {
     }
 
     public List<String> rechercheMotsCle(String query) {
-        return thesaurusService.getListTermes(query);
+        return thesaurusService.getListTermes(query, groupeTravail.indexOf(groupeTravailSelected));
     }
 
     public void validerDepot() {
@@ -215,15 +221,18 @@ public class DataDepotBean implements Serializable {
         }
 
         if (isValide) {
-            String depoFile = new StringBuffer(pathDepot).append("/").append(groupeTravailSelected).append("/")
-                    .append(repertoirSelected).append("/").append(depotName).append("/").toString();
-
-            repportService.createDeblinCoreRepport(deblinCoreUploated, depoFile, depotName, schemasSelected);
-
+            updateMethadonneFinalFile();
             showMessage(FacesMessage.SEVERITY_INFO, "Dépôt crée avec sucée !");
         } else {
             showMessage(FacesMessage.SEVERITY_ERROR, "Le formulaire n'est pas complet !");
         }
+    }
+
+    private void updateMethadonneFinalFile() {
+        String depoFile = new StringBuffer(pathDepot).append("/").append(groupeTravailSelected).append("/")
+                .append(repertoirSelected).append("/").append(depotName).append("/").toString();
+
+        repportService.createDeblinCoreRepport(deblinCoreUploated, depoFile, depotName, schemasSelected);
     }
 
     public void modifierResource() {
@@ -265,12 +274,14 @@ public class DataDepotBean implements Serializable {
                 break;
         }
 
+        updateMethadonneFinalFile();
+
         if (!formValidateur.forumValidateur(schemasSelected, resource)) {
             showMessage(FacesMessage.SEVERITY_ERROR, "Le formulaire n'est pas complet !");
         } else {
+            showMessage(FacesMessage.SEVERITY_INFO, "Données du resource mis à jour !");
             PrimeFaces.current().executeScript("PF('modifierdeblinCore').hide();");
             PrimeFaces.current().ajax().update("mainDepos");
-
         }
     }
 
@@ -324,6 +335,8 @@ public class DataDepotBean implements Serializable {
                 break;
         }
 
+        updateMethadonneFinalFile();
+
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage
                 .SEVERITY_INFO, "", "Resource supprimée avec sucée !"));
 
@@ -347,12 +360,10 @@ public class DataDepotBean implements Serializable {
 
         if (fileManager.validateFormatFile(schemasSelected, FilenameUtils.getExtension(event.getFile().getFileName()))) {
 
-            String username = "nom.prenom";
-
             if (StringUtils.isEmpty(depotName)) {
-                depotName = username + "_" + DateUtils.getDateTime(DIRECTORY_NAME);
+                depotName = connexionBean.getUsername() + "_" + DateUtils.getDateTime(DIRECTORY_NAME);
+                deblinCoreUploated = new ArrayList<>();
             }
-            deblinCoreUploated = new ArrayList<>();
             deblinCoreUploated.add(fileManager.uploadFiles(event.getFile(), depotName, groupeTravailSelected,
                     repertoirSelected, schemasSelected, listMetadonnes));
 
@@ -363,6 +374,8 @@ public class DataDepotBean implements Serializable {
             if (pf.isAjaxRequest()) {
                 pf.ajax().update("mainDepos");
             }
+
+            updateMethadonneFinalFile();
 
             if (saveDepot) {
                 saveDepot = false;
@@ -386,9 +399,8 @@ public class DataDepotBean implements Serializable {
     public void uploadMetadonneFile(FileUploadEvent event) throws IOException {
 
         UploadedFile file = event.getFile();
-        if (file.getFileName().toLowerCase().endsWith(".xlsx")
-                || file.getFileName().toLowerCase().endsWith(".numbers")) {
-            InputStream is = event.getFile().getInputstream();
+        if (file.getFileName().toLowerCase().endsWith(".xlsx")) {
+            InputStream is = event.getFile().getInputStream();
             File fileUploated = new File(event.getFile().getFileName());
             fileManager.uploadFile(is, fileUploated);
             listMetadonnes = metadonneService.readDeblinCoreMetadonne(fileUploated, schemasSelected);
@@ -419,45 +431,62 @@ public class DataDepotBean implements Serializable {
         }
     }
 
-    public String afficherModifierResourceDialog() {
-        String nomDialog = null;
-        switch (Integer.parseInt(schemasSelected)) {
-            case 1:
-                nomDialog = "deblinCore";
-                break;
-            case 2:
-                nomDialog = "articlePress";
-                break;
-            case 3:
-                nomDialog = "urlDialog";
-                break;
-            case 4:
-                nomDialog = "videoDialog";
-                break;
-            case 5:
-                nomDialog = "imageDialog";
-                break;
-            case 6:
-                nomDialog = "audioDialog";
-                break;
-            case 7:
-                nomDialog = "donneLaserBrutesDialog";
-                break;
-            case 8:
-                nomDialog = "donneLaserConsoDialog";
-                break;
-            case 9:
-                nomDialog = "nuagePointsPhotogrammetrieDialog";
-                break;
-            case 10:
-                nomDialog = "maillage3dPhotoDiagram";
-                break;
-            case 11:
-                nomDialog = "maillage3dGeommetryDiagram";
-                break;
-        }
+    public String afficherModifierResourceDialog(Resource resourceSelected) {
 
-        return "PF('" + nomDialog + "').show();";
+        if (!Objects.isNull(resourceSelected) && !Objects.isNull(resourceSelected.getFile())) {
+            String nomDialog = null;
+            this.resourceName = resourceSelected.getFile().getName();
+            switch (Integer.parseInt(schemasSelected)) {
+                case 1:
+                    nomDialog = "deblinCore";
+                    deblinCoreSelected = (DeblinCore) resourceSelected;
+                    break;
+                case 2:
+                    nomDialog = "articlePress";
+                    articlePresseSelected = (ArticlePresse) resourceSelected;
+                    break;
+                case 3:
+                    nomDialog = "urlDialog";
+                    urlSelected = (Url) resourceSelected;
+                    break;
+                case 4:
+                    nomDialog = "videoDialog";
+                    videoSelected = (Video) resourceSelected;
+                    break;
+                case 5:
+                    nomDialog = "imageDialog";
+                    imageSelected = (Image) resourceSelected;
+                    break;
+                case 6:
+                    nomDialog = "audioDialog";
+                    audioSelected = (AudioWaweBwf) resourceSelected;
+                    break;
+                case 7:
+                    nomDialog = "donneLaserBrutesDialog";
+                    donneeLaserBrutSelected = (DonneeLaserBrut) resourceSelected;
+                    break;
+                case 8:
+                    nomDialog = "donneLaserConsoDialog";
+                    donneeLaserConsoSelected = (DonneeLaserConso) resourceSelected;
+                    break;
+                case 9:
+                    nomDialog = "nuagePointsPhotogrammetrieDialog";
+                    nuagePointsPhotogrammetrieSelected = (NuagePointsPhotogrammetrie) resourceSelected;
+                    break;
+                case 10:
+                    nomDialog = "maillage3dPhotoDiagram";
+                    maillage3dPhotogrammetrieSelected = (Maillage3dPhotogrammetrie) resourceSelected;
+                    break;
+                case 11:
+                    nomDialog = "maillage3dGeommetryDiagram";
+                    maillage3dGeometrySelected = (Maillage3dGeometry) resourceSelected;
+                    break;
+            }
+
+            return "PF('" + nomDialog + "').show();";
+        } else {
+            return "";
+        }
     }
 
     public void showMessage(FacesMessage.Severity messageType, String messageValue) {
@@ -653,5 +682,13 @@ public class DataDepotBean implements Serializable {
 
     public String getResourceName() {
         return resourceName;
+    }
+
+    public UploadedFiles getFiles() {
+        return files;
+    }
+
+    public void setFiles(UploadedFiles files) {
+        this.files = files;
     }
 }

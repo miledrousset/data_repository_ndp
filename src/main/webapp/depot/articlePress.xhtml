@@ -1,37 +1,35 @@
 <ui:fragment xmlns="http://www.w3.org/1999/xhtml"  
              xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:f="http://java.sun.com/jsf/core"
              xmlns:h="http://xmlns.jcp.org/jsf/html"
-             xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
              xmlns:p="http://primefaces.org/ui">
 
-    <p:dialog header="Modifier une resource" widgetVar="articlePress" modal="true"
-              height="500" width="800">
+    <p:dialog header="Article de Press : #{dataDepotManager.articlePresseSelected.titre}" widgetVar="articlePress" modal="true"
+              height="500" width="800" style="background-color: #ffffff">
 
         <div class="reply-form">
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Nom du fichier *</label>
+                <label class="col-sm-4 col-form-label">Nom du fichier *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.file.name}" disabled="true" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Title *</label>
+                <label class="col-sm-4 col-form-label">Title *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.titre}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Créateur *</label>
+                <label class="col-sm-4 col-form-label">Créateur *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.createur}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Mots clés *</label>
+                <label class="col-sm-4 col-form-label">Mots clés *</label>
                 <div class="col-sm-8">
                     <p:autoComplete value="#{dataDepotManager.articlePresseSelected.motCle}"
                                     completeMethod="#{dataDepotManager.rechercheMotsCle}">
@@ -44,147 +42,147 @@
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Description *</label>
+                <label class="col-sm-4 col-form-label">Description *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.description}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Media *</label>
+                <label class="col-sm-4 col-form-label">Media *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.media}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Editeur *</label>
+                <label class="col-sm-4 col-form-label">Editeur *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.editeur}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Contributeur *</label>
+                <label class="col-sm-4 col-form-label">Contributeur *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.contributeur}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Langue *</label>
+                <label class="col-sm-4 col-form-label">Langue *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.langue}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Date de création du fichier *</label>
+                <label class="col-sm-4 col-form-label">Date de création du fichier *</label>
                 <div class="col-sm-8">
                     <p:calendar value="#{dataDepotManager.articlePresseSelected.dateCreationFichier}" pattern="yyyy-MM-dd" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Type *</label>
+                <label class="col-sm-4 col-form-label">Type *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.type}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Support *</label>
+                <label class="col-sm-4 col-form-label">Support *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.support}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Format *</label>
+                <label class="col-sm-4 col-form-label">Format *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.format}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Identifiant unique</label>
+                <label class="col-sm-4 col-form-label">Identifiant unique</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.identifiantUnique}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Extension</label>
+                <label class="col-sm-4 col-form-label">Extension</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.extension}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Lien internet</label>
+                <label class="col-sm-4 col-form-label">Lien internet</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.lienInternet}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Date de consultation</label>
+                <label class="col-sm-4 col-form-label">Date de consultation</label>
                 <div class="col-sm-8">
                     <p:calendar value="#{dataDepotManager.articlePresseSelected.dateConsultation}" pattern="yyyy-MM-dd" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Relation</label>
+                <label class="col-sm-4 col-form-label">Relation</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.relation}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Lien relation</label>
+                <label class="col-sm-4 col-form-label">Lien relation</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.relationLien}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Date de création du PDFx</label>
+                <label class="col-sm-4 col-form-label">Date de création du PDFx</label>
                 <div class="col-sm-8">
                     <p:calendar value="#{dataDepotManager.articlePresseSelected.dateCreationPDF}" pattern="yyyy-MM-dd" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Notes internes</label>
+                <label class="col-sm-4 col-form-label">Notes internes</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.notesInternes}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Preparation</label>
+                <label class="col-sm-4 col-form-label">Preparation</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.preparation}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Collecteur</label>
+                <label class="col-sm-4 col-form-label">Collecteur</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.collecteur}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Citation Bibliographique</label>
+                <label class="col-sm-4 col-form-label">Citation Bibliographique</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.citationBibliographie}" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="colFormLabel" class="col-sm-4 col-form-label">Gestion des droits *</label>
+                <label class="col-sm-4 col-form-label">Gestion des droits *</label>
                 <div class="col-sm-8">
                     <h:inputText value="#{dataDepotManager.articlePresseSelected.gestionDesDroits}" class="form-control" />
                 </div>
@@ -193,7 +191,10 @@
 
         <div class="modal-footer">
             <p:commandButton value="Valider" actionListener="#{dataDepotManager.modifierResource()}"
-                             class="btn btn-success" update="mainDepos"/>
+                             class="btn btn-success" update="mainDepos"
+                             style="border-color: #d9232d; background: #d9232d;
+                             color: #fff; border-radius: 4px; padding: 3px; white-space: nowrap;
+                             transition: 0.3s; font-size: 12px; display: inline-block;"/>
         </div>
     </p:dialog>  
 </ui:fragment>

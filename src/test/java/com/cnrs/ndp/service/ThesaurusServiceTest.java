@@ -23,7 +23,7 @@ public class ThesaurusServiceTest {
     public void getListTermesTest() {
 
 
-        List<String> terme = thesaurusService.getListTermes("tes");
+        List<String> terme = thesaurusService.getListTermes("tes", 1);
         Assert.assertNotNull(terme);
     }
 

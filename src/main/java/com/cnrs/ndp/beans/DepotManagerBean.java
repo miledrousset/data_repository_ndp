@@ -7,8 +7,11 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.*;
 import java.util.List;
+import java.util.Objects;
 
 import com.cnrs.ndp.service.DirectoryService;
+import org.apache.commons.lang3.ObjectUtils;
+import org.primefaces.PrimeFaces;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,32 +40,33 @@ public class DepotManagerBean implements Serializable {
         depotsList = depotsRepository.findAll();
     }
 
-    public StreamedContent dowloadMetadonneFile(Depots depots) {
+
+    public StreamedContent dowloadMetadonneFile() {
         StreamedContent file = null;
         try {
-            File depoFile = new File(pathDepot + "/" + depots.getGroupeTravail() + "/" + depots.getRepertoir()
-                    + "/" + depots.getNomDepot() + "/" + depots.getNomDepot() + ".csv");
+            File depoFile = new File(pathDepot + "/" + depotSelected.getGroupeTravail() + "/" + depotSelected.getRepertoir()
+                    + "/" + depotSelected.getNomDepot() + "/" + depotSelected.getNomDepot() + ".csv");
 
             InputStream stream = new FileInputStream(depoFile);
             file = new DefaultStreamedContent(stream, "application/csv",
-                    depots.getNomDepot() + ".csv");
+                    depotSelected.getNomDepot() + ".csv");
         } catch (IOException e) {
             e.printStackTrace();
         }
         return file;
     }
 
-    public StreamedContent dowloadDepot(Depots depots) {
+    public StreamedContent dowloadDepot() {
         try {
-            File tempFile = File.createTempFile(depots.getNomDepot(), ".zip");
-            File depoFile = new File(pathDepot + "/" + depots.getGroupeTravail() + "/" + depots.getRepertoir()
-                                + "/" + depots.getNomDepot());
+            File tempFile = File.createTempFile(depotSelected.getNomDepot(), ".zip");
+            File depoFile = new File(pathDepot + "/" + depotSelected.getGroupeTravail() + "/" + depotSelected.getRepertoir()
+                                + "/" + depotSelected.getNomDepot());
 
             directoryService.compressedDirectory(depoFile, tempFile);
 
             InputStream stream = new FileInputStream(tempFile);
             StreamedContent file = new DefaultStreamedContent(stream, "application/zip",
-                    depots.getNomDepot() + ".zip");
+                    depotSelected.getNomDepot() + ".zip");
             tempFile.deleteOnExit();
             return file;
         } catch (IOException e) {
@@ -79,12 +83,11 @@ public class DepotManagerBean implements Serializable {
         depotsList = depotsRepository.findAll();
     }
     
-    public void modifierDepot() {
-        depotsRepository.save(depotSelected);
-    }
-
-    public String annuler() {
-        depotSelected = depotsRepository.findById(depotSelected.getId()).get();
+    public String modifierDepot() {
+        if (!ObjectUtils.isEmpty(depotSelected)) {
+            depotsRepository.save(depotSelected);
+            initComposant();
+        }
         return "PF('modifierDepot').hide();";
     }
     
@@ -100,9 +103,18 @@ public class DepotManagerBean implements Serializable {
         return depotSelected;
     }
 
-    public String setDepotSelected(Depots depotSelected) {
+    public String setDepotSelected(Depots depotSelected, int digramId) {
         this.depotSelected = depotSelected;
-        return "PF('modifierDepot').show();";
+        if (digramId == 1) {
+            return "PF('depotDownload').show();";
+        } else if (digramId == 2){
+            return "PF('modifierDepot').show();";
+        } else {
+            return "PF('depotMetadonne').show();";
+        }
     }
-    
+
+    public void setDepotSelected(Depots depotSelected) {
+        this.depotSelected = depotSelected;
+    }
 }

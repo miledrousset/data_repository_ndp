@@ -2,8 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:b="http://bootsfaces.net/ui"
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
@@ -20,7 +18,7 @@
     <h:body>
 
         <p:growl id="messages" showDetail="true" />
-        <!-- ======= Header ======= -->
+
         <header id="header" class="fixed-top ">
             <div class="container d-flex align-items-center">
                 <h1 class="logo">
@@ -33,11 +31,9 @@
                 </nav>
             </div>
         </header>
-        <!-- End Header -->
 
         <main id="main">
 
-            <!-- ======= Breadcrumbs ======= -->
             <section id="breadcrumbs" class="breadcrumbs">
                 <div class="container">
 
@@ -50,7 +46,7 @@
                     </div>
 
                 </div>
-            </section><!-- End Breadcrumbs -->
+            </section>
 
             <p:panel id="connexionPanel">
                 <section id="blog" class="blog">
@@ -58,7 +54,7 @@
                         <div class="blog-comments">
                             <div class="reply-form">
                                 <h4>Authentification</h4>
-                                <p>Veuillez saisir votre login et password pour vous connecter * </p>
+                                <p>Veuillez saisir votre login et password pour vous connecter</p>
                                 <h:form>
                                     <div class="col-md-12 form-group">
                                         <h:inputText value="#{connexionBean.login}" styleClass="form-control" />
@@ -66,19 +62,21 @@
                                     <div class="col-md-12 form-group">
                                         <h:inputText value="#{connexionBean.password}" class="form-control"/>
                                     </div>
-                                    <div class="modal-footer">
-                                        <p:commandButton value="Se connecter" class="btn btn-success" update="connexionPanel"
-                                                         style="color: #ffffff; background-color: #d9232d; border-color: #d9232d;"
-                                                         actionListener="#{connexionBean.connexion()}" />
-                                    </div>
+                                    <p:commandButton value="Connexion"
+                                                     update="connexionPanel"
+                                                     style="border-color: #d9232d; background: #d9232d; color: #fff;
+                                                     border-radius: 4px; padding: 8px 30px 9px 30px; white-space: nowrap;
+                                                     transition: 0.3s; font-size: 14px; display: inline-block;margin-left: auto!important"
+                                                     actionListener="#{connexionBean.connexion()}" />
                                 </h:form>
                             </div>
                         </div>
                     </div>
                 </section>
             </p:panel>
-        </main><!-- End #main -->
+        </main>
 
         <ui:include src="footer.xhtml"/>
+
     </h:body>
 </html>

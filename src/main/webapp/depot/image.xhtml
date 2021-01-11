@@ -1,0 +1,209 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"  
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+
+    <p:dialog header="Image : #{dataDepotManager.imageSelected.file.name}" widgetVar="imageDialog" modal="true"
+              height="500" width="800" style="background-color: #eeeeee;" >
+
+        <div class="reply-form" style="background-color: #eeeeee;">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Nom du fichier</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.file.name}" disabled="true" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Créateur *</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.createur}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Mots clés *</label>
+                <div class="col-sm-8">
+                    <p:autoComplete value="#{dataDepotManager.imageSelected.motCle}"
+                                    completeMethod="#{dataDepotManager.rechercheMotsCle}">
+                        <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.imageSelected.motCle)}"
+                                update="motcleImage"/>
+                    </p:autoComplete>
+                    <br/>
+                    <p:chips id="motcleImage" value="#{dataDepotManager.imageSelected.motsCles}"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Editeur *</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.editeur}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Contributeur *</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.contributeur}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Date de création *</label>
+                <div class="col-sm-8">
+                    <p:calendar value="#{dataDepotManager.imageSelected.dateCreation}" pattern="yyyy-MM-dd" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Type *</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.type}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Support original du fichier *</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.supportOriginalFichier}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Extension *</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.extension}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Date de mise à disposition *</label>
+                <div class="col-sm-8">
+                    <p:calendar value="#{dataDepotManager.imageSelected.dateMiseDisposition}" pattern="yyyy-MM-dd" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Citation Bibliographique</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.citationBibliographie}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Gestion des droits *</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.gestionDesDroits}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Identifiant unique</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.identifiantUnique}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">FileSize</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.fileSize}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Model</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.model}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">ImageSize</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.imageSize}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Quality</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.quality}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">FocalLength</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.focalLength}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">ShutterSpeed</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.shutterSpeed}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Aperture</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.aperture}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">ISO</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.iso}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">WhiteBalance</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.whiteBalance}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Flash</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.flash}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">XResolution</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.XResolution}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">YResolution</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.YResolution}" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">PreservedFileName</label>
+                <div class="col-sm-8">
+                    <h:inputText value="#{dataDepotManager.imageSelected.preservedFileName}" class="form-control" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <p:commandButton value="Valider" actionListener="#{dataDepotManager.modifierResource()}"
+                             class="btn btn-success" update="mainDepos" icon="pi pi-check"
+                             style="border-color: #d9232d; background: #d9232d;
+                             color: #fff; border-radius: 4px; padding: 3px; white-space: nowrap;
+                             transition: 0.3s; font-size: 12px; display: inline-block;"/>
+        </div>
+        
+    </p:dialog>  
+</ui:fragment>

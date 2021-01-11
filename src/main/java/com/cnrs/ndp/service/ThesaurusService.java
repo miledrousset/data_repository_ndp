@@ -19,8 +19,11 @@ public class ThesaurusService {
     @Value("${opentheso.base_url}")
     private String baseUrlTheso;
 
-    @Value("${opentheso.theso_name}")
-    private String thesoName;
+    @Value("#{'${opentheso.theso_name}'.split(';')}")
+    private List<String> thesoNames;
+
+    @Value("${opentheso.split_theso}")
+    private String splitTheso;
 
     @Value("${opentheso.langue}")
     private String langue;
@@ -30,25 +33,33 @@ public class ThesaurusService {
 
 
 
-    public List<String> getListTermes(String terme) {
+    public List<String> getListTermes(String terme, int indexGroupTravail) {
 
-        List<String> labels = new ArrayList<>();
+        if (indexGroupTravail != -1) {
+            List<String> labels = new ArrayList<>();
 
-        RestTemplate restTemplate = new RestTemplate();
+            String[] parts = thesoNames.get(indexGroupTravail).split(splitTheso);
 
-        List<Label> list = Arrays.asList(restTemplate.getForObject(createUrl(terme), Label[].class));
-
-        if (!CollectionUtils.isEmpty(list)) {
-            for (Label label : list) {
-                labels.add(label.getLabel());
+            for (int i=0; i<parts.length; i++) {
+                try {
+                    List<Label> list = Arrays.asList(new RestTemplate().getForObject(createUrl(terme, parts[i]), Label[].class));
+                    if (!CollectionUtils.isEmpty(list)) {
+                        for (Label label : list) {
+                            labels.add(label.getLabel());
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Erreur dans la lecturre d'Opentheso !");
+                }
             }
+
+            return labels;
+        } else {
+            return new ArrayList<>();
         }
-
-        return labels;
-
     }
 
-    private String createUrl(String terme) {
+    private String createUrl(String terme, String thesoName) {
         return new StringBuffer(baseUrlTheso)
                 .append(terme)
                 .append("?theso=")
