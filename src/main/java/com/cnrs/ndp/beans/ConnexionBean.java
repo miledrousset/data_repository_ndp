@@ -1,6 +1,7 @@
 package com.cnrs.ndp.beans;
 
 import com.cnrs.ndp.service.LDAPSecurityService;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
@@ -41,6 +42,11 @@ public class ConnexionBean implements Serializable {
     
     public void connexion() throws Exception {
 
+        if (StringUtils.isEmpty(login) || StringUtils.isEmpty(password)) {
+            showMessage(FacesMessage.SEVERITY_ERROR, "Vous devez saisir les deux champs !");
+            return;
+        }
+
         if (ldapSecurityService.authentificationLdapCheck(login, password)) {
 
             isUserConnected = true;
@@ -52,6 +58,9 @@ public class ConnexionBean implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             PrimeFaces pf = PrimeFaces.current();
             pf.ajax().update("headerPanel");
+
+            login = "";
+            password = "";
 
         } else {
             showMessage(FacesMessage.SEVERITY_ERROR, "Erreur de connexiokn !");
