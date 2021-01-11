@@ -489,7 +489,7 @@ public class DataDepotBean implements Serializable {
         }
     }
 
-    public void showMessage(FacesMessage.Severity messageType, String messageValue) {
+    private void showMessage(FacesMessage.Severity messageType, String messageValue) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messageType, "", messageValue));
         PrimeFaces pf = PrimeFaces.current();
         pf.ajax().update("messages");

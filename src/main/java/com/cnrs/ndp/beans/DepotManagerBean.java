@@ -1,13 +1,13 @@
 package com.cnrs.ndp.beans;
 
-
 import com.cnrs.ndp.entity.Depots;
 import com.cnrs.ndp.repository.DepotsRepository;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.*;
 import java.util.List;
-import java.util.Objects;
 
 import com.cnrs.ndp.service.DirectoryService;
 import org.apache.commons.lang3.ObjectUtils;
@@ -48,9 +48,9 @@ public class DepotManagerBean implements Serializable {
                     + "/" + depotSelected.getNomDepot() + "/" + depotSelected.getNomDepot() + ".csv");
 
             InputStream stream = new FileInputStream(depoFile);
-            file = new DefaultStreamedContent(stream, "application/csv",
-                    depotSelected.getNomDepot() + ".csv");
-        } catch (IOException e) {
+            file = new DefaultStreamedContent(stream, "application/csv", depoFile.getName());
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return file;
@@ -67,6 +67,7 @@ public class DepotManagerBean implements Serializable {
             InputStream stream = new FileInputStream(tempFile);
             StreamedContent file = new DefaultStreamedContent(stream, "application/zip",
                     depotSelected.getNomDepot() + ".zip");
+
             tempFile.deleteOnExit();
             return file;
         } catch (IOException e) {
@@ -81,6 +82,8 @@ public class DepotManagerBean implements Serializable {
         FileSystemUtils.deleteRecursively(depoFile);
         depotsRepository.delete(depots);
         depotsList = depotsRepository.findAll();
+
+        showMessage(FacesMessage.SEVERITY_INFO, "Dépôt supprimé avec sucée !");
     }
     
     public String modifierDepot() {
@@ -88,7 +91,18 @@ public class DepotManagerBean implements Serializable {
             depotsRepository.save(depotSelected);
             initComposant();
         }
+
+        depotsList = depotsRepository.findAll();
+
+        showMessage(FacesMessage.SEVERITY_INFO, "Dépôt modifié avec sucée !");
+
         return "PF('modifierDepot').hide();";
+    }
+
+    private void showMessage(FacesMessage.Severity messageType, String messageValue) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messageType, "", messageValue));
+        PrimeFaces pf = PrimeFaces.current();
+        pf.ajax().update("messages");
     }
     
     public List<Depots> getDepotsList() {
@@ -101,17 +115,6 @@ public class DepotManagerBean implements Serializable {
 
     public Depots getDepotSelected() {
         return depotSelected;
-    }
-
-    public String setDepotSelected(Depots depotSelected, int digramId) {
-        this.depotSelected = depotSelected;
-        if (digramId == 1) {
-            return "PF('depotDownload').show();";
-        } else if (digramId == 2){
-            return "PF('modifierDepot').show();";
-        } else {
-            return "PF('depotMetadonne').show();";
-        }
     }
 
     public void setDepotSelected(Depots depotSelected) {

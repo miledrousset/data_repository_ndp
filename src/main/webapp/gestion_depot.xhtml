@@ -18,6 +18,7 @@
 
         <!-- CSS Files -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="assets/css/icofont.min.css" rel="stylesheet"/>
         <link href="assets/css/animate.min.css" rel="stylesheet"/>
         <link href="assets/css/style.css" rel="stylesheet"/>
         <link href="assets/css/tableau.css" rel="stylesheet"/>
@@ -30,16 +31,6 @@
     </h:head>
 
     <h:body>
-
-        <script type="text/javascript">
-            function start() {
-                PF('statusDialog').show();
-            }
-
-            function stop() {
-                PF('statusDialog').hide();
-            }
-        </script>
 
         <ui:include src="header.xhtml"/>
 
@@ -74,159 +65,156 @@
                                     </h2>
 
                                     <div class="entry-content">
-                                        <h:form>
-                                            <table id="resourceArray" class="table table-striped table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nom</th>
-                                                        <th>Groupe</th>
-                                                        <th>Répertoire</th>
-                                                        <th>Dépôt</th>
-                                                        <th>Archeogrid</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
+                                        <table id="resourceArray" class="table table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Nom</th>
+                                                <th>Groupe</th>
+                                                <th>Répertoire</th>
+                                                <th>Dépôt</th>
+                                                <th>Archeogrid</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
 
-                                                <tbody>
-                                                    <ui:repeat value="#{depotManagerBean.depotsList}" var="depot">
-                                                        <tr>
-                                                            <td><h:outputText value="#{depot.nomDepot}"/></td>
-                                                            <td><h:outputText value="#{depot.groupeTravail}"/></td>
-                                                            <td><h:outputText value="#{depot.repertoir}"/></td>
-                                                            <td><h:outputText value="#{depot.depotHumaNum}"/></td>
-                                                            <td><h:outputText value="#{depot.archeodrid}"/></td>
-                                                            <td>
-                                                                <p:commandButton oncomplete="PF('modifierDepot').show();" icon="ui-icon-disk"
-                                                                                 onclick="#{depotManagerBean.setDepotSelected(depot, 2)}"
-                                                                                 update="mainDepos" type="button" style="color: #556270;"/>
+                                            <tbody>
+                                            <ui:repeat value="#{depotManagerBean.depotsList}" var="depot">
+                                                <tr>
+                                                    <td><h:outputText value="#{depot.nomDepot}"/></td>
+                                                    <td><h:outputText value="#{depot.groupeTravail}"/></td>
+                                                    <td><h:outputText value="#{depot.repertoir}"/></td>
+                                                    <td><h:outputText value="#{depot.depotHumaNum}"/></td>
+                                                    <td><h:outputText value="#{depot.archeodrid}"/></td>
+                                                    <td>
+                                                        <p:menuButton value="Options">
+                                                            <p:menuitem value="Modifier" oncomplete="PF('modifierDepot').show()" update="mainDepos" icon="pi pi-save">
+                                                                <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
+                                                            </p:menuitem>
 
-                                                                <!--
+                                                            <p:separator />
 
+                                                            <p:menuitem value="Télé. dépôt" oncomplete="PF('depotDownload').show()" update="mainDepos" icon="pi pi-refresh">
+                                                                <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
+                                                            </p:menuitem>
+                                                            <p:menuitem value="Télé. méthadoné" oncomplete="PF('depotMetadonne').show()" upload="mainDepos" icon="pi pi-times">
+                                                                <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
+                                                            </p:menuitem>
 
-                                                                <p:splitButton value="Modifier" icon="ui-icon-disk"
-                                                                               oncomplete="#{depotManagerBean.setDepotSelected(depot, 2)}">
+                                                            <p:separator />
 
-                                                                </p:splitButton>
-
-                                                                    <p:menuitem value="Télécharger dépôt" icon="ui-icon-extlink"
-                                                                                onclick="#{depotManagerBean.setDepotSelected(depot, 1)}" />
-
-                                                                                                                                <p:menuitem value="Télécharger méthadonée" icon="ui-icon-extlink"
-                                                                                                                                            onclick="#{depotManagerBean.setDepotSelected(depot, 3)}" />
-
-                                                                                                                                <p:separator />
-
-                                                                                                                                <p:menuitem value="Supprimer" update="mainDepos" icon="ui-icon-close"
-                                                                                                                                            actionListener="#{depotManagerBean.deleteDepot(depot)}">
-                                                                                                                                    <p:confirm header="Confirmation" message="Voulez vous vraiment supprimer le dépôt ?" />
-                                                                                                                                </p:menuitem>
-                                                                                                                                -->
-
-                                                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                                                    <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
-                                                                    <p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
-                                                                </p:confirmDialog>
-                                                            </td>
-                                                        </tr>
-                                                    </ui:repeat>
-                                                </tbody>
-                                            </table>
-                                        </h:form>
+                                                            <p:menuitem value="Supprimer dépôt" oncomplete="PF('deleteDepot').show()" upload="mainDepos" icon="pi pi-times">
+                                                                <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
+                                                            </p:menuitem>
+                                                        </p:menuButton>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </article>
                             </div>
                         </div>
                     </section>
 
-                    <p:confirmDialog message="Vous êtes sur le point de télécharger le métadonnée '#{depotManagerBean.getDepotSelected().nomDepot}', continuer ?"
-                                     header="Confirmation" severity="alert"
-                                     widgetVar="depotMetadonne" modal="true">
+                    <p:confirmDialog message="Vous êtes sur le point de supprimer le dépôt '#{depotManagerBean.getDepotSelected().nomDepot}', continuer ?"
+                                     header="Confirmation" severity="alert" widgetVar="deleteDepot" modal="true">
 
-                        <p:commandButton value="Oui" oncomplete="PF('depotMetadonne').hide()" >
-                            <p:fileDownload value="#{depotManagerBean.dowloadMetadonneFile()}"/>
+                        <p:commandButton value="Oui" ajax="false" onclick="PF('deleteDepot').hide()" >
+                            <p:fileDownload value="#{depotManagerBean.deleteDepot(depot)}"/>
                         </p:commandButton>
 
-                        <p:commandButton value="Non" onclick="PF('depotMetadonne').hide();" type="button" />
+                        <p:commandButton value="Non" onclick="PF('deleteDepot').hide();" type="button" />
                     </p:confirmDialog>
 
                     <p:confirmDialog message="Vous êtes sur le point de télécharger le dépôt '#{depotManagerBean.getDepotSelected().nomDepot}', continuer ?"
-                                     header="Confirmation" severity="alert"
-                                     widgetVar="depotDownload" modal="true">
+                                     header="Confirmation" severity="alert" widgetVar="depotDownload" modal="true">
 
-                        <p:commandButton value="Oui" oncomplete="PF('depotDownload').hide()" >
+                        <p:commandButton value="Oui" ajax="false" onclick="PF('depotDownload').hide()" >
                             <p:fileDownload value="#{depotManagerBean.dowloadDepot()}"/>
                         </p:commandButton>
 
                         <p:commandButton value="Non" onclick="PF('depotDownload').hide();" type="button" />
                     </p:confirmDialog>
 
+                    <p:confirmDialog message="Vous êtes sur le point de télécharger le métadonnée '#{depotManagerBean.getDepotSelected().nomDepot}', continuer ?"
+                                     header="Confirmation" severity="alert"
+                                     widgetVar="depotMetadonne" modal="true">
+
+                        <p:commandButton value="Oui" ajax="false" onclick="PF('depotMetadonne').hide()" >
+                            <p:fileDownload value="#{depotManagerBean.dowloadMetadonneFile()}"/>
+                        </p:commandButton>
+
+                        <p:commandButton value="Non" onclick="PF('depotMetadonne').hide();" type="button" />
+
+                    </p:confirmDialog>
+
                     <p:dialog header="Modifier un dépôt" widgetVar="modifierDepot" modal="true" >
-                        <h:form>
-                            <div class="reply-form">
-                                <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">Nom du dépôt</label>
-                                    <div class="col-sm-6">
-                                        <h:outputText value="#{depotManagerBean.depotSelected.nomDepot}" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">Date du dépôt</label>
-                                    <div class="col-sm-6">
-                                        <h:outputText value="#{depotManagerBean.depotSelected.dateDepot}" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">Groupe de travail</label>
-                                    <div class="col-sm-6">
-                                        <h:outputText value="#{depotManagerBean.depotSelected.groupeTravail}" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">Répertoire</label>
-                                    <div class="col-sm-6">
-                                        <h:outputText value="#{depotManagerBean.depotSelected.repertoir}" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">Dépôt Huma-Num</label>
-                                    <div class="col-sm-6">
-                                        <p:selectOneMenu value="#{depotManagerBean.depotSelected.depotHumaNum}"
-                                                         style="width:100%; font-size: 14px;">
-                                            <f:selectItem itemLabel="A venir" itemValue="A venir"/>
-                                            <f:selectItem itemLabel="Déposé" itemValue="Déposé" />
-                                        </p:selectOneMenu>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">Archeogrid</label>
-                                    <div class="col-sm-6">
-                                        <p:selectOneMenu value="#{depotManagerBean.depotSelected.archeodrid}"
-                                                         style="width:100%; font-size: 14px;">
-                                            <f:selectItem itemLabel="A venir" itemValue="A venir"/>
-                                            <f:selectItem itemLabel="Consultable" itemValue="Consultable" />
-                                        </p:selectOneMenu>
-                                    </div>
+                        <div class="reply-form">
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label">Nom du dépôt</label>
+                                <div class="col-sm-6">
+                                    <h:outputText value="#{depotManagerBean.depotSelected.nomDepot}" />
                                 </div>
                             </div>
-                            <div class="modal-footer">
 
-                                <p:commandButton value="Annuler" onclick="PF('modifierDepot').hide();" update="mainDepos"
-                                                 style="border-color: #d9232d; background: #ffffff;
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label">Date du dépôt</label>
+                                <div class="col-sm-6">
+                                    <h:outputText value="#{depotManagerBean.depotSelected.dateDepot}" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label">Groupe de travail</label>
+                                <div class="col-sm-6">
+                                    <h:outputText value="#{depotManagerBean.depotSelected.groupeTravail}" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label">Répertoire</label>
+                                <div class="col-sm-6">
+                                    <h:outputText value="#{depotManagerBean.depotSelected.repertoir}" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label">Dépôt Huma-Num</label>
+                                <div class="col-sm-6">
+                                    <p:selectOneMenu value="#{depotManagerBean.depotSelected.depotHumaNum}"
+                                                     style="width:100%; font-size: 14px;">
+                                        <f:selectItem itemLabel="A venir" itemValue="A venir"/>
+                                        <f:selectItem itemLabel="Déposé" itemValue="Déposé" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label">Archeogrid</label>
+                                <div class="col-sm-6">
+                                    <p:selectOneMenu value="#{depotManagerBean.depotSelected.archeodrid}"
+                                                     style="width:100%; font-size: 14px;">
+                                        <f:selectItem itemLabel="A venir" itemValue="A venir"/>
+                                        <f:selectItem itemLabel="Consultable" itemValue="Consultable" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <p:commandButton value="Annuler" onclick="PF('modifierDepot').hide();" update="mainDepos"
+                                             style="border-color: #d9232d; background: #ffffff;
                                              color: #d9232d; border-radius: 4px; padding: 3px; white-space: nowrap;
                                              transition: 0.3s; font-size: 12px; display: inline-block;"/>
 
-                                <p:commandButton value="Enregistrer" update="mainDepos"
-                                                 onclick="#{depotManagerBean.modifierDepot()}"
-                                                 style="border-color: #d9232d; background: #d9232d;
+                            <p:commandButton value="Enregistrer" update="mainDepos"
+                                             onclick="#{depotManagerBean.modifierDepot()}"
+                                             style="border-color: #d9232d; background: #d9232d;
                                              color: #fff; border-radius: 4px; padding: 3px; white-space: nowrap;
                                              transition: 0.3s; font-size: 12px; display: inline-block;"/>
-                            </div>
-                        </h:form>
+                        </div>
                     </p:dialog>
                 </h:panelGroup>
             </h:form>
@@ -236,3 +224,66 @@
 
     </h:body>
 </html>
+
+
+<!--
+<h:form id="test">
+            <p:dataTable id="basicDT" var="car" value="#{depotManagerBean.depotsList}">
+                <f:facet name="header">
+                    Basic
+                </f:facet>
+                <p:column headerText="Id">
+                    <h:outputText value="#{car.nomDepot}" />
+                </p:column>
+                <p:column headerText="Year">
+                    <h:outputText value="#{car.groupeTravail}" />
+                </p:column>
+                <p:column headerText="Brand">
+                    <h:outputText value="#{car.groupeTravail}" />
+                </p:column>
+                <p:column headerText="Color">
+                    <h:outputText value="#{car.archeodrid}" />
+                </p:column>
+                <p:column style="width:32px;text-align: center">
+
+                    <p:menuButton value="Options">
+                        <p:menuitem value="Modifier" oncomplete="PF('modifierDepot').show()" update="mainDepos" icon="pi pi-save">
+                            <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
+                        </p:menuitem>
+                        <p:separator />
+                        <p:menuitem value="Télécharger dépôt" oncomplete="PF('depotMetadonne').show()" update="mainDepos" icon="pi pi-refresh">
+                            <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
+                        </p:menuitem>
+                        <p:menuitem value="Télécharger méthadoné" oncomplete="PF('depotMetadonne').show()" upload="mainDepos" icon="pi pi-times">
+                            <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
+                        </p:menuitem>
+                        <p:separator />
+                        <p:menuitem value="Supprimer dépôt" oncomplete="PF('deleteDepot').show()" upload="mainDepos" icon="pi pi-times">
+                            <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
+                        </p:menuitem>
+                    </p:menuButton>
+
+                    <p:commandButton update="mainDepos" oncomplete="PF('modifierDepot').show()" icon="pi pi-search"
+                                     title="Modifier le status du dépôt">
+                        <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
+                    </p:commandButton>
+
+                    <p:commandButton update="mainDepos" oncomplete="PF('depotMetadonne').show()"
+                                     icon="pi pi-search" title="Télécharger le fichier métadonnée">
+                        <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
+                    </p:commandButton>
+
+                    <p:commandButton update="mainDepos" oncomplete="PF('depotDownload').show()"
+                                     icon="pi pi-search" title="Télécharger le dépôt">
+                        <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
+                    </p:commandButton>
+
+                    <p:commandButton update="mainDepos" icon="ui-icon-close" title="Supprimer le dépôt"
+                                     oncomplete="PF('deleteDepot').show()" >
+                        <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
+                    </p:commandButton>
+
+                </p:column>
+            </p:dataTable>
+        </h:form>
+-->
