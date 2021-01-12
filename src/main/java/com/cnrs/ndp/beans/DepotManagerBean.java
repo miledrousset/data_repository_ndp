@@ -2,6 +2,8 @@ package com.cnrs.ndp.beans;
 
 import com.cnrs.ndp.entity.Depots;
 import com.cnrs.ndp.repository.DepotsRepository;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -34,12 +36,15 @@ public class DepotManagerBean implements Serializable {
     
     private List<Depots> depotsList;
     private Depots depotSelected;
+    private StreamedContent streamedContent;
 
-    
+    @PostConstruct
     public void initComposant() {
-        depotsList = depotsRepository.findAll();
-    }
+        depotsList = depotsRepository.findAllByOrderByDateDepotDesc();
 
+        InputStream is = DepotManagerBean.class.getResourceAsStream("/Tutoriel de dépôt HumanumBox Janvier 2021.pdf");
+        streamedContent = new DefaultStreamedContent(is, "application/pdf");
+    }
 
     public StreamedContent dowloadMetadonneFile() {
         StreamedContent file = null;
@@ -86,17 +91,15 @@ public class DepotManagerBean implements Serializable {
         showMessage(FacesMessage.SEVERITY_INFO, "Dépôt supprimé avec sucée !");
     }
     
-    public String modifierDepot() {
+    public void modifierDepot() {
         if (!ObjectUtils.isEmpty(depotSelected)) {
             depotsRepository.save(depotSelected);
-            initComposant();
+            depotsList = depotsRepository.findAllByOrderByDateDepotDesc();
+            showMessage(FacesMessage.SEVERITY_INFO, "Dépôt modifié avec sucée !");
         }
 
-        depotsList = depotsRepository.findAll();
-
-        showMessage(FacesMessage.SEVERITY_INFO, "Dépôt modifié avec sucée !");
-
-        return "PF('modifierDepot').hide();";
+        PrimeFaces.current().executeScript("PF('modifierDepot').hide();");
+        PrimeFaces.current().ajax().update("mainDepos");
     }
 
     private void showMessage(FacesMessage.Severity messageType, String messageValue) {
@@ -119,5 +122,13 @@ public class DepotManagerBean implements Serializable {
 
     public void setDepotSelected(Depots depotSelected) {
         this.depotSelected = depotSelected;
+    }
+
+    public StreamedContent getStreamedContent() {
+        return streamedContent;
+    }
+
+    public void setStreamedContent(StreamedContent streamedContent) {
+        this.streamedContent = streamedContent;
     }
 }
