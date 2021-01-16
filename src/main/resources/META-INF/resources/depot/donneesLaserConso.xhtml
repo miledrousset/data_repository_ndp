@@ -29,18 +29,20 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Mots clés *</label>
-                <div class="col-sm-8">
-                    <p:autoComplete value="#{dataDepotManager.donneeLaserConsoSelected.motCle}"
-                                    completeMethod="#{dataDepotManager.rechercheMotsCle}">
-                        <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.donneeLaserConsoSelected.motCle)}"
-                                update="motcleLaserConso"/>
-                    </p:autoComplete>
-                    <br/>
-                    <p:chips id="motcleLaserConso" value="#{dataDepotManager.donneeLaserConsoSelected.motsCles}"/>
+            <h:form id="motcleFormDonneLaserConso">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Mots clés *</label>
+                    <div class="col-sm-8">
+                        <p:autoComplete value="#{dataDepotManager.donneeLaserConsoSelected.motCle}"
+                                        completeMethod="#{dataDepotManager.rechercheMotsCle}">
+                            <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.donneeLaserConsoSelected.motCle)}"
+                                    update="motcleFormDonneLaserConso"/>
+                        </p:autoComplete>
+                        <br/>
+                        <p:chips value="#{dataDepotManager.donneeLaserConsoSelected.motsCles}"/>
+                    </div>
                 </div>
-            </div>
+            </h:form>
 
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Description *</label>

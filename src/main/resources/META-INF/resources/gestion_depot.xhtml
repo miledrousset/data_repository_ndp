@@ -3,6 +3,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
@@ -22,7 +23,6 @@
         <link href="assets/css/animate.min.css" rel="stylesheet"/>
         <link href="assets/css/style.css" rel="stylesheet"/>
         <link href="assets/css/tableau.css" rel="stylesheet"/>
-        <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
 
         <!-- JS Files -->
         <script src="assets/js/validate.js"></script>
@@ -65,11 +65,9 @@
                                     <a href="blog-single.html">Liste des dépôts effectués</a>
                                 </h2>
 
-                                <h:form style="margin-bottom: 10px">
-                                    <p:commandButton onclick="PF('manuelUtilisation').show()" ajax="true"
-                                                     style="border-color: #d9232d; background: #d9232d;
-                                                     color: #fff; padding: 1px; font-size: 1em"
-                                                     icon="pi pi-info-circle" />
+                                <h:form id="aide" style="margin-bottom: 10px">
+                                    <b:commandButton oncomplete="PF('manuelUtilisation').show()" ajax="true"
+                                                      style="color: #d9232d" icon="fa fa-fw fa-edit" update="aide" />
 
                                     <!-- Visualiser Manuel d'utilsiation -->
                                     <p:dialog header="Tutoriel de dépôt HumanumBox" widgetVar="manuelUtilisation"
@@ -87,21 +85,31 @@
                                             <th>Répertoire</th>
                                             <th>Dépôt</th>
                                             <th>Archeogrid</th>
+                                            <th>Etat</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
 
                                         <tbody>
-                                            <h:form id="listDepots">
-                                                <ui:repeat value="#{depotManagerBean.depotsList}" var="depot">
-                                                    <tr>
-                                                        <td><h:outputText value="#{depot.nomDepot}"/></td>
-                                                        <td><h:outputText value="#{depot.groupeTravail}"/></td>
-                                                        <td><h:outputText value="#{depot.repertoir}"/></td>
-                                                        <td><h:outputText value="#{depot.depotHumaNum}"/></td>
-                                                        <td><h:outputText value="#{depot.archeodrid}"/></td>
-                                                        <td>
-                                                            <p:menuButton value="Dépôt">
+                                            <ui:repeat value="#{depotManagerBean.depotsList}" var="depot">
+                                                <tr>
+                                                    <td><h:outputText value="#{depot.nomDepot}"/></td>
+                                                    <td><h:outputText value="#{depot.groupeTravail}"/></td>
+                                                    <td><h:outputText value="#{depot.repertoir}"/></td>
+                                                    <td><h:outputText value="#{depot.depotHumaNum}"/></td>
+                                                    <td><h:outputText value="#{depot.archeodrid}"/></td>
+                                                    <td>
+                                                        <h:form>
+                                                            <b:navCommandLink rendered="#{!depot.status}" tooltip="Dépôt n'a pas été terminé !" icon-awesome="fas fa-remove"
+                                                                              style="color: #d9232d" disabled="true" />
+
+                                                            <b:navCommandLink rendered="#{depot.status}" tooltip="Dépôt validé !" icon-awesome="fa-chevron-down"
+                                                                              style="color: #556570 " disabled="true" />
+                                                        </h:form>
+                                                    </td>
+                                                    <td>
+                                                        <h:form>
+                                                            <p:menuButton>
                                                                 <p:menuitem value="Modifier" oncomplete="PF('modifierDepot').show()"
                                                                             update="mainDepos" icon="pi pi-pencil">
                                                                     <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
@@ -114,11 +122,6 @@
                                                                     <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
                                                                 </p:menuitem>
 
-                                                                <!--<p:menuitem value=" Télécharger méthadoné" oncomplete="PF('depotMetadonne').show()"
-                                                                            upload="mainDepos" icon="pi pi-bookmark">
-                                                                    <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
-                                                                </p:menuitem>-->
-
                                                                 <p:separator />
 
                                                                 <p:menuitem value="Supprimer" oncomplete="PF('deleteDepot').show()"
@@ -126,10 +129,10 @@
                                                                     <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
                                                                 </p:menuitem>
                                                             </p:menuButton>
-                                                        </td>
-                                                    </tr>
-                                                </ui:repeat>
-                                            </h:form>
+                                                        </h:form>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
                                         </tbody>
                                     </table>
                                 </div>
@@ -140,18 +143,18 @@
 
                 <h:form>
                     <!-- Supprimer dépôt -->
-                    <p:confirmDialog message="Vous êtes sur le point de supprimer le dépôt '#{depotManagerBean.getDepotSelected().nomDepot}', continuer ?"
+                    <p:confirmDialog message="Vous êtes sur le point de supprimer le dépôt '#{depotManagerBean.depotSelected.nomDepot}', continuer ?"
                                      header="Confirmation" severity="alert" widgetVar="deleteDepot" modal="true">
 
                         <p:commandButton value="Oui" ajax="false" onclick="PF('deleteDepot').hide()" >
-                            <p:fileDownload value="#{depotManagerBean.deleteDepot(depot)}"/>
+                            <p:fileDownload value="#{depotManagerBean.deleteDepot()}"/>
                         </p:commandButton>
 
                         <p:commandButton value="Non" onclick="PF('deleteDepot').hide();" type="button" />
                     </p:confirmDialog>
 
                     <!-- Téléchargé dépôt -->
-                    <p:confirmDialog message="Vous êtes sur le point de télécharger le dépôt '#{depotManagerBean.getDepotSelected().nomDepot}', continuer ?"
+                    <p:confirmDialog message="Vous êtes sur le point de télécharger le dépôt '#{depotManagerBean.depotSelected.nomDepot}', continuer ?"
                                      header="Confirmation" severity="alert" widgetVar="depotDownload" modal="true">
 
                         <p:commandButton value="Oui" ajax="false" onclick="PF('depotDownload').hide()" >
@@ -161,22 +164,9 @@
                         <p:commandButton value="Non" onclick="PF('depotDownload').hide();" type="button" />
                     </p:confirmDialog>
 
-                    <!-- Téléchargé métadonnée -->
-                    <p:confirmDialog message="Vous êtes sur le point de télécharger le métadonnée '#{depotManagerBean.getDepotSelected().nomDepot}', continuer ?"
-                                     header="Confirmation" severity="alert"
-                                     widgetVar="depotMetadonne" modal="true">
-
-                        <p:commandButton value="Oui" ajax="false" onclick="PF('depotMetadonne').hide()" >
-                            <p:fileDownload value="#{depotManagerBean.dowloadMetadonneFile()}"/>
-                        </p:commandButton>
-
-                        <p:commandButton value="Non" onclick="PF('depotMetadonne').hide();" type="button" />
-
-                    </p:confirmDialog>
-
                     <!-- Modification dépôt -->
-                    <p:dialog header="Modifier un dépôt" widgetVar="modifierDepot" modal="true" >
-                        <div class="reply-form">
+                    <p:dialog header="Modifier un dépôt" widgetVar="modifierDepot" modal="true" width="450">
+                        <div class="reply-form" style="background-color: #eeeeee;">
                             <div class="form-group row">
                                 <label class="col-sm-6 col-form-label">Nom du dépôt</label>
                                 <div class="col-sm-6">
@@ -234,7 +224,7 @@
                                              color: #d9232d; border-radius: 4px; padding: 3px; white-space: nowrap;
                                              transition: 0.3s; font-size: 12px; display: inline-block;"/>
 
-                            <p:commandButton value="Enregistrer" update="listDepots" ajax="true"
+                            <p:commandButton value="Enregistrer" update="mainDepos" ajax="true"
                                              actionListener="#{depotManagerBean.modifierDepot()}"
                                              style="border-color: #d9232d; background: #d9232d;
                                              color: #fff; border-radius: 4px; padding: 3px; white-space: nowrap;
@@ -249,66 +239,3 @@
 
     </h:body>
 </html>
-
-
-<!--
-<h:form id="test">
-            <p:dataTable id="basicDT" var="car" value="#{depotManagerBean.depotsList}">
-                <f:facet name="header">
-                    Basic
-                </f:facet>
-                <p:column headerText="Id">
-                    <h:outputText value="#{car.nomDepot}" />
-                </p:column>
-                <p:column headerText="Year">
-                    <h:outputText value="#{car.groupeTravail}" />
-                </p:column>
-                <p:column headerText="Brand">
-                    <h:outputText value="#{car.groupeTravail}" />
-                </p:column>
-                <p:column headerText="Color">
-                    <h:outputText value="#{car.archeodrid}" />
-                </p:column>
-                <p:column style="width:32px;text-align: center">
-
-                    <p:menuButton value="Options">
-                        <p:menuitem value="Modifier" oncomplete="PF('modifierDepot').show()" update="mainDepos" icon="pi pi-save">
-                            <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
-                        </p:menuitem>
-                        <p:separator />
-                        <p:menuitem value="Télécharger dépôt" oncomplete="PF('depotMetadonne').show()" update="mainDepos" icon="pi pi-refresh">
-                            <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
-                        </p:menuitem>
-                        <p:menuitem value="Télécharger méthadoné" oncomplete="PF('depotMetadonne').show()" upload="mainDepos" icon="pi pi-times">
-                            <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
-                        </p:menuitem>
-                        <p:separator />
-                        <p:menuitem value="Supprimer dépôt" oncomplete="PF('deleteDepot').show()" upload="mainDepos" icon="pi pi-times">
-                            <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
-                        </p:menuitem>
-                    </p:menuButton>
-
-                    <p:commandButton update="mainDepos" oncomplete="PF('modifierDepot').show()" icon="pi pi-search"
-                                     title="Modifier le status du dépôt">
-                        <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
-                    </p:commandButton>
-
-                    <p:commandButton update="mainDepos" oncomplete="PF('depotMetadonne').show()"
-                                     icon="pi pi-search" title="Télécharger le fichier métadonnée">
-                        <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
-                    </p:commandButton>
-
-                    <p:commandButton update="mainDepos" oncomplete="PF('depotDownload').show()"
-                                     icon="pi pi-search" title="Télécharger le dépôt">
-                        <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
-                    </p:commandButton>
-
-                    <p:commandButton update="mainDepos" icon="ui-icon-close" title="Supprimer le dépôt"
-                                     oncomplete="PF('deleteDepot').show()" >
-                        <f:setPropertyActionListener value="#{car}" target="#{depotManagerBean.depotSelected}" />
-                    </p:commandButton>
-
-                </p:column>
-            </p:dataTable>
-        </h:form>
--->

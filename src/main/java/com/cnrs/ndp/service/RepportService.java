@@ -6,6 +6,7 @@ import com.opencsv.CSVWriter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -494,28 +495,30 @@ public class RepportService {
         for (Resource rowData : resources) {
             DeblinCore deblinCore = (DeblinCore) rowData;
 
-            StringBuffer motsCle = new StringBuffer();
-            if (!CollectionUtils.isEmpty(deblinCore.getMotsCles())) {
-                for (String s : deblinCore.getMotsCles()) {
-                    motsCle.append(s).append(motCleSeparateur);
+            if (!ObjectUtils.isEmpty(deblinCore)) {
+                StringBuffer motsCle = new StringBuffer();
+                if (!CollectionUtils.isEmpty(deblinCore.getMotsCles())) {
+                    for (String s : deblinCore.getMotsCles()) {
+                        motsCle.append(s).append(motCleSeparateur);
+                    }
                 }
-            }
 
-            data.add(new String[] { deblinCore.getTitre(),
-                    deblinCore.getCreateur(),
-                    motsCle.toString(),
-                    deblinCore.getDescription(),
-                    deblinCore.getEditeur(),
-                    deblinCore.getContributeur(),
-                    deblinCore.getDateMiseDisposition() != null ? DateUtils.formatDateToString(deblinCore.getDateMiseDisposition()) : "",
-                    deblinCore.getType(),
-                    deblinCore.getFormat(),
-                    deblinCore.getIdentifiantUnique(),
-                    deblinCore.getSource(),
-                    deblinCore.getLangue(),
-                    deblinCore.getRelation(),
-                    deblinCore.getCouverture(),
-                    deblinCore.getGestionDesDroits()});
+                data.add(new String[] { deblinCore.getTitre(),
+                        deblinCore.getCreateur(),
+                        motsCle.toString(),
+                        deblinCore.getDescription(),
+                        deblinCore.getEditeur(),
+                        deblinCore.getContributeur(),
+                        deblinCore.getDateMiseDisposition() != null ? DateUtils.formatDateToString(deblinCore.getDateMiseDisposition()) : "",
+                        deblinCore.getType(),
+                        deblinCore.getFormat(),
+                        deblinCore.getIdentifiantUnique(),
+                        deblinCore.getSource(),
+                        deblinCore.getLangue(),
+                        deblinCore.getRelation(),
+                        deblinCore.getCouverture(),
+                        deblinCore.getGestionDesDroits()});
+            }
         }
         return data;
     }

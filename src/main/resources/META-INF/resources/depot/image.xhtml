@@ -21,18 +21,20 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Mots clés *</label>
-                <div class="col-sm-8">
-                    <p:autoComplete value="#{dataDepotManager.imageSelected.motCle}"
-                                    completeMethod="#{dataDepotManager.rechercheMotsCle}">
-                        <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.imageSelected.motCle)}"
-                                update="motcleImage"/>
-                    </p:autoComplete>
-                    <br/>
-                    <p:chips id="motcleImage" value="#{dataDepotManager.imageSelected.motsCles}"/>
+            <h:form id="motcleFormImage">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Mots clés *</label>
+                    <div class="col-sm-8">
+                        <p:autoComplete value="#{dataDepotManager.imageSelected.motCle}"
+                                        completeMethod="#{dataDepotManager.rechercheMotsCle}">
+                            <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.imageSelected.motCle)}"
+                                    update="motcleFormImage"/>
+                        </p:autoComplete>
+                        <br/>
+                        <p:chips value="#{dataDepotManager.imageSelected.motsCles}"/>
+                    </div>
                 </div>
-            </div>
+            </h:form>
 
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Editeur *</label>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:b="http://bootsfaces.net/ui">
 
     <h:head>
         <title>GT Numérique</title>
@@ -10,7 +10,6 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
         <meta content="Interface de dépôt destinée aux membres du chantier scientifique de Notre-Dame" name="description"/>
 
-        <!-- CSS Files -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="assets/css/icofont.min.css" rel="stylesheet"/>
         <link href="assets/css/animate.min.css" rel="stylesheet"/>
@@ -27,11 +26,11 @@
                      background-size: 100%; background-repeat: repeat;">
                     <div class="carousel-container">
                         <div class="container">
-                            <h2 class="animate__animated animate__fadeInDown">Bienvenu<br/></h2>
+                            <h2 class="animate__animated animate__fadeInDown">Bienvenu #{connexionBean.username}<br/></h2>
                             <p class="animate__animated animate__fadeInUp">
                                 <h3 style="color: #FFFFFF">Interface de dépôt destinée aux membres du chantier scientifique de Notre-Dame</h3>
                             </p>
-                            <p:link rendered="#{!connexionBean.isUserConnected}" outcome="connexion" value="Se connecter" class="get-started-btn ml-auto"/>
+                            <b:link rendered="#{!connexionBean.isUserConnected}" outcome="connexion" value="Se connecter" class="get-started-btn ml-auto"/>
                         </div>
                     </div>
                 </div>

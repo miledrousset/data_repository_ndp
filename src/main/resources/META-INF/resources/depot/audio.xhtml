@@ -28,18 +28,20 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Mots clés *</label>
-                <div class="col-sm-8">
-                    <p:autoComplete value="#{dataDepotManager.audioSelected.motCle}"
-                                    completeMethod="#{dataDepotManager.rechercheMotsCle}">
-                        <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.audioSelected.motCle)}"
-                                update="motcleAudio"/>
-                    </p:autoComplete>
-                    <br/>
-                    <p:chips id="motcleAudio" value="#{dataDepotManager.audioSelected.motsCles}"/>
+            <h:form id="motcleFormAudio">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Mots clés *</label>
+                    <div class="col-sm-8">
+                        <p:autoComplete value="#{dataDepotManager.audioSelected.motCle}"
+                                        completeMethod="#{dataDepotManager.rechercheMotsCle}">
+                            <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.audioSelected.motCle)}"
+                                    update="motcleFormAudio"/>
+                        </p:autoComplete>
+                        <br/>
+                        <p:chips value="#{dataDepotManager.audioSelected.motsCles}"/>
+                    </div>
                 </div>
-            </div>
+            </h:form>
 
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Editeur *</label>

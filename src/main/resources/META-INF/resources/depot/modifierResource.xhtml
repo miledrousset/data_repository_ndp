@@ -1,0 +1,22 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:b="http://bootsfaces.net/ui"
+             xmlns:p="http://primefaces.org/ui">
+
+    <p:dialog header="Resource : #{dataDepotManager.resourceName}" widgetVar="modifierResource" modal="true"
+              height="500" width="800" style="background-color: #eeeeee;">
+
+        <h:panelGroup rendered="#{dataDepotManager.isDeblinEditVisisble()}">
+            <ui:include src="/depot/deblinCore.xhtml"/>
+        </h:panelGroup>
+
+        <div class="modal-footer">
+            <b:commandButton value="Valider" actionListener="#{dataDepotManager.modifierResource()}"
+                             class="btn btn-success" update="mainDepos"
+                             style="border-color: #d9232d; background: #d9232d;
+                             color: #fff; border-radius: 4px; padding: 3px; white-space: nowrap;
+                             transition: 0.3s; font-size: 12px; display: inline-block;"/>
+        </div>
+    </p:dialog>  
+</ui:fragment>

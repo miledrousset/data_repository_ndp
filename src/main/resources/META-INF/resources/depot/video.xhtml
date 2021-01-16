@@ -28,18 +28,20 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Mots clés*</label>
-                <div class="col-sm-8">
-                    <p:autoComplete value="#{dataDepotManager.videoSelected.motCle}"
-                                    completeMethod="#{dataDepotManager.rechercheMotsCle}">
-                        <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.videoSelected.motCle)}"
-                                update="motcleVideo"/>
-                    </p:autoComplete>
-                    <br/>
-                    <p:chips id="motcleVideo" value="#{dataDepotManager.videoSelected.motsCles}"/>
+            <h:form id="motcleFormVideo">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Mots clés*</label>
+                    <div class="col-sm-8">
+                        <p:autoComplete value="#{dataDepotManager.videoSelected.motCle}"
+                                        completeMethod="#{dataDepotManager.rechercheMotsCle}">
+                            <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.videoSelected.motCle)}"
+                                    update="motcleFormVideo"/>
+                        </p:autoComplete>
+                        <br/>
+                        <p:chips value="#{dataDepotManager.videoSelected.motsCles}"/>
+                    </div>
                 </div>
-            </div>
+            </h:form>
 
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Description*</label>

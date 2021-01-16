@@ -36,4 +36,6 @@ public class Depots {
     
     String archeodrid;
 
+    boolean status;
+
 }

@@ -29,18 +29,20 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Mots clés *</label>
-                <div class="col-sm-8">
-                    <p:autoComplete value="#{dataDepotManager.nuagePointsPhotogrammetrieSelected.motCle}"
-                                    completeMethod="#{dataDepotManager.rechercheMotsCle}">
-                        <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.nuagePointsPhotogrammetrieSelected.motCle)}"
-                                update="motcleNuage"/>
-                    </p:autoComplete>
-                    <br/>
-                    <p:chips id="motcleNuage" value="#{dataDepotManager.nuagePointsPhotogrammetrieSelected.motsCles}"/>
+            <h:form id="motcleFormNuage">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Mots clés *</label>
+                    <div class="col-sm-8">
+                        <p:autoComplete value="#{dataDepotManager.nuagePointsPhotogrammetrieSelected.motCle}"
+                                        completeMethod="#{dataDepotManager.rechercheMotsCle}">
+                            <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.nuagePointsPhotogrammetrieSelected.motCle)}"
+                                    update="motcleFormNuage"/>
+                        </p:autoComplete>
+                        <br/>
+                        <p:chips value="#{dataDepotManager.nuagePointsPhotogrammetrieSelected.motsCles}"/>
+                    </div>
                 </div>
-            </div>
+            </h:form>
 
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Description *</label>

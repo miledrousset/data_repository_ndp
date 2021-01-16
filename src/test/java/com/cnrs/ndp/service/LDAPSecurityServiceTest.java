@@ -21,12 +21,12 @@ public class LDAPSecurityServiceTest {
 
     @Test
     public void authentificationLdapCheckTest() throws Exception {
-
+/*
         if (ldapSecurityConfig.authentificationLdapCheck("firas@martialsomdahotmail.onmicrosoft.com", "7RA~Ugvj+S9;bsz")) {
             System.out.println("Athentification OK !!");
         } else {
             System.out.println("Athentification NOT OK");
         }
+*/
     }
-
 }

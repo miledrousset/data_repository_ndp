@@ -8,7 +8,7 @@ import com.cnrs.ndp.outils.VideoManager;
 
 import org.apache.commons.io.FileUtils;
 
-import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -78,7 +78,7 @@ public class FileManager {
             String destinationPath = createDestinationDirectoryPath(repoName, groupeTravailSelected, repertoirSelected);
             String fileName = StringUtils.formatFileName(file.getFileName());
             File fileOut = new File(destinationPath + fileName);
-            InputStream is = file.getInputStream();
+            InputStream is = file.getInputstream();
             copyFile(is, fileOut, destinationPath + smallDirectory + fileName);
             String titre = StringUtils.formatFileName(fileName.substring(0, fileName.lastIndexOf(".")));
             resource = createResource(schemasSelected, titre, listMetadonnes, fileOut);
@@ -86,6 +86,7 @@ public class FileManager {
         } catch (Exception e) { }
         return resource;
     }
+
 
     private Resource createResource(String schemasSelected, String fileName, List<Resource> listMetadonnes,  File fileOut) {
         Resource resource = getResourceFromMetadonnes(listMetadonnes, fileName);

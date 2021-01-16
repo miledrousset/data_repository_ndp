@@ -1,0 +1,127 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"  
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
+
+    <div class="reply-form" style="background-color: #eeeeee;">
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Nom du fichier *" />
+            <div class="col-sm-9 form-group">
+                <h:inputText value="#{dataDepotManager.deblinCoreSelected.file.name}" disabled="true" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Title *" />
+            <div class="col-sm-9 form-group">
+                <p:inputText value="#{dataDepotManager.deblinCoreSelected.titre}" class="form-control"  />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Créateur *" />
+            <div class="col-sm-9 form-group">
+                <p:inputText value="#{dataDepotManager.deblinCoreSelected.createur}" class="form-control" />
+            </div>
+        </div>
+
+        <h:form id="motcleFormDebian">
+            <div class="form-group row">
+                <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Mots clés *" />
+                <div class="col-sm-9 form-group">
+                    <p:autoComplete value="#{dataDepotManager.deblinCoreSelected.motCle}"
+                                    completeMethod="#{dataDepotManager.rechercheMotsCle}">
+                        <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.deblinCoreSelected.motCle)}"
+                                update="motcleFormDebian"/>
+                    </p:autoComplete>
+                    <br/>
+                    <p:chips value="#{dataDepotManager.deblinCoreSelected.motsCles}"/>
+                </div>
+            </div>
+        </h:form>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Description *" />
+            <div class="col-sm-9 form-group">
+                <h:inputText value="#{dataDepotManager.deblinCoreSelected.description}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Editeur *" />
+            <div class="col-sm-9 form-group">
+                <h:inputText value="#{dataDepotManager.deblinCoreSelected.editeur}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Contributeur *" />
+            <div class="col-sm-9 form-group">
+                <h:inputText value="#{dataDepotManager.deblinCoreSelected.contributeur}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Date mise à disposition *" />
+            <div class="col-sm-9 form-group">
+                <p:calendar value="#{dataDepotManager.deblinCoreSelected.dateMiseDisposition}" pattern="yyyy-MM-dd" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Type *" />
+            <div class="col-sm-9 form-group">
+                <h:inputText value="#{dataDepotManager.deblinCoreSelected.type}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Format *" />
+            <div class="col-sm-9 form-group">
+                <h:inputText value="#{dataDepotManager.deblinCoreSelected.format}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Identifiant unique" />
+            <div class="col-sm-9 form-group">
+                <h:inputText value="#{dataDepotManager.deblinCoreSelected.identifiantUnique}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Source" />
+            <div class="col-sm-9 form-group">
+                <h:inputText value="#{dataDepotManager.deblinCoreSelected.source}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Langue *" />
+            <div class="col-sm-9 form-group">
+                <h:inputText value="#{dataDepotManager.deblinCoreSelected.langue}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Relation" />
+            <div class="col-sm-9 form-group"><h:inputText value="#{dataDepotManager.deblinCoreSelected.relation}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Couverture *" />
+            <div class="col-sm-9 form-group">
+                <h:inputText value="#{dataDepotManager.deblinCoreSelected.couverture}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Gestion des droits *" />
+            <div class="col-sm-9 form-group">
+                <h:inputText value="#{dataDepotManager.deblinCoreSelected.gestionDesDroits}" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+</ui:fragment>

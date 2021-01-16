@@ -46,21 +46,6 @@ public class DepotManagerBean implements Serializable {
         streamedContent = new DefaultStreamedContent(is, "application/pdf");
     }
 
-    public StreamedContent dowloadMetadonneFile() {
-        StreamedContent file = null;
-        try {
-            File depoFile = new File(pathDepot + "/" + depotSelected.getGroupeTravail() + "/" + depotSelected.getRepertoir()
-                    + "/" + depotSelected.getNomDepot() + "/" + depotSelected.getNomDepot() + ".csv");
-
-            InputStream stream = new FileInputStream(depoFile);
-            file = new DefaultStreamedContent(stream, "application/csv", depoFile.getName());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return file;
-    }
-
     public StreamedContent dowloadDepot() {
         try {
             File tempFile = File.createTempFile(depotSelected.getNomDepot(), ".zip");
@@ -81,14 +66,22 @@ public class DepotManagerBean implements Serializable {
         }
     }
 
-    public void deleteDepot(Depots depots) {
-        File depoFile = new File(pathDepot + "/" + depots.getGroupeTravail() + "/" + depots.getRepertoir()
-                + "/" + depots.getNomDepot());
-        FileSystemUtils.deleteRecursively(depoFile);
-        depotsRepository.delete(depots);
-        depotsList = depotsRepository.findAll();
+    public void deleteDepot() {
 
-        showMessage(FacesMessage.SEVERITY_INFO, "Dépôt supprimé avec sucée !");
+        try {
+            depotsRepository.delete(depotSelected);
+            depotsList = depotsRepository.findAll();
+
+            File depoFile = new File(pathDepot + "/" + depotSelected.getGroupeTravail() + "/"
+                    + depotSelected.getRepertoir() + "/" + depotSelected.getNomDepot());
+            FileSystemUtils.deleteRecursively(depoFile);
+
+            showMessage(FacesMessage.SEVERITY_INFO, "Dépôt supprimé avec sucée !");
+            PrimeFaces.current().ajax().update("mainDepos");
+
+        } catch (Exception e) {
+            showMessage(FacesMessage.SEVERITY_ERROR, "Une erreur est survenu pendant la suppression !");
+        }
     }
     
     public void modifierDepot() {

@@ -3,6 +3,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
@@ -22,7 +23,6 @@
         <link href="assets/css/tableau.css" rel="stylesheet"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-        <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
 
         <!-- JS Files -->
         <script src="assets/js/validate.js"></script>
@@ -52,7 +52,7 @@
             <ui:include src="composant_connexion.xhtml"/>
 
             <h:panelGroup id="mainDepos" rendered="#{connexionBean.isUserConnected}">
-                <h:form>
+                <h:form id="testDepot">
                     <section id="blog" class="blog">
                         <div class="container">
                             <div class="col-lg-12 entries">
@@ -60,7 +60,8 @@
                                     <div class="reply-form" style="background-color: #FFFFFF">
                                         <h4>Chargement du formulaire de dépôt de métadonnées</h4>
                                         <p style="font-size: 14px;">Veuillez sélectionner un schéma dans la liste</p>
-                                        <p:selectOneMenu value="#{dataDepotManager.schemasSelected}"
+
+                                        <b:selectOneMenu value="#{dataDepotManager.schemasSelected}"
                                                          style="width:100%; font-size: 14px;"
                                                          disabled="#{dataDepotManager.detailDepotVisible}">
                                             <f:selectItem itemLabel="Deblin Core" itemValue="1"/>
@@ -74,13 +75,12 @@
                                             <f:selectItem itemLabel="Nuage de points photogrammétrie" itemValue="9" />
                                             <f:selectItem itemLabel="Maillage 3D photogrammétrie" itemValue="10" />
                                             <f:selectItem itemLabel="Restitution 3D Geometry" itemValue="11" />
-                                        </p:selectOneMenu>
+                                        </b:selectOneMenu>
 
-                                        <p:commandButton value="Valider" actionListener="#{dataDepotManager.onValiderSchema()}"
+                                        <b:commandButton value="Valider" actionListener="#{dataDepotManager.onValiderSchema()}"
                                                          disabled="#{dataDepotManager.detailDepotVisible}" update="mainDepos"
-                                                         style="margin-top: 15px; border-color: #d9232d; background: #d9232d;
-                                                         color: #fff; padding: 3px; font-size: 12px;"
-                                                         ajax="true" icon="pi pi-check"/>
+                                                         style="border-color: #d9232d; background: #d9232d; color: #fff;
+                                                         padding: 3px; font-size: 12px;" ajax="true" icon="pi pi-check"/>
                                     </div>
                                 </div>
 
@@ -90,27 +90,32 @@
                                             <div class="form-group row">
                                                 <h:outputText class="col-sm-2 col-form-label" style="font-size: 14px" value="Groupe de travail :" />
                                                 <div class="col-sm-10">
-                                                    <p:selectOneMenu value="#{dataDepotManager.groupeTravailSelected}" style="width:100%; font-size: 14px;" dynamic="true"
+                                                    <b:selectOneMenu value="#{dataDepotManager.groupeTravailSelected}"
+                                                                     style="width:100%; font-size: 14px;" dynamic="true"
                                                                      disabled="#{dataDepotManager.uploadFilesVisible}">
-                                                        <f:selectItems value="#{dataDepotManager.groupeTravail}" var="groupe" itemLabel="#{groupe}" itemValue="#{groupe}" />
-                                                    </p:selectOneMenu>
+                                                        <f:selectItems value="#{dataDepotManager.groupeTravail}" var="groupe"
+                                                                       itemLabel="#{groupe}" itemValue="#{groupe}" />
+                                                    </b:selectOneMenu>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <h:outputText class="col-sm-2 col-form-label" style="font-size: 14px" value="Repertoire :" />
                                                 <div class="col-sm-10">
-                                                    <p:selectOneMenu value="#{dataDepotManager.repertoirSelected}" style="width:100%; font-size: 14px;" dynamic="true"
+                                                    <b:selectOneMenu value="#{dataDepotManager.repertoirSelected}"
+                                                                     style="width:100%; font-size: 14px;" dynamic="true"
                                                                      disabled="#{dataDepotManager.uploadFilesVisible}">
-                                                        <f:selectItems value="#{dataDepotManager.repertoireList}" var="repertoire" itemLabel="#{repertoire}" itemValue="#{repertoire}" />
-                                                    </p:selectOneMenu>
+                                                        <f:selectItems value="#{dataDepotManager.repertoireList}" var="repertoire"
+                                                                       itemLabel="#{repertoire}" itemValue="#{repertoire}" />
+                                                    </b:selectOneMenu>
                                                 </div>
                                             </div>
 
                                             <p style="font-size: 14px;">Chargement du métadata</p>
                                             <div class="input-group">
                                                 <h:form style="width: 100%" enctype="multipart/form-data">
-                                                    <p:fileUpload listener="#{dataDepotManager.uploadMetadonneFile}"
+                                                    <p:fileUpload fileUploadListener="#{dataDepotManager.uploadMetadonneFile}"
+                                                                  value="#{dataDepotManager.file}"
                                                                   disabled="#{dataDepotManager.uploadFilesVisible}"
                                                                   style="width:100%; font-size: 12px;"
                                                                   label="Parcourir"
@@ -124,7 +129,7 @@
                                                 <p>Nombre total des metadonnées chargés : <B>#{dataDepotManager.listMetadonnes.size()}</B></p>
                                             </div>
 
-                                            <p:commandButton value="Valider" actionListener="#{dataDepotManager.onValiderUploadParams()}"
+                                            <b:commandButton value="Valider" actionListener="#{dataDepotManager.onValiderUploadParams()}"
                                                              disabled="#{dataDepotManager.uploadFilesVisible}"
                                                              update="mainDepos" ajax="true" icon="pi pi-check"
                                                              style="border-color: #d9232d; background: #d9232d;
@@ -142,8 +147,8 @@
                                             <div class="input-group">
                                                 <h:form style="width: 100%" enctype="multipart/form-data">
                                                     <p:fileUpload
-                                                            value="#{dataDepotManager.files}"
-                                                            listener="#{dataDepotManager.uploadFiles}"
+                                                            value="#{dataDepotManager.file}"
+                                                            fileUploadListener="#{dataDepotManager.uploadFiles}"
                                                             update="mainDepos"
                                                             sequential="true"
                                                             multiple="true"
@@ -173,54 +178,48 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <table id="resourceArray" class="table table-striped table-hover">
                                                         <thead>
-                                                            <tr>
-                                                                <th >Titre</th>
-                                                                <th>Créateur</th>
-                                                                <th>Type</th>
-                                                                <th>Format</th>
-                                                                <th>Action</th>
-                                                            </tr>
+                                                        <tr>
+                                                            <th >Titre</th>
+                                                            <th>Créateur</th>
+                                                            <th>Type</th>
+                                                            <th>Format</th>
+                                                            <th>Action</th>
+                                                        </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <ui:repeat value="#{dataDepotManager.deblinCoreUploated}" var="res">
-                                                            <tr>
-                                                                <td><h:outputText value="#{res.titre}"/></td>
-                                                                <td><h:outputText value="#{res.createur}"/></td>
-                                                                <td><h:outputText value="#{res.type}"/></td>
-                                                                <td><h:outputText value="#{res.format}"/></td>
-                                                                <td>
-                                                                    <p:commandButton icon="pi pi-pencil" title="Editer la resource"
-                                                                                     oncomplete="#{dataDepotManager.afficherModifierResourceDialog(res)}"
-                                                                                     actionListener="#{dataDepotManager.setResourceSelected(res)}"
-                                                                                     update="mainDepos" style="color: #556270;"/>
+                                                            <h:form>
+                                                                <ui:repeat value="#{dataDepotManager.deblinCoreUploated}" var="res">
+                                                                    <tr>
+                                                                        <td><h:outputText value="#{res.titre}"/></td>
+                                                                        <td><h:outputText value="#{res.createur}"/></td>
+                                                                        <td><h:outputText value="#{res.type}"/></td>
+                                                                        <td><h:outputText value="#{res.format}"/></td>
+                                                                        <td>
 
-                                                                    <p:commandButton icon="pi pi-times" title="Supprimer resource"
-                                                                                     oncomplete="PF('supprimerdeblinCore').show();" style="color: #d9232d;"
-                                                                                     actionListener="#{dataDepotManager.setResourceSelected(res)}"
-                                                                                     ajax="true" update="mainDepos"/>
-                                                                </td>
-                                                            </tr>
-                                                        </ui:repeat>
+                                                                            <b:navCommandLink tooltip="Supprimer la resource" icon-awesome="fas fa-plus-circle"
+                                                                                              oncomplete="PF('modifierResource').show();" ajax="false"
+                                                                                              style="color: #f47b2a" update="testDepot"
+                                                                                              actionListener="#{dataDepotManager.setResourceSelected(res)}" />
+
+                                                                            <b:navCommandLink tooltip="Supprimer la resource" icon-awesome="fas fa-remove"
+                                                                                              oncomplete="PF('supprimerdeblinCore').show();" ajax="false"
+                                                                                              style="color: #f47b2a" update="testDepot"
+                                                                                              actionListener="#{dataDepotManager.setResourceSelected(res)}" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </ui:repeat>
+                                                            </h:form>
                                                         </tbody>
                                                     </table>
+
                                                     <div class="clearfix">
                                                         <div class="hint-text">Nombre des resources : <b>#{dataDepotManager.deblinCoreUploated.size()}</b></div>
                                                     </div>
 
-                                                    <ui:include src="/depot/url.xhtml"/>
-                                                    <ui:include src="/depot/audio.xhtml"/>
-                                                    <ui:include src="/depot/image.xhtml"/>
-                                                    <ui:include src="/depot/video.xhtml"/>
-                                                    <ui:include src="/depot/deblinCore.xhtml"/>
-                                                    <ui:include src="/depot/articlePress.xhtml"/>
-                                                    <ui:include src="/depot/donneesLaserConso.xhtml"/>
-                                                    <ui:include src="/depot/donneesLaserBrutes.xhtml"/>
-                                                    <ui:include src="/depot/maillage3dGeommetry.xhtml"/>
-                                                    <ui:include src="/depot/maillage3dPhotogrammetrice.xhtml"/>
-                                                    <ui:include src="/depot/nuagePointsPhotogrammetrie.xhtml"/>
-
+                                                    <ui:include src="/depot/modifierResource.xhtml"/>
 
                                                     <p:dialog header="Supprimer Resource" widgetVar="supprimerdeblinCore"
                                                               modal="true" resizable="false" style="background-color: #eeeeee;">
@@ -248,8 +247,7 @@
                                                 </div>
 
                                                 <div class="modal-footer">
-
-                                                    <p:commandButton value="Annuler" action="#{dataDepotManager.annulerDepot()}"
+                                                    <b:commandButton value="Annuler" action="#{dataDepotManager.annulerDepot()}" update="mainDepos"
                                                                      style="border-color: #d9232d; background: #ffffff;
                                                                      color: #d9232d; border-radius: 4px; padding: 3px; white-space: nowrap;
                                                                      transition: 0.3s; font-size: 12px; display: inline-block;">
@@ -257,14 +255,14 @@
                                                         <p:confirm header="Confirmation" message="Voulez vous vraiment annuler ce dépôt ?"
                                                                    icon="pi pi-exclamation-triangle" />
 
-                                                    </p:commandButton>
+                                                    </b:commandButton>
 
                                                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                                        <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-                                                        <p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                                                        <b:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                                        <b:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
                                                     </p:confirmDialog>
 
-                                                    <p:commandButton value="Valider" update="mainDepos"
+                                                    <b:commandButton value="Valider" update="mainDepos"
                                                                      actionListener="#{dataDepotManager.validerDepot()}"
                                                                      style="border-color: #d9232d; background: #d9232d;
                                                                      color: #fff; border-radius: 4px; padding: 3px; white-space: nowrap;

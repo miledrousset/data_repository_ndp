@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 
 @Named(value = "connexionBean")
@@ -21,16 +22,16 @@ public class ConnexionBean implements Serializable {
     private DepotManagerBean depotManager;
 
     @Autowired
-    private DataDepotBean dataDepotBean;
-
-    @Autowired
     private LDAPSecurityService ldapSecurityService;
-    
+
+    @Value("${ldap.authentification.enable}")
+    private boolean authentificationEnable;
+
     private boolean isUserConnected;
     private String login, password;
     private String username;
     private String itemMenuSelected;
-    
+
     
 
     @PostConstruct
@@ -42,36 +43,38 @@ public class ConnexionBean implements Serializable {
     
     public void connexion() throws Exception {
 
-        if (StringUtils.isEmpty(login) || StringUtils.isEmpty(password)) {
-            showMessage(FacesMessage.SEVERITY_ERROR, "Vous devez saisir les deux champs !");
-            return;
-        }
+        if (authentificationEnable) {
+            if (StringUtils.isEmpty(login) || StringUtils.isEmpty(password)) {
+                showMessage(FacesMessage.SEVERITY_ERROR, "Vous devez saisir les deux champs !");
+                return;
+            }
 
-        if (ldapSecurityService.authentificationLdapCheck(login, password)) {
+            if (ldapSecurityService.authentificationLdapCheck(login, password)) {
 
-            isUserConnected = true;
+                isUserConnected = true;
 
-            username = login;
+                username = login;
+                login = "";
+                password = "";
 
-            showMessage(FacesMessage.SEVERITY_INFO, "Bienvenu " + login + "!");
+                showMessage(FacesMessage.SEVERITY_INFO, "Bienvenu " + username + "!");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
 
-            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-            PrimeFaces pf = PrimeFaces.current();
-            pf.ajax().update("headerPanel");
-
-            login = "";
-            password = "";
-
+            } else {
+                showMessage(FacesMessage.SEVERITY_ERROR, "Echec de connexion !!!");
+            }
         } else {
-            showMessage(FacesMessage.SEVERITY_ERROR, "Erreur de connexiokn !");
+            username = "test";
+            isUserConnected = true;
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            showMessage(FacesMessage.SEVERITY_ERROR, "Authentification désactivée !");
         }
 
     }
 
     private void showMessage(FacesMessage.Severity messageType, String messageValue) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(messageType, "", messageValue));
-        PrimeFaces pf = PrimeFaces.current();
-        pf.ajax().update("messages");
+        PrimeFaces.current().ajax().update("messages");
     }
     
     public void deconnexion() {
@@ -110,16 +113,10 @@ public class ConnexionBean implements Serializable {
         this.password = password;
     }
 
-    public String getItemMenuSelected() {
-        return itemMenuSelected;
-    }
-
     public void setItemMenuSelected(String itemMenuSelected) {
         this.itemMenuSelected = itemMenuSelected;
         if (itemMenuSelected.equals("Gestion du dépôt")) {
             depotManager.initComposant();
-        } else if (itemMenuSelected.equals("Depot")) {
-            dataDepotBean.initComposant();
         }
     }
 
@@ -127,7 +124,4 @@ public class ConnexionBean implements Serializable {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }
