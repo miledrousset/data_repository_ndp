@@ -31,7 +31,9 @@
                 <p:remoteCommand name="laserConsoRemCo" action="#{dataDepotManager.addNewLabel(dataDepotManager.donneeLaserConsoSelected.motCle)}"
                                  process="@this autoLaserConso" update="motcleFormDonneLaserConso"/>
                 <br/>
-                <p:chips id="motcleFormDonneLaserConso" value="#{dataDepotManager.donneeLaserConsoSelected.motsCles}"/>
+                <p:chips id="motcleFormDonneLaserConso" value="#{dataDepotManager.donneeLaserConsoSelected.motsCles}">
+                    <p:ajax event="itemUnselect" listener="#{dataDepotManager.elementDelete}" update="motcleFormDonneLaserConso" />
+                </p:chips>
             </div>
         </div>
 

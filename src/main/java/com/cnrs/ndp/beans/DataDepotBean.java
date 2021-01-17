@@ -117,15 +117,97 @@ public class DataDepotBean implements Serializable {
         deblinCoreUploated = new ArrayList<>();
         listMetadonnes = new ArrayList<>();
 /*
-        DeblinCore deblinCore1 = new DeblinCore();
+        ArticlePresse deblinCore1 = new ArticlePresse();
         deblinCore1.setFile(new File("test1"));
         deblinCore1.setTitre("title1");
         deblinCoreUploated.add(deblinCore1);
 
-        DeblinCore deblinCore2 = new DeblinCore();
+        ArticlePresse deblinCore2 = new ArticlePresse();
         deblinCore2.setFile(new File("title2"));
         deblinCore2.setTitre("title2");
         deblinCoreUploated.add(deblinCore2);*/
+    }
+
+    public void elementDelete() {
+        switch (Integer.parseInt(schemasSelected)) {
+            case 1:
+                for (Label label : deblinCoreSelected.getMotsClesLabel()) {
+                    if (deblinCoreSelected.getMotsCles().indexOf(label.getLabel()) < 0) {
+                        deblinCoreSelected.getMotsClesLabel().remove(label);
+                    }
+                }
+                break;
+            case 2:
+                for (Label label : articlePresseSelected.getMotsClesLabel()) {
+                    if (articlePresseSelected.getMotsCles().indexOf(label.getLabel()) < 0) {
+                        articlePresseSelected.getMotsClesLabel().remove(label);
+                    }
+                }
+                break;
+            case 3:
+                for (Label label : urlSelected.getMotsClesLabel()) {
+                    if (urlSelected.getMotsCles().indexOf(label.getLabel()) < 0) {
+                        urlSelected.getMotsClesLabel().remove(label);
+                    }
+                }
+                break;
+            case 4:
+                for (Label label : videoSelected.getMotsClesLabel()) {
+                    if (videoSelected.getMotsCles().indexOf(label.getLabel()) < 0) {
+                        videoSelected.getMotsClesLabel().remove(label);
+                    }
+                }
+                break;
+            case 5:
+                for (Label label : imageSelected.getMotsClesLabel()) {
+                    if (imageSelected.getMotsCles().indexOf(label.getLabel()) < 0) {
+                        imageSelected.getMotsClesLabel().remove(label);
+                    }
+                }
+                break;
+            case 6:
+                for (Label label : audioSelected.getMotsClesLabel()) {
+                    if (audioSelected.getMotsCles().indexOf(label.getLabel()) < 0) {
+                        audioSelected.getMotsClesLabel().remove(label);
+                    }
+                }
+                break;
+            case 7:
+                for (Label label : donneeLaserBrutSelected.getMotsClesLabel()) {
+                    if (donneeLaserBrutSelected.getMotsCles().indexOf(label.getLabel()) < 0) {
+                        donneeLaserBrutSelected.getMotsClesLabel().remove(label);
+                    }
+                }
+                break;
+            case 8:
+                for (Label label : donneeLaserConsoSelected.getMotsClesLabel()) {
+                    if (donneeLaserConsoSelected.getMotsCles().indexOf(label.getLabel()) < 0) {
+                        donneeLaserConsoSelected.getMotsClesLabel().remove(label);
+                    }
+                }
+                break;
+            case 9:
+                for (Label label : nuagePointsPhotogrammetrieSelected.getMotsClesLabel()) {
+                    if (nuagePointsPhotogrammetrieSelected.getMotsCles().indexOf(label.getLabel()) < 0) {
+                        nuagePointsPhotogrammetrieSelected.getMotsClesLabel().remove(label);
+                    }
+                }
+                break;
+            case 10:
+                for (Label label : maillage3dPhotogrammetrieSelected.getMotsClesLabel()) {
+                    if (maillage3dPhotogrammetrieSelected.getMotsCles().indexOf(label.getLabel()) < 0) {
+                        maillage3dPhotogrammetrieSelected.getMotsClesLabel().remove(label);
+                    }
+                }
+                break;
+            case 11:
+                for (Label label : maillage3dGeometrySelected.getMotsClesLabel()) {
+                    if (maillage3dGeometrySelected.getMotsCles().indexOf(label.getLabel()) < 0) {
+                        maillage3dGeometrySelected.getMotsClesLabel().remove(label);
+                    }
+                }
+                break;
+        }
     }
 
     private List<Label> labelsSearched;
@@ -171,72 +253,112 @@ public class DataDepotBean implements Serializable {
                 break;
             case 2:
                 if (CollectionUtils.isEmpty(articlePresseSelected.getMotsCles())) {
+                    articlePresseSelected.setMotsClesLabel(new ArrayList<>());
                     articlePresseSelected.setMotsCles(new ArrayList<>());
                 }
-                articlePresseSelected.getMotsCles().add(name);
+                if (!isExistingLabel(articlePresseSelected.getMotsClesLabel(), name)) {
+                    articlePresseSelected.getMotsCles().add(name);
+                    articlePresseSelected.getMotsClesLabel().add(labelSelected);
+                }
                 articlePresseSelected.setMotCle("");
                 break;
             case 3:
                 if (CollectionUtils.isEmpty(urlSelected.getMotsCles())) {
+                    urlSelected.setMotsClesLabel(new ArrayList<>());
                     urlSelected.setMotsCles(new ArrayList<>());
                 }
-                urlSelected.getMotsCles().add(name);
+                if (!isExistingLabel(urlSelected.getMotsClesLabel(), name)) {
+                    urlSelected.getMotsCles().add(name);
+                    urlSelected.getMotsClesLabel().add(labelSelected);
+                }
                 urlSelected.setMotCle("");
                 break;
             case 4:
                 if (CollectionUtils.isEmpty(videoSelected.getMotsCles())) {
+                    videoSelected.setMotsClesLabel(new ArrayList<>());
                     videoSelected.setMotsCles(new ArrayList<>());
                 }
-                videoSelected.getMotsCles().add(name);
+                if (!isExistingLabel(videoSelected.getMotsClesLabel(), name)) {
+                    videoSelected.getMotsCles().add(name);
+                    videoSelected.getMotsClesLabel().add(labelSelected);
+                }
                 videoSelected.setMotCle("");
                 break;
             case 5:
                 if (CollectionUtils.isEmpty(imageSelected.getMotsCles())) {
+                    imageSelected.setMotsClesLabel(new ArrayList<>());
                     imageSelected.setMotsCles(new ArrayList<>());
                 }
-                imageSelected.getMotsCles().add(name);
+                if (!isExistingLabel(imageSelected.getMotsClesLabel(), name)) {
+                    imageSelected.getMotsCles().add(name);
+                    imageSelected.getMotsClesLabel().add(labelSelected);
+                }
                 imageSelected.setMotCle("");
                 break;
             case 6:
                 if (CollectionUtils.isEmpty(audioSelected.getMotsCles())) {
+                    audioSelected.setMotsClesLabel(new ArrayList<>());
                     audioSelected.setMotsCles(new ArrayList<>());
                 }
-                audioSelected.getMotsCles().add(name);
+                if (!isExistingLabel(audioSelected.getMotsClesLabel(), name)) {
+                    audioSelected.getMotsCles().add(name);
+                    audioSelected.getMotsClesLabel().add(labelSelected);
+                }
                 audioSelected.setMotCle("");
                 break;
             case 7:
                 if (CollectionUtils.isEmpty(donneeLaserBrutSelected.getMotsCles())) {
+                    donneeLaserBrutSelected.setMotsClesLabel(new ArrayList<>());
                     donneeLaserBrutSelected.setMotsCles(new ArrayList<>());
                 }
-                donneeLaserBrutSelected.getMotsCles().add(name);
+                if (!isExistingLabel(donneeLaserBrutSelected.getMotsClesLabel(), name)) {
+                    donneeLaserBrutSelected.getMotsCles().add(name);
+                    donneeLaserBrutSelected.getMotsClesLabel().add(labelSelected);
+                }
                 donneeLaserBrutSelected.setMotCle("");
                 break;
             case 8:
                 if (CollectionUtils.isEmpty(donneeLaserConsoSelected.getMotsCles())) {
+                    donneeLaserConsoSelected.setMotsClesLabel(new ArrayList<>());
                     donneeLaserConsoSelected.setMotsCles(new ArrayList<>());
                 }
-                donneeLaserConsoSelected.getMotsCles().add(name);
+                if (!isExistingLabel(donneeLaserConsoSelected.getMotsClesLabel(), name)) {
+                    donneeLaserConsoSelected.getMotsCles().add(name);
+                    donneeLaserConsoSelected.getMotsClesLabel().add(labelSelected);
+                }
                 donneeLaserConsoSelected.setMotCle("");
                 break;
             case 9:
                 if (CollectionUtils.isEmpty(nuagePointsPhotogrammetrieSelected.getMotsCles())) {
+                    nuagePointsPhotogrammetrieSelected.setMotsClesLabel(new ArrayList<>());
                     nuagePointsPhotogrammetrieSelected.setMotsCles(new ArrayList<>());
                 }
-                nuagePointsPhotogrammetrieSelected.getMotsCles().add(name);
+                if (!isExistingLabel(nuagePointsPhotogrammetrieSelected.getMotsClesLabel(), name)) {
+                    nuagePointsPhotogrammetrieSelected.getMotsCles().add(name);
+                    nuagePointsPhotogrammetrieSelected.getMotsClesLabel().add(labelSelected);
+                }
                 nuagePointsPhotogrammetrieSelected.setMotCle("");
                 break;
             case 10:
                 if (CollectionUtils.isEmpty(maillage3dPhotogrammetrieSelected.getMotsCles())) {
+                    maillage3dPhotogrammetrieSelected.setMotsClesLabel(new ArrayList<>());
                     maillage3dPhotogrammetrieSelected.setMotsCles(new ArrayList<>());
                 }
-                maillage3dPhotogrammetrieSelected.getMotsCles().add(name);
+                if (!isExistingLabel(maillage3dPhotogrammetrieSelected.getMotsClesLabel(), name)) {
+                    maillage3dPhotogrammetrieSelected.getMotsCles().add(name);
+                    maillage3dPhotogrammetrieSelected.getMotsClesLabel().add(labelSelected);
+                }
                 maillage3dPhotogrammetrieSelected.setMotCle("");
                 break;
             case 11:
                 if (CollectionUtils.isEmpty(maillage3dGeometrySelected.getMotsCles())) {
+                    maillage3dGeometrySelected.setMotsClesLabel(new ArrayList<>());
                     maillage3dGeometrySelected.setMotsCles(new ArrayList<>());
                 }
-                maillage3dGeometrySelected.getMotsCles().add(name);
+                if (!isExistingLabel(maillage3dGeometrySelected.getMotsClesLabel(), name)) {
+                    maillage3dGeometrySelected.getMotsCles().add(name);
+                    maillage3dGeometrySelected.getMotsClesLabel().add(labelSelected);
+                }
                 maillage3dGeometrySelected.setMotCle("");
                 break;
         }
@@ -262,7 +384,11 @@ public class DataDepotBean implements Serializable {
             depotManagerBean.initComposant();
 
             updateMethadonneFinalFile();
+            initComposant();
+
             showMessage(FacesMessage.SEVERITY_INFO, "Dépôt crée avec sucée !");
+            PrimeFaces.current().ajax().update("mainDepos");
+
             FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
         } else {
             showMessage(FacesMessage.SEVERITY_ERROR, "Le formulaire n'est pas complet !");
@@ -321,7 +447,7 @@ public class DataDepotBean implements Serializable {
             showMessage(FacesMessage.SEVERITY_ERROR, "Le formulaire n'est pas complet !");
         } else {
             showMessage(FacesMessage.SEVERITY_INFO, "Données du resource mis à jour !");
-            PrimeFaces.current().executeScript("PF('modifierdeblinCore').hide();");
+            PrimeFaces.current().executeScript("PF('modifierResource').hide();");
             PrimeFaces.current().ajax().update("mainDepos");
         }
     }
@@ -448,8 +574,7 @@ public class DataDepotBean implements Serializable {
             fileUploated.delete();
             PrimeFaces pf = PrimeFaces.current();
             pf.ajax().update("mainDepos");
-        }
-        else {
+        } else {
             showMessage(FacesMessage.SEVERITY_ERROR, "Le format du fichier metadonne est invalide !");
         }
     }

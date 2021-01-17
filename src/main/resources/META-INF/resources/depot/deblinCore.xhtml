@@ -26,12 +26,14 @@
                                 completeMethod="#{dataDepotManager.rechercheMotsCle}"
                                 onkeypress="if (event.keyCode == 13) { deblinRemCo(); return false; }">
                     <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.deblinCoreSelected.motCle)}"
-                            update="motcleFormDebian"/>
+                            update="motcleFormDebian autoDeblin"/>
                 </p:autoComplete>
                 <p:remoteCommand name="deblinRemCo" action="#{dataDepotManager.addNewLabel(dataDepotManager.deblinCoreSelected.motCle)}"
-                                 process="@this autoDeblin" update="motcleFormDebian"/>
+                                 process="@this autoDeblin" update="motcleFormDebian autoDeblin"/>
                 <br/>
-                <p:chips id="motcleFormDebian" value="#{dataDepotManager.deblinCoreSelected.motsCles}"/>
+                <p:chips id="motcleFormDebian" value="#{dataDepotManager.deblinCoreSelected.motsCles}">
+                    <p:ajax event="itemUnselect" listener="#{dataDepotManager.elementDelete}" update="motcleFormDebian" />
+                </p:chips>
             </div>
         </div>
 

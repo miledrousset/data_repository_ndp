@@ -66,8 +66,8 @@
                                 </h2>
 
                                 <h:form id="aide" style="margin-bottom: 10px">
-                                    <b:commandButton oncomplete="PF('manuelUtilisation').show()" ajax="true"
-                                                      style="color: #d9232d" icon="fa fa-fw fa-edit" update="aide" />
+                                    <b:commandButton value="Aide" oncomplete="PF('manuelUtilisation').show()" ajax="true"
+                                                     style="color: #d9232d" icon="fa fa-fw fa-edit" update="aide" />
 
                                     <!-- Visualiser Manuel d'utilsiation -->
                                     <p:dialog header="Tutoriel de dépôt HumanumBox" widgetVar="manuelUtilisation"
@@ -99,7 +99,7 @@
                                                     <td><h:outputText value="#{depot.depotHumaNum}"/></td>
                                                     <td><h:outputText value="#{depot.archeodrid}"/></td>
                                                     <td>
-                                                        <h:form>
+                                                        <h:form id="etat">
                                                             <b:navCommandLink rendered="#{!depot.status}" tooltip="Dépôt n'a pas été terminé !" icon-awesome="fas fa-remove"
                                                                               style="color: #d9232d" disabled="true" />
 

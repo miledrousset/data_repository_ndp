@@ -26,12 +26,14 @@
                                 completeMethod="#{dataDepotManager.rechercheMotsCle}"
                                 onkeypress="if (event.keyCode == 13) { articleRemCo(); return false; }">
                     <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.articlePresseSelected.motCle)}"
-                            update="motcleFormArticle"/>
+                            update="motcleFormArticle autoArticle"/>
                 </p:autoComplete>
                 <p:remoteCommand name="articleRemCo" action="#{dataDepotManager.addNewLabel(dataDepotManager.articlePresseSelected.motCle)}"
-                                 process="@this autoArticle" update="motcleFormArticle"/>
+                                 process="@this autoArticle" update="motcleFormArticle autoArticle"/>
                 <br/>
-                <p:chips id="motcleFormArticle" value="#{dataDepotManager.articlePresseSelected.motsCles}"/>
+                <p:chips id="motcleFormArticle" value="#{dataDepotManager.articlePresseSelected.motsCles}">
+                    <p:ajax event="itemUnselect" listener="#{dataDepotManager.elementDelete}" update="motcleFormArticle" />
+                </p:chips>
             </div>
         </div>
 

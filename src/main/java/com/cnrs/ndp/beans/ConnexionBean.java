@@ -9,6 +9,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,12 +78,12 @@ public class ConnexionBean implements Serializable {
         PrimeFaces.current().ajax().update("messages");
     }
     
-    public void deconnexion() {
+    public void deconnexion() throws IOException {
         username = null;
         isUserConnected = false;
         PrimeFaces.current().executeScript("PF('deconnexionDialog').hide();");
-        PrimeFaces pf = PrimeFaces.current();
-        pf.ajax().update("headerPanel");
+        PrimeFaces.current().ajax().update("mainDepos");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
     }
     
     public String getTitleMenuStyle(String item) {

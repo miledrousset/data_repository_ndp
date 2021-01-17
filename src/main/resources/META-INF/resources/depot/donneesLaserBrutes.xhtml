@@ -29,9 +29,11 @@
                             update="motcleFormDonneLaserBruites"/>
                 </p:autoComplete>
                 <p:remoteCommand name="laserBruitRemCo" action="#{dataDepotManager.addNewLabel(dataDepotManager.donneeLaserBrutSelected.motCle)}"
-                                 process="@this autoLaserBruit" update="motcleFormDonneLaserBruites"/>
+                                 process="@this autoLaserBruit" update="motcleFormDonneLaserBruites autoLaserBruit"/>
                 <br/>
-                <p:chips id="motcleFormDonneLaserBruites" value="#{dataDepotManager.donneeLaserBrutSelected.motsCles}"/>
+                <p:chips id="motcleFormDonneLaserBruites" value="#{dataDepotManager.donneeLaserBrutSelected.motsCles}">
+                    <p:ajax event="itemUnselect" listener="#{dataDepotManager.elementDelete}" update="motcleFormDonneLaserBruites" />
+                </p:chips>
             </div>
         </div>
 

@@ -26,12 +26,14 @@
                                 completeMethod="#{dataDepotManager.rechercheMotsCle}"
                                 onkeypress="if (event.keyCode == 13) { videoRemCo(); return false; }">
                     <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.videoSelected.motCle)}"
-                            update="motcleFormVideo"/>
+                            update="motcleFormVideo autoVideo"/>
                 </p:autoComplete>
                 <p:remoteCommand name="videoRemCo" action="#{dataDepotManager.addNewLabel(dataDepotManager.videoSelected.motCle)}"
-                                 process="@this autoVideo" update="motcleFormVideo"/>
+                                 process="@this autoVideo" update="motcleFormVideo autoVideo"/>
                 <br/>
-                <p:chips id="motcleFormVideo" value="#{dataDepotManager.videoSelected.motsCles}"/>
+                <p:chips id="motcleFormVideo" value="#{dataDepotManager.videoSelected.motsCles}">
+                    <p:ajax event="itemUnselect" listener="#{dataDepotManager.elementDelete}" update="motcleFormVideo" />
+                </p:chips>
             </div>
         </div>
 

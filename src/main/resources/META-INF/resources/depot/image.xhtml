@@ -19,12 +19,14 @@
                                 completeMethod="#{dataDepotManager.rechercheMotsCle}"
                                 onkeypress="if (event.keyCode == 13) { imageRemCo(); return false; }">
                     <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.imageSelected.motCle)}"
-                            update="motcleFormImage"/>
+                            update="motcleFormImage autoImage"/>
                 </p:autoComplete>
                 <p:remoteCommand name="imageRemCo" action="#{dataDepotManager.addNewLabel(dataDepotManager.imageSelected.motCle)}"
-                                 process="@this autoImage" update="motcleFormImage"/>
+                                 process="@this autoImage" update="motcleFormImage autoImage"/>
                 <br/>
-                <p:chips id="motcleFormImage" value="#{dataDepotManager.imageSelected.motsCles}"/>
+                <p:chips id="motcleFormImage" value="#{dataDepotManager.imageSelected.motsCles}">
+                    <p:ajax event="itemUnselect" listener="#{dataDepotManager.elementDelete}" update="motcleFormImage" />
+                </p:chips>
             </div>
         </div>
 

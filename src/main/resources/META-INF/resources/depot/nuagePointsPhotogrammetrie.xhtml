@@ -26,12 +26,14 @@
                                 completeMethod="#{dataDepotManager.rechercheMotsCle}"
                                 onkeypress="if (event.keyCode == 13) { nuagePointsRemCo(); return false; }">
                     <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.nuagePointsPhotogrammetrieSelected.motCle)}"
-                            update="motcleFormNuage"/>
+                            update="motcleFormNuage autoNuagePoints"/>
                 </p:autoComplete>
                 <p:remoteCommand name="nuagePointsRemCo" action="#{dataDepotManager.addNewLabel(dataDepotManager.nuagePointsPhotogrammetrieSelected.motCle)}"
-                                 process="@this autoNuagePoints" update="motcleFormNuage"/>
+                                 process="@this autoNuagePoints" update="motcleFormNuage autoNuagePoints"/>
                 <br/>
-                <p:chips id="motcleFormNuage" value="#{dataDepotManager.nuagePointsPhotogrammetrieSelected.motsCles}"/>
+                <p:chips id="motcleFormNuage" value="#{dataDepotManager.nuagePointsPhotogrammetrieSelected.motsCles}">
+                    <p:ajax event="itemUnselect" listener="#{dataDepotManager.elementDelete}" update="motcleFormNuage" />
+                </p:chips>
             </div>
         </div>
 
