@@ -1,5 +1,6 @@
 package com.cnrs.ndp.service;
 
+import com.cnrs.ndp.model.Label;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,8 +23,7 @@ public class ThesaurusServiceTest {
     @Test
     public void getListTermesTest() {
 
-
-        List<String> terme = thesaurusService.getListTermes("tes", 1);
+        List<Label> terme = thesaurusService.getListTermes("tes", 1);
         Assert.assertNotNull(terme);
     }
 

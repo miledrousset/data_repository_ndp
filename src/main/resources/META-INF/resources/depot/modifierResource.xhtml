@@ -7,8 +7,48 @@
     <p:dialog header="Resource : #{dataDepotManager.resourceName}" widgetVar="modifierResource" modal="true"
               height="500" width="800" style="background-color: #eeeeee;">
 
-        <h:panelGroup rendered="#{dataDepotManager.isDeblinEditVisisble()}">
+        <h:panelGroup rendered="#{dataDepotManager.isDeblinSchemaSelected()}">
             <ui:include src="/depot/deblinCore.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{dataDepotManager.isArticlePresseSchemaSelected()}">
+            <ui:include src="/depot/articlePress.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{dataDepotManager.isUrlSchemaSelected()}">
+            <ui:include src="/depot/url.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{dataDepotManager.isVideoSchemaSelected()}">
+            <ui:include src="/depot/video.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{dataDepotManager.isImageSchemaSelected()}">
+            <ui:include src="/depot/image.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{dataDepotManager.isAudioSchemaSelected()}">
+            <ui:include src="/depot/audio.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{dataDepotManager.isDonneesLaserBrutesSelected()}">
+            <ui:include src="/depot/donneesLaserBrutes.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{dataDepotManager.isDonneesLaserConsoSelected()}">
+            <ui:include src="/depot/donneesLaserConso.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{dataDepotManager.isNuagePointsPhotoSelected()}">
+            <ui:include src="/depot/nuagePointsPhotogrammetrie.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{dataDepotManager.isMaillage3DSelected()}">
+            <ui:include src="/depot/maillage3dPhotogrammetrice.xhtml"/>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{dataDepotManager.isRestitution3DSelected()}">
+            <ui:include src="/depot/maillage3dGeommetry.xhtml"/>
         </h:panelGroup>
 
         <div class="modal-footer">

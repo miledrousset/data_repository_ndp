@@ -1,5 +1,6 @@
 package com.cnrs.ndp.service;
 
+import com.cnrs.ndp.model.Label;
 import com.cnrs.ndp.model.resources.*;
 import com.cnrs.ndp.utils.DateUtils;
 import com.cnrs.ndp.utils.StringUtils;
@@ -10,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import java.io.File;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -127,7 +130,13 @@ public class MetadonneService {
             ArticlePresse articlePresse = new ArticlePresse();
             articlePresse.setTitre(StringUtils.formatFileName(row.getCell(1).getStringCellValue()));
             articlePresse.setCreateur(row.getCell(2).getStringCellValue());
-            articlePresse.setMotsCles(Arrays.asList(row.getCell(3).getStringCellValue().split(motCleSeparateur)));
+
+            List<Label> labelList = motsCleList(row.getCell(3).getStringCellValue());
+            if (!CollectionUtils.isEmpty(labelList)) {
+                articlePresse.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
+                articlePresse.setMotsClesLabel(labelList);
+            }
+
             articlePresse.setDescription(row.getCell(4).getStringCellValue());
             articlePresse.setMedia(row.getCell(5).getStringCellValue());
             articlePresse.setEditeur(row.getCell(6).getStringCellValue());
@@ -181,7 +190,13 @@ public class MetadonneService {
             Video video = new Video();
             video.setTitre(StringUtils.formatFileName(row.getCell(1).getStringCellValue()));
             video.setCreateur(row.getCell(2).getStringCellValue());
-            video.setMotsCles(Arrays.asList(row.getCell(3).getStringCellValue().split(motCleSeparateur)));
+
+            List<Label> labelList = motsCleList(row.getCell(3).getStringCellValue());
+            if (!CollectionUtils.isEmpty(labelList)) {
+                video.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
+                video.setMotsClesLabel(labelList);
+            }
+
             video.setDescription(row.getCell(4).getStringCellValue());
             video.setMedia(row.getCell(5).getStringCellValue());
             video.setEditeur(row.getCell(6).getStringCellValue());
@@ -214,7 +229,13 @@ public class MetadonneService {
             Image image = new Image();
             image.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
             image.setCreateur(row.getCell(1).getStringCellValue());
-            image.setMotsCles(Arrays.asList(row.getCell(2).getStringCellValue().split(motCleSeparateur)));
+
+            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            if (!CollectionUtils.isEmpty(labelList)) {
+                image.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
+                image.setMotsClesLabel(labelList);
+            }
+
             image.setEditeur(row.getCell(3).getStringCellValue());
             image.setContributeur(row.getCell(4).getStringCellValue());
             image.setDateCreation(DateUtils.formatStringToDate(row.getCell(5).getStringCellValue()));
@@ -250,7 +271,13 @@ public class MetadonneService {
             AudioWaweBwf audioWaweBwf = new AudioWaweBwf();
             audioWaweBwf.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
             audioWaweBwf.setCreateur(row.getCell(1).getStringCellValue());
-            audioWaweBwf.setMotsCles(Arrays.asList(row.getCell(2).getStringCellValue().split(motCleSeparateur)));
+
+            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            if (!CollectionUtils.isEmpty(labelList)) {
+                audioWaweBwf.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
+                audioWaweBwf.setMotsClesLabel(labelList);
+            }
+
             audioWaweBwf.setEditeur(row.getCell(3).getStringCellValue());
             audioWaweBwf.setContributeur(row.getCell(4).getStringCellValue());
             audioWaweBwf.setFormat(row.getCell(5).getStringCellValue());
@@ -287,7 +314,13 @@ public class MetadonneService {
             DonneeLaserBrut donneeLaserBrut = new DonneeLaserBrut();
             donneeLaserBrut.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
             donneeLaserBrut.setCreateur(row.getCell(1).getStringCellValue());
-            donneeLaserBrut.setMotsCles(Arrays.asList(row.getCell(2).getStringCellValue().split(motCleSeparateur)));
+
+            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            if (!CollectionUtils.isEmpty(labelList)) {
+                donneeLaserBrut.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
+                donneeLaserBrut.setMotsClesLabel(labelList);
+            }
+
             donneeLaserBrut.setDescription(row.getCell(3).getStringCellValue());
             donneeLaserBrut.setEditeur(row.getCell(4).getStringCellValue());
             donneeLaserBrut.setContributeur(row.getCell(5).getStringCellValue());
@@ -320,7 +353,13 @@ public class MetadonneService {
             DonneeLaserConso donneeLaserConso = new DonneeLaserConso();
             donneeLaserConso.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
             donneeLaserConso.setCreateur(row.getCell(1).getStringCellValue());
-            donneeLaserConso.setMotsCles(Arrays.asList(row.getCell(2).getStringCellValue().split(motCleSeparateur)));
+
+            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            if (!CollectionUtils.isEmpty(labelList)) {
+                donneeLaserConso.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
+                donneeLaserConso.setMotsClesLabel(labelList);
+            }
+
             donneeLaserConso.setDescription(row.getCell(3).getStringCellValue());
             donneeLaserConso.setEditeur(row.getCell(4).getStringCellValue());
             donneeLaserConso.setContributeur(row.getCell(5).getStringCellValue());
@@ -349,7 +388,13 @@ public class MetadonneService {
             NuagePointsPhotogrammetrie nuagePointsPhotogrammetrie = new NuagePointsPhotogrammetrie();
             nuagePointsPhotogrammetrie.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
             nuagePointsPhotogrammetrie.setCreateur(row.getCell(1).getStringCellValue());
-            nuagePointsPhotogrammetrie.setMotsCles(Arrays.asList(row.getCell(2).getStringCellValue().split(motCleSeparateur)));
+
+            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            if (!CollectionUtils.isEmpty(labelList)) {
+                nuagePointsPhotogrammetrie.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
+                nuagePointsPhotogrammetrie.setMotsClesLabel(labelList);
+            }
+
             nuagePointsPhotogrammetrie.setDescription(row.getCell(3).getStringCellValue());
             nuagePointsPhotogrammetrie.setEditeur(row.getCell(4).getStringCellValue());
             nuagePointsPhotogrammetrie.setContributeur(row.getCell(5).getStringCellValue());
@@ -418,7 +463,13 @@ public class MetadonneService {
             DeblinCore deblinCore = new DeblinCore();
             deblinCore.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
             deblinCore.setCreateur(row.getCell(1).getStringCellValue());
-            deblinCore.setMotsCles(Arrays.asList(row.getCell(2).getStringCellValue().split(motCleSeparateur)));
+
+            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            if (!CollectionUtils.isEmpty(labelList)) {
+                deblinCore.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
+                deblinCore.setMotsClesLabel(labelList);
+            }
+
             deblinCore.setDescription(row.getCell(3).getStringCellValue());
             deblinCore.setEditeur(row.getCell(4).getStringCellValue());
             deblinCore.setContributeur(row.getCell(5).getStringCellValue());
@@ -435,5 +486,23 @@ public class MetadonneService {
         } catch (Exception ex) {
             return null;
         }
+    }
+
+    private List<Label> motsCleList(String str) {
+        List<Label> labels = new ArrayList<>();
+
+        List<String> labelsStr = Arrays.asList(str.split(motCleSeparateur));
+        for (String labelStr : labelsStr) {
+            Label label = new Label();
+            List<String> tmp = Arrays.asList(labelStr.split("-"));
+            if (!CollectionUtils.isEmpty(tmp)) {
+                label.setLabel(tmp.get(0));
+                if (tmp.size()>1) {
+                    label.setUri(tmp.get(1));
+                }
+            }
+            labels.add(label);
+        }
+        return labels;
     }
 }

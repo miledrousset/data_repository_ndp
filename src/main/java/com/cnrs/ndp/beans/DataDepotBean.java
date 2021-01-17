@@ -1,6 +1,7 @@
 package com.cnrs.ndp.beans;
 
 import com.cnrs.ndp.entity.Depots;
+import com.cnrs.ndp.model.Label;
 import com.cnrs.ndp.model.resources.*;
 import com.cnrs.ndp.repository.DepotsRepository;
 import com.cnrs.ndp.service.*;
@@ -24,6 +25,7 @@ import javax.inject.Named;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Named(value = "dataDepotManager")
@@ -114,7 +116,7 @@ public class DataDepotBean implements Serializable {
 
         deblinCoreUploated = new ArrayList<>();
         listMetadonnes = new ArrayList<>();
-
+/*
         DeblinCore deblinCore1 = new DeblinCore();
         deblinCore1.setFile(new File("test1"));
         deblinCore1.setTitre("title1");
@@ -123,17 +125,48 @@ public class DataDepotBean implements Serializable {
         DeblinCore deblinCore2 = new DeblinCore();
         deblinCore2.setFile(new File("title2"));
         deblinCore2.setTitre("title2");
-        deblinCoreUploated.add(deblinCore2);
+        deblinCoreUploated.add(deblinCore2);*/
+    }
+
+    private List<Label> labelsSearched;
+
+    public void addNewLabel(String name) {
+        Label newLabel = new Label();
+        newLabel.setLabel(name);
+        addLabel(name, newLabel);
     }
 
     public void rechercheMotCle(String name) {
 
+        Label labelSelected = null;
+        for (Label label : labelsSearched) {
+            if (label.getLabel().equals(name)) {
+                labelSelected = label;
+            }
+        }
+        addLabel(name, labelSelected);
+    }
+
+    private boolean isExistingLabel(List<Label> labels, String labelName) {
+        for (Label label : labels) {
+            if (label.getLabel().equals(labelName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addLabel(String name, Label labelSelected) {
         switch (Integer.parseInt(schemasSelected)) {
             case 1:
                 if (CollectionUtils.isEmpty(deblinCoreSelected.getMotsCles())) {
+                    deblinCoreSelected.setMotsClesLabel(new ArrayList<>());
                     deblinCoreSelected.setMotsCles(new ArrayList<>());
                 }
-                deblinCoreSelected.getMotsCles().add(name);
+                if (!isExistingLabel(deblinCoreSelected.getMotsClesLabel(), name)) {
+                    deblinCoreSelected.getMotsCles().add(name);
+                    deblinCoreSelected.getMotsClesLabel().add(labelSelected);
+                }
                 deblinCoreSelected.setMotCle("");
                 break;
             case 2:
@@ -207,11 +240,11 @@ public class DataDepotBean implements Serializable {
                 maillage3dGeometrySelected.setMotCle("");
                 break;
         }
-
     }
 
     public List<String> rechercheMotsCle(String query) {
-        return thesaurusService.getListTermes(query, groupeTravail.indexOf(groupeTravailSelected));
+        labelsSearched = thesaurusService.getListTermes(query, groupeTravail.indexOf(groupeTravailSelected));
+        return labelsSearched.stream().map(label -> label.getLabel()).collect(Collectors.toList());
     }
 
     public void validerDepot() throws IOException {
@@ -717,8 +750,48 @@ public class DataDepotBean implements Serializable {
         this.file = file;
     }
 
-    public boolean isDeblinEditVisisble() {
-        return deblinCoreSelected != null;
+    public boolean isDeblinSchemaSelected() {
+        return "1".equals(schemasSelected);
+    }
+
+    public boolean isArticlePresseSchemaSelected() {
+        return "2".equals(schemasSelected);
+    }
+
+    public boolean isUrlSchemaSelected() {
+        return "3".equals(schemasSelected);
+    }
+
+    public boolean isVideoSchemaSelected() {
+        return "4".equals(schemasSelected);
+    }
+
+    public boolean isImageSchemaSelected() {
+        return "5".equals(schemasSelected);
+    }
+
+    public boolean isAudioSchemaSelected() {
+        return "6".equals(schemasSelected);
+    }
+
+    public boolean isDonneesLaserBrutesSelected() {
+        return "7".equals(schemasSelected);
+    }
+
+    public boolean isDonneesLaserConsoSelected() {
+        return "8".equals(schemasSelected);
+    }
+
+    public boolean isNuagePointsPhotoSelected() {
+        return "9".equals(schemasSelected);
+    }
+
+    public boolean isMaillage3DSelected() {
+        return "10".equals(schemasSelected);
+    }
+
+    public boolean isRestitution3DSelected() {
+        return "11".equals(schemasSelected);
     }
 
 }

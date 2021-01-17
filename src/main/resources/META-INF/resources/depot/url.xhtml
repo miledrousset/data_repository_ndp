@@ -1,90 +1,70 @@
 <ui:fragment xmlns="http://www.w3.org/1999/xhtml"
              xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:h="http://xmlns.jcp.org/jsf/html"
-             xmlns:p="http://primefaces.org/ui">
+             xmlns:h="http://xmlns.jcp.org/jsf/html">
 
-    <p:dialog header="Modifier une resource" widgetVar="urlDialog" modal="true" height="500" width="800"
-              style="background-color: #eeeeee;">
+    <div class="reply-form" style="background-color: #eeeeee;">
 
-        <div class="reply-form" style="background-color: #eeeeee;">
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Nom du fichier *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.urlSelected.file.name}" disabled="true" class="form-control" />
-                </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Date de création *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.urlSelected.dateCreationFichier}" class="form-control" />
             </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Date de création *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.urlSelected.dateCreationFichier}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Lien internet *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.urlSelected.lienInternet}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Créateur *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.urlSelected.createur}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Type *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.urlSelected.type}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Editeur *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.urlSelected.editeur}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Relation *</label>
-                <div class="col-sm-8"><h:inputText value="#{dataDepotManager.urlSelected.relation}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Notes internes</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.urlSelected.notesInternes}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Preparation</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.urlSelected.preparation}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Identifiant unique</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.urlSelected.identifiantUnique}" class="form-control" />
-                </div>
-            </div>
-
         </div>
 
-        <div class="modal-footer">
-            <p:commandButton value="Valider" actionListener="#{dataDepotManager.modifierResource()}"
-                             class="btn btn-success" update="mainDepos" ajax="true"
-                             style="border-color: #d9232d; background: #d9232d;
-                             color: #fff; border-radius: 4px; padding: 3px; white-space: nowrap;
-                             transition: 0.3s; font-size: 12px; display: inline-block;"/>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Lien internet *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.urlSelected.lienInternet}" class="form-control" />
+            </div>
         </div>
 
-    </p:dialog>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Créateur *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.urlSelected.createur}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Type *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.urlSelected.type}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Editeur *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.urlSelected.editeur}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Relation *</label>
+            <div class="col-sm-8"><h:inputText value="#{dataDepotManager.urlSelected.relation}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Notes internes</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.urlSelected.notesInternes}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Preparation</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.urlSelected.preparation}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Identifiant unique</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.urlSelected.identifiantUnique}" class="form-control" />
+            </div>
+        </div>
+
+    </div>
 </ui:fragment>

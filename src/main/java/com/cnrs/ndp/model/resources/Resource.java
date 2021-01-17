@@ -1,5 +1,6 @@
 package com.cnrs.ndp.model.resources;
 
+import com.cnrs.ndp.model.Label;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -22,6 +23,7 @@ public class Resource implements Serializable {
     String createur;
     String motCle;
     List<String> motsCles;
+    List<Label> motsClesLabel;
     String description;
     String editeur;
     String contributeur;

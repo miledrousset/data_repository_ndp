@@ -1,5 +1,6 @@
 package com.cnrs.ndp.service;
 
+import com.cnrs.ndp.model.Label;
 import com.cnrs.ndp.model.resources.*;
 import com.cnrs.ndp.utils.DateUtils;
 import com.opencsv.CSVWriter;
@@ -150,17 +151,10 @@ public class RepportService {
         for (Resource rowData : resources) {
             NuagePointsPhotogrammetrie nuagePointsPhotogrammetrie = (NuagePointsPhotogrammetrie) rowData;
 
-            StringBuffer motsCle = new StringBuffer();
-            if (!CollectionUtils.isEmpty(nuagePointsPhotogrammetrie.getMotsCles())) {
-                for (String s : nuagePointsPhotogrammetrie.getMotsCles()) {
-                    motsCle.append(s).append(motCleSeparateur);
-                }
-            }
-
             data.add(new String[] {
                     nuagePointsPhotogrammetrie.getTitre(),
                     nuagePointsPhotogrammetrie.getCreateur(),
-                    motsCle.toString(),
+                    generetMotCle(nuagePointsPhotogrammetrie.getMotsClesLabel()),
                     nuagePointsPhotogrammetrie.getDescription(),
                     nuagePointsPhotogrammetrie.getEditeur(),
                     nuagePointsPhotogrammetrie.getContributeur(),
@@ -192,17 +186,10 @@ public class RepportService {
         for (Resource rowData : resources) {
             DonneeLaserConso donneeLaserConso = (DonneeLaserConso) rowData;
 
-            StringBuffer motsCle = new StringBuffer();
-            if (!CollectionUtils.isEmpty(donneeLaserConso.getMotsCles())) {
-                for (String s : donneeLaserConso.getMotsCles()) {
-                    motsCle.append(s).append(motCleSeparateur);
-                }
-            }
-
             data.add(new String[] {
                     donneeLaserConso.getTitre(),
                     donneeLaserConso.getCreateur(),
-                    motsCle.toString(),
+                    generetMotCle(donneeLaserConso.getMotsClesLabel()),
                     donneeLaserConso.getDescription(),
                     donneeLaserConso.getEditeur(),
                     donneeLaserConso.getContributeur(),
@@ -234,17 +221,10 @@ public class RepportService {
         for (Resource rowData : resources) {
             DonneeLaserBrut donneeLaserBrut = (DonneeLaserBrut) rowData;
 
-            StringBuffer motsCle = new StringBuffer();
-            if (!CollectionUtils.isEmpty(donneeLaserBrut.getMotsCles())) {
-                for (String s : donneeLaserBrut.getMotsCles()) {
-                    motsCle.append(s).append(motCleSeparateur);
-                }
-            }
-
             data.add(new String[] {
                     donneeLaserBrut.getTitre(),
                     donneeLaserBrut.getCreateur(),
-                    motsCle.toString(),
+                    generetMotCle(donneeLaserBrut.getMotsClesLabel()),
                     donneeLaserBrut.getDescription(),
                     donneeLaserBrut.getEditeur(),
                     donneeLaserBrut.getContributeur(),
@@ -280,17 +260,10 @@ public class RepportService {
         for (Resource rowData : resources) {
             AudioWaweBwf audioWaweBwf = (AudioWaweBwf) rowData;
 
-            StringBuffer motsCle = new StringBuffer();
-            if (!CollectionUtils.isEmpty(audioWaweBwf.getMotsCles())) {
-                for (String s : audioWaweBwf.getMotsCles()) {
-                    motsCle.append(s).append(motCleSeparateur);
-                }
-            }
-
             data.add(new String[] {
                     audioWaweBwf.getTitre(),
                     audioWaweBwf.getCreateur(),
-                    motsCle.toString(),
+                    generetMotCle(audioWaweBwf.getMotsClesLabel()),
                     audioWaweBwf.getEditeur(),
                     audioWaweBwf.getContributeur(),
                     audioWaweBwf.getFormat(),
@@ -330,17 +303,10 @@ public class RepportService {
         for (Resource rowData : resources) {
             Image video = (Image) rowData;
 
-            StringBuffer motsCle = new StringBuffer();
-            if (!CollectionUtils.isEmpty(video.getMotsCles())) {
-                for (String s : video.getMotsCles()) {
-                    motsCle.append(s).append(motCleSeparateur);
-                }
-            }
-
             data.add(new String[] {
                     video.getTitre(),
                     video.getCreateur(),
-                    motsCle.toString(),
+                    generetMotCle(video.getMotsClesLabel()),
                     video.getEditeur(),
                     video.getContributeur(),
                     video.getDateCreation() != null ? DateUtils.formatDateToString(video.getDateCreation()) : "",
@@ -380,17 +346,10 @@ public class RepportService {
         for (Resource rowData : resources) {
             Video video = (Video) rowData;
 
-            StringBuffer motsCle = new StringBuffer();
-            if (!CollectionUtils.isEmpty(video.getMotsCles())) {
-                for (String s : video.getMotsCles()) {
-                    motsCle.append(s).append(motCleSeparateur);
-                }
-            }
-
             data.add(new String[] {
                     video.getTitre(),
                     video.getCreateur(),
-                    motsCle.toString(),
+                    generetMotCle(video.getMotsClesLabel()),
                     video.getDescription(),
                     video.getMedia(),
                     video.getEditeur(),
@@ -450,17 +409,10 @@ public class RepportService {
         for (Resource rowData : resources) {
             ArticlePresse articlePresse = (ArticlePresse) rowData;
 
-            StringBuffer motsCle = new StringBuffer();
-            if (!CollectionUtils.isEmpty(articlePresse.getMotsCles())) {
-                for (String s : articlePresse.getMotsCles()) {
-                    motsCle.append(s).append(motCleSeparateur);
-                }
-            }
-
             data.add(new String[] {
                     articlePresse.getTitre(),
                     articlePresse.getCreateur(),
-                    motsCle.toString(),
+                    generetMotCle(articlePresse.getMotsClesLabel()),
                     articlePresse.getDescription(),
                     articlePresse.getMedia(),
                     articlePresse.getEditeur(),
@@ -496,16 +448,9 @@ public class RepportService {
             DeblinCore deblinCore = (DeblinCore) rowData;
 
             if (!ObjectUtils.isEmpty(deblinCore)) {
-                StringBuffer motsCle = new StringBuffer();
-                if (!CollectionUtils.isEmpty(deblinCore.getMotsCles())) {
-                    for (String s : deblinCore.getMotsCles()) {
-                        motsCle.append(s).append(motCleSeparateur);
-                    }
-                }
-
                 data.add(new String[] { deblinCore.getTitre(),
                         deblinCore.getCreateur(),
-                        motsCle.toString(),
+                        generetMotCle(deblinCore.getMotsClesLabel()),
                         deblinCore.getDescription(),
                         deblinCore.getEditeur(),
                         deblinCore.getContributeur(),
@@ -521,6 +466,20 @@ public class RepportService {
             }
         }
         return data;
+    }
+
+    private String generetMotCle(List<Label> labels) {
+        StringBuffer motsCle = new StringBuffer();
+        if (!CollectionUtils.isEmpty(labels)) {
+            for (Label label : labels) {
+                motsCle.append(label.getLabel());
+                if (!ObjectUtils.isEmpty(label.getUri())) {
+                    motsCle.append("-").append(label.getUri());
+                }
+                motsCle.append(motCleSeparateur);
+            }
+        }
+        return motsCle.toString();
     }
 
 }

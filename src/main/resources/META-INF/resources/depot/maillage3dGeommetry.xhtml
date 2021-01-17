@@ -3,118 +3,98 @@
              xmlns:h="http://xmlns.jcp.org/jsf/html"
              xmlns:p="http://primefaces.org/ui">
 
-    <p:dialog header="Maillage 3D Geommetry : #{dataDepotManager.maillage3dGeometrySelected.file.name}"
-              widgetVar="maillage3dGeommetryDiagram" modal="true" height="500" width="800"
-              style="background-color: #eeeeee;">
+    <div class="reply-form" style="background-color: #eeeeee;">
 
-        <div class="reply-form">
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Nom du fichier</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.file.name}"
-                                 disabled="true" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Axe orientation *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.axeOrientation}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Axe vertical *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.axeVertical}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Unité de mesure *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.uniteMesure}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Logiciel de traitement *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.logicielTraitement}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Dimension X *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.dimensionX}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Dimension Y *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.dimensionY}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Dimension Z *</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.dimensionZ}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Chemin du fichier</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.cheminFichier}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Créateur</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.createur}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Date du fichier *</label>
-                <div class="col-sm-8">
-                    <p:calendar value="#{dataDepotManager.maillage3dGeometrySelected.dateFichier}" pattern="yyyy-MM-dd" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Format du fichier</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.formatFichier}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Description</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.description}" class="form-control" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Encodage</label>
-                <div class="col-sm-8">
-                    <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.encodage}" class="form-control" />
-                </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Axe orientation *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.axeOrientation}" class="form-control" />
             </div>
         </div>
 
-        <div class="modal-footer">
-            <p:commandButton value="Fermer" actionListener="#{dataDepotManager.modifierResource()}"
-                             class="btn btn-success" update="mainDepos"
-                             style="border-color: #d9232d; background: #d9232d;
-                             color: #fff; border-radius: 4px; padding: 3px; white-space: nowrap;
-                             transition: 0.3s; font-size: 12px; display: inline-block;"/>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Axe vertical *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.axeVertical}" class="form-control" />
+            </div>
         </div>
 
-    </p:dialog>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Unité de mesure *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.uniteMesure}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Logiciel de traitement *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.logicielTraitement}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Dimension X *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.dimensionX}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Dimension Y *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.dimensionY}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Dimension Z *</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.dimensionZ}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Chemin du fichier</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.cheminFichier}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Créateur</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.createur}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Date du fichier *</label>
+            <div class="col-sm-8">
+                <p:calendar value="#{dataDepotManager.maillage3dGeometrySelected.dateFichier}" pattern="yyyy-MM-dd" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Format du fichier</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.formatFichier}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Description</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.description}" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Encodage</label>
+            <div class="col-sm-8">
+                <h:inputText value="#{dataDepotManager.maillage3dGeometrySelected.encodage}" class="form-control" />
+            </div>
+        </div>
+    </div>
+
 </ui:fragment>

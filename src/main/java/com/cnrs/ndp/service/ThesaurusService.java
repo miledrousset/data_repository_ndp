@@ -33,10 +33,10 @@ public class ThesaurusService {
 
 
 
-    public List<String> getListTermes(String terme, int indexGroupTravail) {
+    public List<Label> getListTermes(String terme, int indexGroupTravail) {
 
         if (indexGroupTravail != -1) {
-            List<String> labels = new ArrayList<>();
+            List<Label> labels = new ArrayList<>();
 
             String[] parts = thesoNames.get(indexGroupTravail).split(splitTheso);
 
@@ -45,7 +45,7 @@ public class ThesaurusService {
                     List<Label> list = Arrays.asList(new RestTemplate().getForObject(createUrl(terme, parts[i]), Label[].class));
                     if (!CollectionUtils.isEmpty(list)) {
                         for (Label label : list) {
-                            labels.add(label.getLabel());
+                            labels.add(label);
                         }
                     }
                 } catch (Exception e) {

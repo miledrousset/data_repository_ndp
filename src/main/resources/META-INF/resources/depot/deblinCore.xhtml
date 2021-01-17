@@ -4,12 +4,6 @@
              xmlns:p="http://primefaces.org/ui">
 
     <div class="reply-form" style="background-color: #eeeeee;">
-        <div class="form-group row">
-            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Nom du fichier *" />
-            <div class="col-sm-9 form-group">
-                <h:inputText value="#{dataDepotManager.deblinCoreSelected.file.name}" disabled="true" class="form-control" />
-            </div>
-        </div>
 
         <div class="form-group row">
             <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Title *" />
@@ -25,20 +19,21 @@
             </div>
         </div>
 
-        <h:form id="motcleFormDebian">
-            <div class="form-group row">
-                <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Mots clés *" />
-                <div class="col-sm-9 form-group">
-                    <p:autoComplete value="#{dataDepotManager.deblinCoreSelected.motCle}"
-                                    completeMethod="#{dataDepotManager.rechercheMotsCle}">
-                        <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.deblinCoreSelected.motCle)}"
-                                update="motcleFormDebian"/>
-                    </p:autoComplete>
-                    <br/>
-                    <p:chips value="#{dataDepotManager.deblinCoreSelected.motsCles}"/>
-                </div>
+        <div class="form-group row">
+            <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Mots clés *" />
+            <div class="col-sm-9 form-group">
+                <p:autoComplete id="autoDeblin" value="#{dataDepotManager.deblinCoreSelected.motCle}"
+                                completeMethod="#{dataDepotManager.rechercheMotsCle}"
+                                onkeypress="if (event.keyCode == 13) { deblinRemCo(); return false; }">
+                    <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.deblinCoreSelected.motCle)}"
+                            update="motcleFormDebian"/>
+                </p:autoComplete>
+                <p:remoteCommand name="deblinRemCo" action="#{dataDepotManager.addNewLabel(dataDepotManager.deblinCoreSelected.motCle)}"
+                                 process="@this autoDeblin" update="motcleFormDebian"/>
+                <br/>
+                <p:chips id="motcleFormDebian" value="#{dataDepotManager.deblinCoreSelected.motsCles}"/>
             </div>
-        </h:form>
+        </div>
 
         <div class="form-group row">
             <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Description *" />
