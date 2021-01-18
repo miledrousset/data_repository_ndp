@@ -28,8 +28,11 @@ import java.util.stream.Collectors;
 @Service
 public class MetadonneService {
 
-    @Value("${format.mot_cle.separateur}")
-    private String motCleSeparateur;
+    @Value("${format.mot_cle.separateur_mot}")
+    private String motCleSeparateurMot;
+
+    @Value("${format.mot_cle.separateur_url}")
+    private String motCleSeparateurUrl;
 
 
     public List<Resource> readDeblinCoreMetadonne(File file, String schemasSelected) throws IOException {
@@ -491,10 +494,10 @@ public class MetadonneService {
     private List<Label> motsCleList(String str) {
         List<Label> labels = new ArrayList<>();
 
-        List<String> labelsStr = Arrays.asList(str.split(motCleSeparateur));
+        List<String> labelsStr = Arrays.asList(str.split(motCleSeparateurMot));
         for (String labelStr : labelsStr) {
             Label label = new Label();
-            List<String> tmp = Arrays.asList(labelStr.split("-"));
+            List<String> tmp = Arrays.asList(labelStr.split(motCleSeparateurUrl));
             if (!CollectionUtils.isEmpty(tmp)) {
                 label.setLabel(tmp.get(0));
                 if (tmp.size()>1) {

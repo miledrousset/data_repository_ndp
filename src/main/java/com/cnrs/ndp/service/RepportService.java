@@ -19,19 +19,24 @@ import java.util.List;
 @Service
 public class RepportService {
 
+    @Value("${format.mot_cle.separateur_mot}")
+    private String motCleSeparateurMot;
 
-    @Value("${format.mot_cle.separateur}")
-    private String motCleSeparateur;
+    @Value("${format.mot_cle.separateur_url}")
+    private String motCleSeparateurUrl;
 
-    private final static String FORMAT_REPPORT = ".csv";
-    private final static char SEPARATEUR = ';';
+    @Value("${format.separateur_cellule}")
+    private String separateurCellule;
+
+    @Value("${file.extention.fichier}")
+    private String extentionFichier;
 
 
     public void createDeblinCoreRepport(List<Resource> resources, String filePath, String fileName, String schemaSelected) {
-        motCleSeparateur = "|";
+
         if (!CollectionUtils.isEmpty(resources)) {
 
-            File file = new File(filePath + fileName + FORMAT_REPPORT);
+            File file = new File(filePath + fileName + extentionFichier);
             if (file.exists()) {
                 file.delete();
             }
@@ -40,7 +45,7 @@ public class RepportService {
                 FileWriter outputfile = new FileWriter(file);
 
                 CSVWriter writer = new CSVWriter(outputfile,
-                        SEPARATEUR,
+                        separateurCellule.charAt(0),
                         CSVWriter.NO_QUOTE_CHARACTER,
                         CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                         CSVWriter.DEFAULT_LINE_END);
@@ -474,9 +479,9 @@ public class RepportService {
             for (Label label : labels) {
                 motsCle.append(label.getLabel());
                 if (!ObjectUtils.isEmpty(label.getUri())) {
-                    motsCle.append("-").append(label.getUri());
+                    motsCle.append(motCleSeparateurUrl).append(label.getUri());
                 }
-                motsCle.append(motCleSeparateur);
+                motsCle.append(motCleSeparateurMot);
             }
         }
         return motsCle.toString();

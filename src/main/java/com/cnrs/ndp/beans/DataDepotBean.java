@@ -371,6 +371,11 @@ public class DataDepotBean implements Serializable {
 
     public void validerDepot() throws IOException {
 
+        if (CollectionUtils.isEmpty(deblinCoreUploated)) {
+            showMessage(FacesMessage.SEVERITY_INFO, "Vous devez ajouter des resources avant de valider!");
+            return;
+        }
+
         boolean isValide = true;
         for (Resource resource : deblinCoreUploated) {
             if (!formValidateur.forumValidateur(schemasSelected, resource)) {
