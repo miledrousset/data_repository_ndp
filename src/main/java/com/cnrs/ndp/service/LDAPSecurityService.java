@@ -41,26 +41,45 @@ public class LDAPSecurityService {
 
     public boolean authentificationLdapCheck(String login, String password) {
 
+        System.setProperty("javax.net.ssl.keyStore", keyStorePath);
+        System.setProperty("javax.net.ssl.trustStorePassword", keyStorePassword);
+
+        System.setProperty("javax.net.ssl.trustStore", trustStorePath);
+        System.setProperty("javax.net.ssl.keyStorePassword", trustStorePassword);
+
+        //1er tentative de connexion avec la valeur de DN = ou=people,dc=huma-num,dc=fr
         try {
-            System.setProperty("javax.net.ssl.keyStore", keyStorePath);
-            System.setProperty("javax.net.ssl.trustStorePassword", keyStorePassword);
-
-            System.setProperty("javax.net.ssl.trustStore", trustStorePath);
-            System.setProperty("javax.net.ssl.keyStorePassword", trustStorePassword);
-
-            Hashtable<String,String> env = new Hashtable <String,String>();
-            env.put(Context.SECURITY_AUTHENTICATION, ldapSecurityAuthentication);
-            env.put(Context.SECURITY_PRINCIPAL, "uid="+login+",ou=people,ou=notre-dame-paris,dc=huma-num,dc=fr");
-            env.put(Context.SECURITY_CREDENTIALS, password);
-            env.put(Context.INITIAL_CONTEXT_FACTORY, ldapInitialContextFactory);
-            env.put(Context.PROVIDER_URL, LDAPS_PROTOCOL + ldapAdServer);
-            new InitialDirContext(env);
+            new InitialDirContext(createEnvironnementBean("uid="+login+",ou=people,dc=huma-num,dc=fr", password));
             return true;
+        } catch (Exception e) {
+            System.out.println(">> Erreur 1 : " + e.getMessage());
         }
-        catch (Exception e) {
-            System.out.println(">> " + e);
-            return false;
-        }
+
+        //2eme tentative de connexion avec la valeur de DN = ou=people,ou=notre-dame-paris,dc=huma-num,dc=fr
+        try {
+            new InitialDirContext(createEnvironnementBean("uid="+login+",ou=people,ou=notre-dame-paris,dc=huma-num,dc=fr", password));
+            return true;
+        } catch (Exception e) {
+            System.out.println(">> Erreur 2 : " + e.getMessage());}
+
+        //3eme tentative de connexion sans la valeur de DN
+        try {
+            new InitialDirContext(createEnvironnementBean(login, password));
+            return true;
+        } catch (Exception e) {
+            System.out.println(">> Erreur 3 : " + e.getMessage());}
+
+        return false;
+    }
+
+    private Hashtable<String,String> createEnvironnementBean(String login, String password) {
+        Hashtable<String,String> env = new Hashtable <String,String>();
+        env.put(Context.SECURITY_AUTHENTICATION, ldapSecurityAuthentication);
+        env.put(Context.SECURITY_PRINCIPAL, login);
+        env.put(Context.SECURITY_CREDENTIALS, password);
+        env.put(Context.INITIAL_CONTEXT_FACTORY, ldapInitialContextFactory);
+        env.put(Context.PROVIDER_URL, LDAPS_PROTOCOL + ldapAdServer);
+        return env;
     }
 
 }
