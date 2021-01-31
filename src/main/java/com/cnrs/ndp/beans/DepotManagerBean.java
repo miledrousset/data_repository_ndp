@@ -1,6 +1,7 @@
 package com.cnrs.ndp.beans;
 
 import com.cnrs.ndp.entity.Depots;
+import com.cnrs.ndp.service.DirectoryService;
 import com.cnrs.ndp.repository.DepotsRepository;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +12,6 @@ import javax.inject.Named;
 import java.io.*;
 import java.util.List;
 
-import com.cnrs.ndp.service.DirectoryService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DefaultStreamedContent;
@@ -34,13 +34,14 @@ public class DepotManagerBean implements Serializable {
     @Value("${upload.file.path}")
     private String pathDepot;
     
-    private List<Depots> depotsList;
+    private List<Depots> depotsList, depotsDoneList;
     private Depots depotSelected;
     private StreamedContent streamedContent;
 
     @PostConstruct
     public void initComposant() {
-        depotsList = depotsRepository.findAllByOrderByDateDepotDesc();
+        depotsList = depotsRepository.findAllByDepotHumaNumOrderByDateDepot("A venir");
+        depotsDoneList = depotsRepository.findAllByDepotHumaNumOrderByDateDepot("Déposé");
 
         InputStream is = DepotManagerBean.class.getResourceAsStream("/Tutoriel de dépôt HumanumBox Janvier 2021.pdf");
         streamedContent = new DefaultStreamedContent(is, "application/pdf");
@@ -88,7 +89,8 @@ public class DepotManagerBean implements Serializable {
     public void modifierDepot() {
         if (!ObjectUtils.isEmpty(depotSelected)) {
             depotsRepository.save(depotSelected);
-            depotsList = depotsRepository.findAllByOrderByDateDepotDesc();
+            depotsList = depotsRepository.findAllByDepotHumaNumOrderByDateDepot("A venir");
+            depotsDoneList = depotsRepository.findAllByDepotHumaNumOrderByDateDepot("Déposé");
             showMessage(FacesMessage.SEVERITY_INFO, "Dépôt modifié avec sucée !");
         }
 
@@ -125,5 +127,13 @@ public class DepotManagerBean implements Serializable {
 
     public void setStreamedContent(StreamedContent streamedContent) {
         this.streamedContent = streamedContent;
+    }
+
+    public List<Depots> getDepotsDoneList() {
+        return depotsDoneList;
+    }
+
+    public void setDepotsDoneList(List<Depots> depotsDoneList) {
+        this.depotsDoneList = depotsDoneList;
     }
 }

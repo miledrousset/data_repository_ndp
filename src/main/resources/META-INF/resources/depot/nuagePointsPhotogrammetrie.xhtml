@@ -23,7 +23,7 @@
             <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Mots clés *" />
             <div class="col-sm-9 form-group">
                 <p:autoComplete id="autoNuagePoints" value="#{dataDepotManager.nuagePointsPhotogrammetrieSelected.motCle}"
-                                completeMethod="#{dataDepotManager.rechercheMotsCle}"
+                                completeMethod="#{dataDepotManager.rechercheMotsCle}" scrollHeight="400"
                                 onkeypress="if (event.keyCode == 13) { nuagePointsRemCo(); return false; }">
                     <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.nuagePointsPhotogrammetrieSelected.motCle)}"
                             update="motcleFormNuage autoNuagePoints"/>

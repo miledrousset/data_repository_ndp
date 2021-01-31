@@ -59,7 +59,7 @@ public class FormValidateur {
                 || StringUtils.isEmpty(deblinCore.getContributeur()) || Objects.isNull(deblinCore.getDateMiseDisposition())
                 || StringUtils.isEmpty(deblinCore.getType())         || StringUtils.isEmpty(deblinCore.getFormat())
                 || StringUtils.isEmpty(deblinCore.getLangue())       || CollectionUtils.isEmpty(deblinCore.getMotsCles())
-                || StringUtils.isEmpty(deblinCore.getCouverture())   || StringUtils.isEmpty(deblinCore.getGestionDesDroits())) {
+                || Objects.isNull(deblinCore.getCouverture())   || StringUtils.isEmpty(deblinCore.getGestionDesDroits())) {
             return false;
         }
         return true;

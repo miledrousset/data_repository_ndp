@@ -14,22 +14,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Service
 public class MetadonneService {
 
-    @Value("${format.mot_cle.separateur_mot}")
-    private String motCleSeparateurMot;
+    private String motCleSeparateurMot = ";";
 
     @Value("${format.mot_cle.separateur_url}")
     private String motCleSeparateurUrl;
@@ -131,36 +128,36 @@ public class MetadonneService {
     private ArticlePresse readArticlePresse(Row row) {
         try {
             ArticlePresse articlePresse = new ArticlePresse();
-            articlePresse.setTitre(StringUtils.formatFileName(row.getCell(1).getStringCellValue()));
-            articlePresse.setCreateur(row.getCell(2).getStringCellValue());
+            articlePresse.setTitre(StringUtils.formatFileName(readStringValue(row, 1)));
+            articlePresse.setCreateur(readStringValue(row, 2));
 
-            List<Label> labelList = motsCleList(row.getCell(3).getStringCellValue());
+            List<Label> labelList = motsCleList(readStringValue(row, 3));
             if (!CollectionUtils.isEmpty(labelList)) {
                 articlePresse.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
                 articlePresse.setMotsClesLabel(labelList);
             }
 
-            articlePresse.setDescription(row.getCell(4).getStringCellValue());
-            articlePresse.setMedia(row.getCell(5).getStringCellValue());
-            articlePresse.setEditeur(row.getCell(6).getStringCellValue());
-            articlePresse.setContributeur(row.getCell(7).getStringCellValue());
-            articlePresse.setLangue(row.getCell(8).getStringCellValue());
-            articlePresse.setDateCreationFichier(DateUtils.formatStringToDate(row.getCell(9).getStringCellValue()));
-            articlePresse.setType(row.getCell(10).getStringCellValue());
-            articlePresse.setSupport(row.getCell(11).getStringCellValue());
-            articlePresse.setFormat(row.getCell(12).getStringCellValue());
-            articlePresse.setIdentifiantUnique(row.getCell(13).getStringCellValue());
-            articlePresse.setExtension(row.getCell(14).getStringCellValue());
-            articlePresse.setLienInternet(row.getCell(15).getStringCellValue());
-            articlePresse.setDateConsultation(DateUtils.formatStringToDate(row.getCell(16).getStringCellValue()));
-            articlePresse.setRelation(row.getCell(17).getStringCellValue());
-            articlePresse.setRelationLien(row.getCell(18).getStringCellValue());
-            articlePresse.setDateCreationPDF(DateUtils.formatStringToDate(row.getCell(19).getStringCellValue()));
-            articlePresse.setNotesInternes(row.getCell(20).getStringCellValue());
-            articlePresse.setPreparation(row.getCell(21).getStringCellValue());
-            articlePresse.setCollecteur(row.getCell(22).getStringCellValue());
-            articlePresse.setCitationBibliographie(row.getCell(23).getStringCellValue());
-            articlePresse.setGestionDesDroits(row.getCell(24).getStringCellValue());
+            articlePresse.setDescription(readStringValue(row, 4));
+            articlePresse.setMedia(readStringValue(row, 5));
+            articlePresse.setEditeur(readStringValue(row, 6));
+            articlePresse.setContributeur(readStringValue(row, 7));
+            articlePresse.setLangue(readStringValue(row, 8));
+            articlePresse.setDateCreationFichier(DateUtils.formatStringToDate(readStringValue(row, 9)));
+            articlePresse.setType(readStringValue(row, 10));
+            articlePresse.setSupport(readStringValue(row, 11));
+            articlePresse.setFormat(readStringValue(row, 12));
+            articlePresse.setIdentifiantUnique(readStringValue(row, 13));
+            articlePresse.setExtension(readStringValue(row, 14));
+            articlePresse.setLienInternet(readStringValue(row, 15));
+            articlePresse.setDateConsultation(DateUtils.formatStringToDate(readStringValue(row, 16)));
+            articlePresse.setRelation(readStringValue(row, 17));
+            articlePresse.setRelationLien(readStringValue(row, 18));
+            articlePresse.setDateCreationPDF(DateUtils.formatStringToDate(readStringValue(row, 19)));
+            articlePresse.setNotesInternes(readStringValue(row, 20));
+            articlePresse.setPreparation(readStringValue(row, 21));
+            articlePresse.setCollecteur(readStringValue(row, 22));
+            articlePresse.setCitationBibliographie(readStringValue(row, 23));
+            articlePresse.setGestionDesDroits(readStringValue(row, 24));
 
             return articlePresse;
         } catch (Exception ex) {
@@ -172,15 +169,15 @@ public class MetadonneService {
         try {
             Url url = new Url();
             url.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
-            url.setDateCreationFichier(DateUtils.formatStringToDate(row.getCell(1).getStringCellValue()));
-            url.setLienInternet(row.getCell(2).getStringCellValue());
-            url.setCreateur(row.getCell(3).getStringCellValue());
-            url.setType(row.getCell(4).getStringCellValue());
-            url.setEditeur(row.getCell(5).getStringCellValue());
-            url.setRelation(row.getCell(6).getStringCellValue());
-            url.setNotesInternes(row.getCell(7).getStringCellValue());
-            url.setPreparation(row.getCell(8).getStringCellValue());
-            url.setIdentifiantUnique(row.getCell(9).getStringCellValue());
+            url.setDateCreationFichier(DateUtils.formatStringToDate(readStringValue(row, 1)));
+            url.setLienInternet(readStringValue(row, 2));
+            url.setCreateur(readStringValue(row, 3));
+            url.setType(readStringValue(row, 4));
+            url.setEditeur(readStringValue(row, 5));
+            url.setRelation(readStringValue(row, 6));
+            url.setNotesInternes(readStringValue(row, 7));
+            url.setPreparation(readStringValue(row, 8));
+            url.setIdentifiantUnique(readStringValue(row, 9));
 
             return url;
         } catch (Exception ex) {
@@ -191,35 +188,35 @@ public class MetadonneService {
     private Video readVideo(Row row) {
         try {
             Video video = new Video();
-            video.setTitre(StringUtils.formatFileName(row.getCell(1).getStringCellValue()));
-            video.setCreateur(row.getCell(2).getStringCellValue());
+            video.setTitre(StringUtils.formatFileName(readStringValue(row, 1)));
+            video.setCreateur(readStringValue(row, 2));
 
-            List<Label> labelList = motsCleList(row.getCell(3).getStringCellValue());
+            List<Label> labelList = motsCleList(readStringValue(row, 3));
             if (!CollectionUtils.isEmpty(labelList)) {
                 video.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
                 video.setMotsClesLabel(labelList);
             }
 
-            video.setDescription(row.getCell(4).getStringCellValue());
-            video.setMedia(row.getCell(5).getStringCellValue());
-            video.setEditeur(row.getCell(6).getStringCellValue());
-            video.setContributeur(row.getCell(7).getStringCellValue());
-            video.setLangue(row.getCell(8).getStringCellValue());
-            video.setDateCreationFichier(DateUtils.formatStringToDate(row.getCell(9).getStringCellValue()));
-            video.setType(row.getCell(10).getStringCellValue());
-            video.setSupport(row.getCell(11).getStringCellValue());
-            video.setFormat(row.getCell(12).getStringCellValue());
-            video.setIdentifiantUnique(row.getCell(13).getStringCellValue());
-            video.setExtension(row.getCell(14).getStringCellValue());
-            video.setLienInternet(row.getCell(15).getStringCellValue());
-            video.setDateConsultation(row.getCell(16).getStringCellValue());
-            video.setDateCreationMp4(DateUtils.formatStringToDate(row.getCell(17).getStringCellValue()));
-            video.setRelation(row.getCell(18).getStringCellValue());
-            video.setNotesInternes(row.getCell(19).getStringCellValue());
-            video.setPreparation(row.getCell(20).getStringCellValue());
-            video.setCollecteur(row.getCell(21).getStringCellValue());
-            video.setCitationBibliographie(row.getCell(22).getStringCellValue());
-            video.setGestionDesDroits(row.getCell(23).getStringCellValue());
+            video.setDescription(readStringValue(row, 4));
+            video.setMedia(readStringValue(row, 5));
+            video.setEditeur(readStringValue(row, 6));
+            video.setContributeur(readStringValue(row, 7));
+            video.setLangue(readStringValue(row, 8));
+            video.setDateCreationFichier(DateUtils.formatStringToDate(readStringValue(row, 9)));
+            video.setType(readStringValue(row, 10));
+            video.setSupport(readStringValue(row, 11));
+            video.setFormat(readStringValue(row, 12));
+            video.setIdentifiantUnique(readStringValue(row, 13));
+            video.setExtension(readStringValue(row, 14));
+            video.setLienInternet(readStringValue(row, 15));
+            video.setDateConsultation(DateUtils.formatStringToDate(readStringValue(row, 16)));
+            video.setDateCreationMp4(DateUtils.formatStringToDate(readStringValue(row, 17)));
+            video.setRelation(readStringValue(row, 18));
+            video.setNotesInternes(readStringValue(row, 19));
+            video.setPreparation(readStringValue(row, 20));
+            video.setCollecteur(readStringValue(row, 21));
+            video.setCitationBibliographie(readStringValue(row, 22));
+            video.setGestionDesDroits(readStringValue(row, 23));
 
             return video;
         } catch (Exception ex) {
@@ -231,37 +228,37 @@ public class MetadonneService {
         try {
             Image image = new Image();
             image.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
-            image.setCreateur(row.getCell(1).getStringCellValue());
+            image.setCreateur(readStringValue(row, 1));
 
-            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            List<Label> labelList = motsCleList(readStringValue(row, 2));
             if (!CollectionUtils.isEmpty(labelList)) {
                 image.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
                 image.setMotsClesLabel(labelList);
             }
 
-            image.setEditeur(row.getCell(3).getStringCellValue());
-            image.setContributeur(row.getCell(4).getStringCellValue());
-            image.setDateCreation(DateUtils.formatStringToDate(row.getCell(5).getStringCellValue()));
-            image.setType(row.getCell(6).getStringCellValue());
-            image.setSupportOriginalFichier(row.getCell(7).getStringCellValue());
-            image.setExtension(row.getCell(8).getStringCellValue());
-            image.setDateMiseDisposition(DateUtils.formatStringToDate(row.getCell(9).getStringCellValue()));
-            image.setCitationBibliographie(row.getCell(10).getStringCellValue());
-            image.setGestionDesDroits(row.getCell(11).getStringCellValue());
-            image.setIdentifiantUnique(row.getCell(12).getStringCellValue());
-            image.setFileSize(row.getCell(13).getStringCellValue());
-            image.setModel(row.getCell(14).getStringCellValue());
-            image.setImageSize(row.getCell(15).getStringCellValue());
-            image.setQuality(row.getCell(16).getStringCellValue());
-            image.setFocalLength(row.getCell(17).getStringCellValue());
-            image.setShutterSpeed(row.getCell(18).getStringCellValue());
-            image.setAperture(row.getCell(19).getStringCellValue());
-            image.setIso(row.getCell(20).getStringCellValue());
-            image.setWhiteBalance(row.getCell(21).getStringCellValue());
-            image.setFlash(row.getCell(22).getStringCellValue());
-            image.setXResolution(row.getCell(23).getStringCellValue());
-            image.setYResolution(row.getCell(24).getStringCellValue());
-            image.setPreservedFileName(row.getCell(25).getStringCellValue());
+            image.setEditeur(readStringValue(row, 3));
+            image.setContributeur(readStringValue(row, 4));
+            image.setDateCreation(DateUtils.formatStringToDate(readStringValue(row, 5)));
+            image.setType(readStringValue(row, 6));
+            image.setSupportOriginalFichier(readStringValue(row, 7));
+            image.setExtension(readStringValue(row, 8));
+            image.setDateMiseDisposition(DateUtils.formatStringToDate(readStringValue(row, 9)));
+            image.setCitationBibliographie(readStringValue(row, 10));
+            image.setGestionDesDroits(readStringValue(row, 11));
+            image.setIdentifiantUnique(readStringValue(row, 12));
+            image.setFileSize(readStringValue(row, 13));
+            image.setModel(readStringValue(row, 14));
+            image.setImageSize(readStringValue(row, 15));
+            image.setQuality(readStringValue(row, 16));
+            image.setFocalLength(readStringValue(row, 17));
+            image.setShutterSpeed(readStringValue(row, 18));
+            image.setAperture(readStringValue(row, 19));
+            image.setIso(readStringValue(row, 20));
+            image.setWhiteBalance(readStringValue(row, 21));
+            image.setFlash(readStringValue(row, 22));
+            image.setXResolution(readStringValue(row, 23));
+            image.setYResolution(readStringValue(row, 24));
+            image.setPreservedFileName(readStringValue(row, 25));
 
             return image;
         } catch (Exception ex) {
@@ -273,38 +270,38 @@ public class MetadonneService {
         try {
             AudioWaweBwf audioWaweBwf = new AudioWaweBwf();
             audioWaweBwf.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
-            audioWaweBwf.setCreateur(row.getCell(1).getStringCellValue());
+            audioWaweBwf.setCreateur(readStringValue(row, 1));
 
-            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            List<Label> labelList = motsCleList(readStringValue(row, 2));
             if (!CollectionUtils.isEmpty(labelList)) {
                 audioWaweBwf.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
                 audioWaweBwf.setMotsClesLabel(labelList);
             }
 
-            audioWaweBwf.setEditeur(row.getCell(3).getStringCellValue());
-            audioWaweBwf.setContributeur(row.getCell(4).getStringCellValue());
-            audioWaweBwf.setFormat(row.getCell(5).getStringCellValue());
-            audioWaweBwf.setIdentifiantUnique(row.getCell(6).getStringCellValue());
-            audioWaweBwf.setDescription(row.getCell(7).getStringCellValue());
-            audioWaweBwf.setLangue(row.getCell(8).getStringCellValue());
-            audioWaweBwf.setRelation(row.getCell(9).getStringCellValue());
-            audioWaweBwf.setSource(row.getCell(10).getStringCellValue());
-            audioWaweBwf.setGestionDesDroits(row.getCell(11).getStringCellValue());
-            audioWaweBwf.setCouverture(row.getCell(12).getStringCellValue());
-            audioWaweBwf.setOriginationDate(DateUtils.formatStringToDate(row.getCell(13).getStringCellValue()));
-            audioWaweBwf.setIgnr(row.getCell(14).getStringCellValue());
-            audioWaweBwf.setOriginatorReference(row.getCell(15).getStringCellValue());
-            audioWaweBwf.setOriginationDate(DateUtils.formatStringToDate(row.getCell(16).getStringCellValue()));
-            audioWaweBwf.setOriginationTime(row.getCell(17).getStringCellValue());
-            audioWaweBwf.setTimeReferenceTranslated(row.getCell(18).getStringCellValue());
-            audioWaweBwf.setTimeReference(row.getCell(19).getStringCellValue());
-            audioWaweBwf.setBextVersion(row.getCell(20).getStringCellValue());
-            audioWaweBwf.setCodingHistory(row.getCell(21).getStringCellValue());
-            audioWaweBwf.setIarl(row.getCell(22).getStringCellValue());
-            audioWaweBwf.setIcmt(row.getCell(23).getStringCellValue());
-            audioWaweBwf.setIeng(row.getCell(24).getStringCellValue());
-            audioWaweBwf.setImed(row.getCell(25).getStringCellValue());
-            audioWaweBwf.setIsft(row.getCell(26).getStringCellValue());
+            audioWaweBwf.setEditeur(readStringValue(row, 3));
+            audioWaweBwf.setContributeur(readStringValue(row, 4));
+            audioWaweBwf.setFormat(readStringValue(row, 5));
+            audioWaweBwf.setIdentifiantUnique(readStringValue(row, 6));
+            audioWaweBwf.setDescription(readStringValue(row, 7));
+            audioWaweBwf.setLangue(readStringValue(row, 8));
+            audioWaweBwf.setRelation(readStringValue(row, 9));
+            audioWaweBwf.setSource(readStringValue(row, 10));
+            audioWaweBwf.setGestionDesDroits(readStringValue(row, 11));
+            audioWaweBwf.setCouverture(readStringValue(row, 12));
+            audioWaweBwf.setOriginationDate(DateUtils.formatStringToDate(readStringValue(row, 13)));
+            audioWaweBwf.setIgnr(readStringValue(row, 14));
+            audioWaweBwf.setOriginatorReference(readStringValue(row, 15));
+            audioWaweBwf.setOriginationDate(DateUtils.formatStringToDate(readStringValue(row, 16)));
+            audioWaweBwf.setOriginationTime(readStringValue(row, 17));
+            audioWaweBwf.setTimeReferenceTranslated(readStringValue(row, 18));
+            audioWaweBwf.setTimeReference(readStringValue(row, 19));
+            audioWaweBwf.setBextVersion(readStringValue(row, 20));
+            audioWaweBwf.setCodingHistory(readStringValue(row, 21));
+            audioWaweBwf.setIarl(readStringValue(row, 22));
+            audioWaweBwf.setIcmt(readStringValue(row, 23));
+            audioWaweBwf.setIeng(readStringValue(row, 24));
+            audioWaweBwf.setImed(readStringValue(row, 25));
+            audioWaweBwf.setIsft(readStringValue(row, 26));
 
             return audioWaweBwf;
         } catch (Exception ex) {
@@ -316,34 +313,34 @@ public class MetadonneService {
         try {
             DonneeLaserBrut donneeLaserBrut = new DonneeLaserBrut();
             donneeLaserBrut.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
-            donneeLaserBrut.setCreateur(row.getCell(1).getStringCellValue());
+            donneeLaserBrut.setCreateur(readStringValue(row, 1));
 
-            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            List<Label> labelList = motsCleList(readStringValue(row, 2));
             if (!CollectionUtils.isEmpty(labelList)) {
                 donneeLaserBrut.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
                 donneeLaserBrut.setMotsClesLabel(labelList);
             }
 
-            donneeLaserBrut.setDescription(row.getCell(3).getStringCellValue());
-            donneeLaserBrut.setEditeur(row.getCell(4).getStringCellValue());
-            donneeLaserBrut.setContributeur(row.getCell(5).getStringCellValue());
-            donneeLaserBrut.setDateMiseDisposition(DateUtils.formatStringToDate(row.getCell(6).getStringCellValue()));
-            donneeLaserBrut.setType(row.getCell(7).getStringCellValue());
-            donneeLaserBrut.setFormat(row.getCell(8).getStringCellValue());
-            donneeLaserBrut.setIdentifiantUnique(row.getCell(9).getStringCellValue());
-            donneeLaserBrut.setSource(row.getCell(10).getStringCellValue());
-            donneeLaserBrut.setNuage(row.getCell(11).getStringCellValue());
-            donneeLaserBrut.setLangue(row.getCell(12).getStringCellValue());
-            donneeLaserBrut.setRelation(row.getCell(13).getStringCellValue());
-            donneeLaserBrut.setCouverture(row.getCell(14).getStringCellValue());
-            donneeLaserBrut.setGestionDesDroits(row.getCell(15).getStringCellValue());
-            donneeLaserBrut.setMateriel(row.getCell(16).getStringCellValue());
-            donneeLaserBrut.setMethodeMetrologique(row.getCell(17).getStringCellValue());
-            donneeLaserBrut.setResolutionAngulaire(row.getCell(18).getStringCellValue());
-            donneeLaserBrut.setResolutionSpatiale(row.getCell(19).getStringCellValue());
-            donneeLaserBrut.setDensitePointMoyenne(row.getCell(20).getStringCellValue());
-            donneeLaserBrut.setChampHorizontalStation(row.getCell(21).getStringCellValue());
-            donneeLaserBrut.setChampVerticalStation(row.getCell(22).getStringCellValue());
+            donneeLaserBrut.setDescription(readStringValue(row, 3));
+            donneeLaserBrut.setEditeur(readStringValue(row, 4));
+            donneeLaserBrut.setContributeur(readStringValue(row, 5));
+            donneeLaserBrut.setDateMiseDisposition(DateUtils.formatStringToDate(readStringValue(row, 6)));
+            donneeLaserBrut.setType(readStringValue(row, 7));
+            donneeLaserBrut.setFormat(readStringValue(row, 8));
+            donneeLaserBrut.setIdentifiantUnique(readStringValue(row, 9));
+            donneeLaserBrut.setSource(readStringValue(row, 10));
+            donneeLaserBrut.setNuage(readStringValue(row, 11));
+            donneeLaserBrut.setLangue(readStringValue(row, 12));
+            donneeLaserBrut.setRelation(readStringValue(row, 13));
+            donneeLaserBrut.setCouverture(readStringValue(row, 14));
+            donneeLaserBrut.setGestionDesDroits(readStringValue(row, 15));
+            donneeLaserBrut.setMateriel(readStringValue(row, 16));
+            donneeLaserBrut.setMethodeMetrologique(readStringValue(row, 17));
+            donneeLaserBrut.setResolutionAngulaire(readStringValue(row, 18));
+            donneeLaserBrut.setResolutionSpatiale(readStringValue(row, 19));
+            donneeLaserBrut.setDensitePointMoyenne(readStringValue(row, 20));
+            donneeLaserBrut.setChampHorizontalStation(readStringValue(row, 21));
+            donneeLaserBrut.setChampVerticalStation(readStringValue(row, 22));
 
             return donneeLaserBrut;
         } catch (Exception ex) {
@@ -355,30 +352,30 @@ public class MetadonneService {
         try {
             DonneeLaserConso donneeLaserConso = new DonneeLaserConso();
             donneeLaserConso.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
-            donneeLaserConso.setCreateur(row.getCell(1).getStringCellValue());
+            donneeLaserConso.setCreateur(readStringValue(row, 1));
 
-            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            List<Label> labelList = motsCleList(readStringValue(row, 2));
             if (!CollectionUtils.isEmpty(labelList)) {
                 donneeLaserConso.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
                 donneeLaserConso.setMotsClesLabel(labelList);
             }
 
-            donneeLaserConso.setDescription(row.getCell(3).getStringCellValue());
-            donneeLaserConso.setEditeur(row.getCell(4).getStringCellValue());
-            donneeLaserConso.setContributeur(row.getCell(5).getStringCellValue());
-            donneeLaserConso.setDateMiseDisposition(DateUtils.formatStringToDate(row.getCell(6).getStringCellValue()));
-            donneeLaserConso.setType(row.getCell(7).getStringCellValue());
-            donneeLaserConso.setFormat(row.getCell(8).getStringCellValue());
-            donneeLaserConso.setIdentifiantUnique(row.getCell(9).getStringCellValue());
-            donneeLaserConso.setSource(row.getCell(10).getStringCellValue());
-            donneeLaserConso.setLangue(row.getCell(11).getStringCellValue());
-            donneeLaserConso.setRelation(row.getCell(12).getStringCellValue());
-            donneeLaserConso.setCouverture(row.getCell(13).getStringCellValue());
-            donneeLaserConso.setGestionDesDroits(row.getCell(14).getStringCellValue());
-            donneeLaserConso.setIdSources(row.getCell(15).getStringCellValue());
-            donneeLaserConso.setLogiciel(row.getCell(16).getStringCellValue());
-            donneeLaserConso.setMethodeConsolidation(row.getCell(17).getStringCellValue());
-            donneeLaserConso.setSystemeCoordonnees(row.getCell(18).getStringCellValue());
+            donneeLaserConso.setDescription(readStringValue(row, 3));
+            donneeLaserConso.setEditeur(readStringValue(row, 4));
+            donneeLaserConso.setContributeur(readStringValue(row, 5));
+            donneeLaserConso.setDateMiseDisposition(DateUtils.formatStringToDate(readStringValue(row, 6)));
+            donneeLaserConso.setType(readStringValue(row, 7));
+            donneeLaserConso.setFormat(readStringValue(row, 8));
+            donneeLaserConso.setIdentifiantUnique(readStringValue(row, 9));
+            donneeLaserConso.setSource(readStringValue(row, 10));
+            donneeLaserConso.setLangue(readStringValue(row, 11));
+            donneeLaserConso.setRelation(readStringValue(row, 12));
+            donneeLaserConso.setCouverture(readStringValue(row, 13));
+            donneeLaserConso.setGestionDesDroits(readStringValue(row, 14));
+            donneeLaserConso.setIdSources(readStringValue(row, 15));
+            donneeLaserConso.setLogiciel(readStringValue(row, 16));
+            donneeLaserConso.setMethodeConsolidation(readStringValue(row, 17));
+            donneeLaserConso.setSystemeCoordonnees(readStringValue(row, 18));
 
             return donneeLaserConso;
         } catch (Exception e) {
@@ -390,31 +387,31 @@ public class MetadonneService {
         try {
             NuagePointsPhotogrammetrie nuagePointsPhotogrammetrie = new NuagePointsPhotogrammetrie();
             nuagePointsPhotogrammetrie.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
-            nuagePointsPhotogrammetrie.setCreateur(row.getCell(1).getStringCellValue());
+            nuagePointsPhotogrammetrie.setCreateur(readStringValue(row, 1));
 
-            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            List<Label> labelList = motsCleList(readStringValue(row, 2));
             if (!CollectionUtils.isEmpty(labelList)) {
                 nuagePointsPhotogrammetrie.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
                 nuagePointsPhotogrammetrie.setMotsClesLabel(labelList);
             }
 
-            nuagePointsPhotogrammetrie.setDescription(row.getCell(3).getStringCellValue());
-            nuagePointsPhotogrammetrie.setEditeur(row.getCell(4).getStringCellValue());
-            nuagePointsPhotogrammetrie.setContributeur(row.getCell(5).getStringCellValue());
-            nuagePointsPhotogrammetrie.setDateMiseDisposition(DateUtils.formatStringToDate(row.getCell(6).getStringCellValue()));
-            nuagePointsPhotogrammetrie.setType(row.getCell(7).getStringCellValue());
-            nuagePointsPhotogrammetrie.setFormat(row.getCell(8).getStringCellValue());
-            nuagePointsPhotogrammetrie.setIdentifiantUnique(row.getCell(9).getStringCellValue());
-            nuagePointsPhotogrammetrie.setSource(row.getCell(10).getStringCellValue());
-            nuagePointsPhotogrammetrie.setLangue(row.getCell(11).getStringCellValue());
-            nuagePointsPhotogrammetrie.setRelation(row.getCell(12).getStringCellValue());
-            nuagePointsPhotogrammetrie.setCouverture(row.getCell(13).getStringCellValue());
-            nuagePointsPhotogrammetrie.setGestionDesDroits(row.getCell(14).getStringCellValue());
-            nuagePointsPhotogrammetrie.setIdSources(row.getCell(15).getStringCellValue());
-            nuagePointsPhotogrammetrie.setLogicielTraitement(row.getCell(16).getStringCellValue());
-            nuagePointsPhotogrammetrie.setDensitePointsMoyenne(row.getCell(17).getStringCellValue());
-            nuagePointsPhotogrammetrie.setSystemeCoordonnees(row.getCell(18).getStringCellValue());
-            nuagePointsPhotogrammetrie.setArchitectureFichier(row.getCell(19).getStringCellValue());
+            nuagePointsPhotogrammetrie.setDescription(readStringValue(row, 3));
+            nuagePointsPhotogrammetrie.setEditeur(readStringValue(row, 4));
+            nuagePointsPhotogrammetrie.setContributeur(readStringValue(row, 5));
+            nuagePointsPhotogrammetrie.setDateMiseDisposition(DateUtils.formatStringToDate(readStringValue(row, 6)));
+            nuagePointsPhotogrammetrie.setType(readStringValue(row, 7));
+            nuagePointsPhotogrammetrie.setFormat(readStringValue(row, 8));
+            nuagePointsPhotogrammetrie.setIdentifiantUnique(readStringValue(row, 9));
+            nuagePointsPhotogrammetrie.setSource(readStringValue(row, 10));
+            nuagePointsPhotogrammetrie.setLangue(readStringValue(row, 11));
+            nuagePointsPhotogrammetrie.setRelation(readStringValue(row, 12));
+            nuagePointsPhotogrammetrie.setCouverture(readStringValue(row, 13));
+            nuagePointsPhotogrammetrie.setGestionDesDroits(readStringValue(row, 14));
+            nuagePointsPhotogrammetrie.setIdSources(readStringValue(row, 15));
+            nuagePointsPhotogrammetrie.setLogicielTraitement(readStringValue(row, 16));
+            nuagePointsPhotogrammetrie.setDensitePointsMoyenne(readStringValue(row, 17));
+            nuagePointsPhotogrammetrie.setSystemeCoordonnees(readStringValue(row, 18));
+            nuagePointsPhotogrammetrie.setArchitectureFichier(readStringValue(row, 19));
 
             return nuagePointsPhotogrammetrie;
         } catch (Exception ex) {
@@ -425,20 +422,20 @@ public class MetadonneService {
     private Maillage3dGeometry readMaillage3dGeometry(Row row) {
         try {
             Maillage3dGeometry maillage3dGeometry = new Maillage3dGeometry();
-            maillage3dGeometry.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
-            maillage3dGeometry.setAxeOrientation(row.getCell(1).getStringCellValue());
-            maillage3dGeometry.setAxeVertical(row.getCell(2).getStringCellValue());
-            maillage3dGeometry.setUniteMesure(row.getCell(3).getStringCellValue());
-            maillage3dGeometry.setLogicielTraitement(row.getCell(4).getStringCellValue());
-            maillage3dGeometry.setDimensionX(row.getCell(5).getStringCellValue());
-            maillage3dGeometry.setDimensionY(row.getCell(6).getStringCellValue());
-            maillage3dGeometry.setDimensionZ(row.getCell(7).getStringCellValue());
-            maillage3dGeometry.setCheminFichier(row.getCell(8).getStringCellValue());
-            maillage3dGeometry.setCreateur(row.getCell(9).getStringCellValue());
-            maillage3dGeometry.setDateFichier(DateUtils.formatStringToDate(row.getCell(10).getStringCellValue()));
-            maillage3dGeometry.setFormatFichier(row.getCell(11).getStringCellValue());
-            maillage3dGeometry.setDescription(row.getCell(12).getStringCellValue());
-            maillage3dGeometry.setEncodage(row.getCell(13).getStringCellValue());
+            maillage3dGeometry.setTitre(StringUtils.formatFileName(readStringValue(row, 0)));
+            maillage3dGeometry.setAxeOrientation(readStringValue(row, 1));
+            maillage3dGeometry.setAxeVertical(readStringValue(row, 2));
+            maillage3dGeometry.setUniteMesure(readStringValue(row, 3));
+            maillage3dGeometry.setLogicielTraitement(readStringValue(row, 4));
+            maillage3dGeometry.setDimensionX(readStringValue(row, 5));
+            maillage3dGeometry.setDimensionY(readStringValue(row, 6));
+            maillage3dGeometry.setDimensionZ(readStringValue(row, 7));
+            maillage3dGeometry.setCheminFichier(readStringValue(row, 8));
+            maillage3dGeometry.setCreateur(readStringValue(row, 9));
+            maillage3dGeometry.setDateFichier(readDateValue(row, 10));
+            maillage3dGeometry.setFormatFichier(readStringValue(row, 11));
+            maillage3dGeometry.setDescription(readStringValue(row, 12));
+            maillage3dGeometry.setEncodage(readStringValue(row, 13));
             return maillage3dGeometry;
         } catch (Exception ex) {
             return null;
@@ -448,13 +445,13 @@ public class MetadonneService {
     private Maillage3dPhotogrammetrie readMaillage3dPhotogrammetrie(Row row) {
         try {
             Maillage3dPhotogrammetrie maillage3dPhotogrammetrie = new Maillage3dPhotogrammetrie();
-            maillage3dPhotogrammetrie.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
-            maillage3dPhotogrammetrie.setMethodeAssemblageNuagesPoints(row.getCell(1).getStringCellValue());
-            maillage3dPhotogrammetrie.setPourcentageDecimation(row.getCell(2).getStringCellValue());
-            maillage3dPhotogrammetrie.setAlgorithmeUtiliseMaillage(row.getCell(3).getStringCellValue());
-            maillage3dPhotogrammetrie.setMethodeTexturage(row.getCell(4).getStringCellValue());
-            maillage3dPhotogrammetrie.setProjectionTexture(row.getCell(5).getStringCellValue());
-            maillage3dPhotogrammetrie.setSourcesFichiersTexture(row.getCell(6).getStringCellValue());
+            maillage3dPhotogrammetrie.setTitre(StringUtils.formatFileName(readStringValue(row, 0)));
+            maillage3dPhotogrammetrie.setMethodeAssemblageNuagesPoints(readStringValue(row, 1));
+            maillage3dPhotogrammetrie.setPourcentageDecimation(readStringValue(row, 2));
+            maillage3dPhotogrammetrie.setAlgorithmeUtiliseMaillage(readStringValue(row, 3));
+            maillage3dPhotogrammetrie.setMethodeTexturage(readStringValue(row, 4));
+            maillage3dPhotogrammetrie.setProjectionTexture(readStringValue(row, 5));
+            maillage3dPhotogrammetrie.setSourcesFichiersTexture(readStringValue(row, 6));
             return maillage3dPhotogrammetrie;
         } catch (Exception e) {
             return null;
@@ -464,27 +461,27 @@ public class MetadonneService {
     private DeblinCore readDeblinCore(Row row) {
         try {
             DeblinCore deblinCore = new DeblinCore();
-            deblinCore.setTitre(StringUtils.formatFileName(row.getCell(0).getStringCellValue()));
-            deblinCore.setCreateur(row.getCell(1).getStringCellValue());
+            deblinCore.setTitre(StringUtils.formatFileName(readStringValue(row, 0)));
+            deblinCore.setCreateur(readStringValue(row, 1));
 
-            List<Label> labelList = motsCleList(row.getCell(2).getStringCellValue());
+            List<Label> labelList = motsCleList(readStringValue(row, 2));
             if (!CollectionUtils.isEmpty(labelList)) {
                 deblinCore.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
                 deblinCore.setMotsClesLabel(labelList);
             }
 
-            deblinCore.setDescription(row.getCell(3).getStringCellValue());
-            deblinCore.setEditeur(row.getCell(4).getStringCellValue());
-            deblinCore.setContributeur(row.getCell(5).getStringCellValue());
-            deblinCore.setDateMiseDisposition(DateUtils.formatStringToDate(row.getCell(6).getStringCellValue()));
-            deblinCore.setType(row.getCell(7).getStringCellValue());
-            deblinCore.setFormat(row.getCell(8).getStringCellValue());
-            deblinCore.setIdentifiantUnique(row.getCell(9).getStringCellValue());
-            deblinCore.setSource(row.getCell(10).getStringCellValue());
-            deblinCore.setLangue(row.getCell(11).getStringCellValue());
-            deblinCore.setRelation(row.getCell(12).getStringCellValue());
-            deblinCore.setCouverture(row.getCell(13).getStringCellValue());
-            deblinCore.setGestionDesDroits(row.getCell(14).getStringCellValue());
+            deblinCore.setDescription(readStringValue(row, 3));
+            deblinCore.setEditeur(readStringValue(row, 4));
+            deblinCore.setContributeur(readStringValue(row, 5));
+            deblinCore.setDateMiseDisposition(readDateValue(row, 6));
+            deblinCore.setType(readStringValue(row, 7));
+            deblinCore.setFormat(readStringValue(row, 8));
+            deblinCore.setIdentifiantUnique(readStringValue(row, 9));
+            deblinCore.setSource(readStringValue(row, 10));
+            deblinCore.setLangue(readStringValue(row, 11));
+            deblinCore.setRelation(readStringValue(row, 12));
+            deblinCore.setCouverture(readDateValue(row, 13));
+            deblinCore.setGestionDesDroits(readStringValue(row, 14));
             return deblinCore;
         } catch (Exception ex) {
             return null;
@@ -494,7 +491,7 @@ public class MetadonneService {
     private List<Label> motsCleList(String str) {
         List<Label> labels = new ArrayList<>();
 
-        List<String> labelsStr = Arrays.asList(str.split(motCleSeparateurMot));
+        List<String> labelsStr = Arrays.asList(str.split(" " + motCleSeparateurMot + " "));
         for (String labelStr : labelsStr) {
             Label label = new Label();
             List<String> tmp = Arrays.asList(labelStr.split(motCleSeparateurUrl));
@@ -507,5 +504,13 @@ public class MetadonneService {
             labels.add(label);
         }
         return labels;
+    }
+
+    private String readStringValue(Row row, int index) {
+        return row.getCell(index) == null ? "" : row.getCell(index).getStringCellValue();
+    }
+
+    private Date readDateValue(Row row, int index) {
+        return row.getCell(index) == null ? null : row.getCell(index).getDateCellValue();
     }
 }

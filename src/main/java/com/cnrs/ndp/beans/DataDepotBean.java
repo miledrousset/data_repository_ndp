@@ -58,12 +58,18 @@ public class DataDepotBean implements Serializable {
     @Autowired
     private ConnexionBean connexionBean;
 
+    @Autowired
+    private MetadonneCsvService metadonneCsvService;
+
 
     @Value("#{'${upload.file.repertoires}'.split(';')}")
     private List<String> repertoireList;
 
     @Value("#{'${upload.file.groupes_travail}'.split(';')}")
     private List<String> groupeTravail;
+
+    @Value("#{'${upload.file.source}'.split(';')}")
+    private List<String> sources;
 
     @Value("${upload.file.small_name}")
     private String smallRep;
@@ -73,7 +79,7 @@ public class DataDepotBean implements Serializable {
 
 
     private boolean saveDepot, detailDepotVisible, uploadFilesVisible;
-    private String schemasSelected, repertoirSelected, groupeTravailSelected, depotName, resourceName;
+    private String schemasSelected, repertoirSelected, groupeTravailSelected, sourceSelected, depotName, resourceName;
     private UploadedFile file;
     private Depots depotCreated;
 
@@ -89,6 +95,7 @@ public class DataDepotBean implements Serializable {
     private NuagePointsPhotogrammetrie nuagePointsPhotogrammetrieSelected;
     private Maillage3dPhotogrammetrie maillage3dPhotogrammetrieSelected;
     private List<Resource> deblinCoreUploated, listMetadonnes;
+    private List<Label> labelsSearched;
 
 
     @PostConstruct
@@ -116,16 +123,7 @@ public class DataDepotBean implements Serializable {
 
         deblinCoreUploated = new ArrayList<>();
         listMetadonnes = new ArrayList<>();
-/*
-        ArticlePresse deblinCore1 = new ArticlePresse();
-        deblinCore1.setFile(new File("test1"));
-        deblinCore1.setTitre("title1");
-        deblinCoreUploated.add(deblinCore1);
 
-        ArticlePresse deblinCore2 = new ArticlePresse();
-        deblinCore2.setFile(new File("title2"));
-        deblinCore2.setTitre("title2");
-        deblinCoreUploated.add(deblinCore2);*/
     }
 
     public void elementDelete() {
@@ -210,12 +208,10 @@ public class DataDepotBean implements Serializable {
         }
     }
 
-    private List<Label> labelsSearched;
-
     public void addNewLabel(String name) {
         Label newLabel = new Label();
         newLabel.setLabel(name);
-        addLabel(name, newLabel);
+        addLabel(name, newLabel, false);
     }
 
     public void rechercheMotCle(String name) {
@@ -226,7 +222,7 @@ public class DataDepotBean implements Serializable {
                 labelSelected = label;
             }
         }
-        addLabel(name, labelSelected);
+        addLabel(name, labelSelected, true);
     }
 
     private boolean isExistingLabel(List<Label> labels, String labelName) {
@@ -238,16 +234,20 @@ public class DataDepotBean implements Serializable {
         return false;
     }
 
-    public void addLabel(String name, Label labelSelected) {
+    public void addLabel(String name, Label labelSelected, boolean isValidate) {
         switch (Integer.parseInt(schemasSelected)) {
             case 1:
                 if (CollectionUtils.isEmpty(deblinCoreSelected.getMotsCles())) {
                     deblinCoreSelected.setMotsClesLabel(new ArrayList<>());
                     deblinCoreSelected.setMotsCles(new ArrayList<>());
+                    deblinCoreSelected.setMotsClesValide(new ArrayList<>());
+                    deblinCoreSelected.setMotsClesNonValide(new ArrayList<>());
                 }
                 if (!isExistingLabel(deblinCoreSelected.getMotsClesLabel(), name)) {
                     deblinCoreSelected.getMotsCles().add(name);
                     deblinCoreSelected.getMotsClesLabel().add(labelSelected);
+                    if (isValidate) deblinCoreSelected.getMotsClesValide().add(labelSelected);
+                    else deblinCoreSelected.getMotsClesNonValide().add(labelSelected);
                 }
                 deblinCoreSelected.setMotCle("");
                 break;
@@ -538,7 +538,7 @@ public class DataDepotBean implements Serializable {
                 deblinCoreUploated = new ArrayList<>();
             }
             deblinCoreUploated.add(fileManager.uploadFiles(event.getFile(), depotName, groupeTravailSelected,
-                    repertoirSelected, schemasSelected, listMetadonnes));
+                    repertoirSelected, schemasSelected, listMetadonnes, groupeTravail.indexOf(groupeTravailSelected)));
 
             FacesMessage message = new FacesMessage("Successful", "All files are uploaded.");
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -559,6 +559,7 @@ public class DataDepotBean implements Serializable {
                 depots.setArcheodrid("A venir");
                 depots.setDepotHumaNum("A venir");
                 depots.setDateDepot(new Date());
+                depots.setSource(sourceSelected);
                 depotCreated = depotsRepository.save(depots);
                 depotManagerBean.initComposant();
             }
@@ -571,14 +572,24 @@ public class DataDepotBean implements Serializable {
 
     public void uploadMetadonneFile(FileUploadEvent event) throws IOException {
         UploadedFile file = event.getFile();
-        if (file.getFileName().toLowerCase().endsWith(".xlsx")) {
+
+        if (file.getFileName().toLowerCase().endsWith(".xlsx") ||
+                file.getFileName().toLowerCase().endsWith(".csv")) {
+
             InputStream is = event.getFile().getInputstream();
             File fileUploated = new File(event.getFile().getFileName());
             fileManager.uploadFile(is, fileUploated);
-            listMetadonnes = metadonneService.readDeblinCoreMetadonne(fileUploated, schemasSelected);
+
+            if (file.getFileName().toLowerCase().endsWith(".xlsx")) {
+                listMetadonnes = metadonneService.readDeblinCoreMetadonne(fileUploated, schemasSelected);
+            } else {
+                listMetadonnes = metadonneCsvService.readCsvMetadonne(fileUploated, schemasSelected);
+            }
+
             fileUploated.delete();
             PrimeFaces pf = PrimeFaces.current();
             pf.ajax().update("mainDepos");
+
         } else {
             showMessage(FacesMessage.SEVERITY_ERROR, "Le format du fichier metadonne est invalide !");
         }
@@ -657,100 +668,6 @@ public class DataDepotBean implements Serializable {
         }
 
     }
-
-    public String test(Resource resourceSelected) {
-
-        this.resourceName = resourceSelected.getFile().getName();
-
-        switch (Integer.parseInt(schemasSelected)) {
-            case 1:
-                deblinCoreSelected = (DeblinCore) resourceSelected;
-                break;
-            case 2:
-                articlePresseSelected = (ArticlePresse) resourceSelected;
-                break;
-            case 3:
-                urlSelected = (Url) resourceSelected;
-                break;
-            case 4:
-                videoSelected = (Video) resourceSelected;
-                break;
-            case 5:
-                imageSelected = (Image) resourceSelected;
-                break;
-            case 6:
-                audioSelected = (AudioWaweBwf) resourceSelected;
-                break;
-            case 7:
-                donneeLaserBrutSelected = (DonneeLaserBrut) resourceSelected;
-                break;
-            case 8:
-                donneeLaserConsoSelected = (DonneeLaserConso) resourceSelected;
-                break;
-            case 9:
-                nuagePointsPhotogrammetrieSelected = (NuagePointsPhotogrammetrie) resourceSelected;
-                break;
-            case 10:
-                maillage3dPhotogrammetrieSelected = (Maillage3dPhotogrammetrie) resourceSelected;
-                break;
-            case 11:
-                maillage3dGeometrySelected = (Maillage3dGeometry) resourceSelected;
-                break;
-        }
-
-
-        String nomDialog = null;
-        this.resourceName = resourceSelected.getFile().getName();
-        switch (Integer.parseInt(schemasSelected)) {
-            case 1:
-                nomDialog = "deblinCore";
-                deblinCoreSelected = (DeblinCore) resourceSelected;
-                break;
-            case 2:
-                nomDialog = "articlePress";
-                articlePresseSelected = (ArticlePresse) resourceSelected;
-                break;
-            case 3:
-                nomDialog = "urlDialog";
-                urlSelected = (Url) resourceSelected;
-                break;
-            case 4:
-                nomDialog = "videoDialog";
-                videoSelected = (Video) resourceSelected;
-                break;
-            case 5:
-                nomDialog = "imageDialog";
-                imageSelected = (Image) resourceSelected;
-                break;
-            case 6:
-                nomDialog = "audioDialog";
-                audioSelected = (AudioWaweBwf) resourceSelected;
-                break;
-            case 7:
-                nomDialog = "donneLaserBrutesDialog";
-                donneeLaserBrutSelected = (DonneeLaserBrut) resourceSelected;
-                break;
-            case 8:
-                nomDialog = "donneLaserConsoDialog";
-                donneeLaserConsoSelected = (DonneeLaserConso) resourceSelected;
-                break;
-            case 9:
-                nomDialog = "nuagePointsPhotogrammetrieDialog";
-                nuagePointsPhotogrammetrieSelected = (NuagePointsPhotogrammetrie) resourceSelected;
-                break;
-            case 10:
-                nomDialog = "maillage3dPhotoDiagram";
-                maillage3dPhotogrammetrieSelected = (Maillage3dPhotogrammetrie) resourceSelected;
-                break;
-            case 11:
-                nomDialog = "maillage3dGeommetryDiagram";
-                maillage3dGeometrySelected = (Maillage3dGeometry) resourceSelected;
-                break;
-        }
-
-        return "PF('" + nomDialog + "').show();";
-    }
-
 
     public List<Resource> getDeblinCoreUploated() {
         return deblinCoreUploated;
@@ -924,4 +841,19 @@ public class DataDepotBean implements Serializable {
         return "11".equals(schemasSelected);
     }
 
+    public List<String> getSources() {
+        return sources;
+    }
+
+    public void setSources(List<String> sources) {
+        this.sources = sources;
+    }
+
+    public String getSourceSelected() {
+        return sourceSelected;
+    }
+
+    public void setSourceSelected(String sourceSelected) {
+        this.sourceSelected = sourceSelected;
+    }
 }

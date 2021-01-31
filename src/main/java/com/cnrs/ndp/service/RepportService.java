@@ -367,7 +367,7 @@ public class RepportService {
                     video.getIdentifiantUnique(),
                     video.getExtension(),
                     video.getLienInternet(),
-                    video.getDateConsultation(),
+                    video.getDateConsultation() != null ? DateUtils.formatDateToString(video.getDateConsultation()) : "",
                     video.getDateCreationMp4() != null ? DateUtils.formatDateToString(video.getDateCreationMp4()) : "",
                     video.getRelation(),
                     video.getLienInternet(),
@@ -446,7 +446,7 @@ public class RepportService {
 
     private List<String[]> createDeblinCoreRepport(List<Resource> resources) {
         List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "Titre", "Createur", "Mots clés", "Description", "Éditeur",
+        data.add(new String[] { "Titre", "Createur", "Mots clés validés", "Mots clés libre", "Description", "Éditeur",
                 "Contributeur", "Date de mise à disposition", "Type", "Format", "Identifiant unique",
                 "Source", "Langue", "Relation", "Couverture", "Gestion des droits" });
         for (Resource rowData : resources) {
@@ -455,7 +455,8 @@ public class RepportService {
             if (!ObjectUtils.isEmpty(deblinCore)) {
                 data.add(new String[] { deblinCore.getTitre(),
                         deblinCore.getCreateur(),
-                        generetMotCle(deblinCore.getMotsClesLabel()),
+                        generetMotCle(deblinCore.getMotsClesValide()),
+                        generetMotCle(deblinCore.getMotsClesNonValide()),
                         deblinCore.getDescription(),
                         deblinCore.getEditeur(),
                         deblinCore.getContributeur(),
@@ -466,7 +467,7 @@ public class RepportService {
                         deblinCore.getSource(),
                         deblinCore.getLangue(),
                         deblinCore.getRelation(),
-                        deblinCore.getCouverture(),
+                        deblinCore.getCouverture() != null ? DateUtils.formatDateToString(deblinCore.getCouverture()) : "",
                         deblinCore.getGestionDesDroits()});
             }
         }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -60,15 +61,19 @@ public class ThesaurusService {
     }
 
     private String createUrl(String terme, String thesoName) {
-        return new StringBuffer(baseUrlTheso)
+
+        StringBuffer url = new StringBuffer(baseUrlTheso)
                 .append(terme)
                 .append("?theso=")
-                .append(thesoName)
-                .append("&group=")
-                .append(groupe)
-                .append("&lang=")
-                .append(langue)
-                .toString();
+                .append(thesoName);
+
+        if(!StringUtils.isEmpty(groupe)) {
+            url.append("&group=").append(groupe);
+        }
+
+        url.append("&lang=").append(langue);
+
+        return url.toString();
     }
 
 }

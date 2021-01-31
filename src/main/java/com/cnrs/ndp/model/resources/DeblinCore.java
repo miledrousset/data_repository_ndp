@@ -16,6 +16,6 @@ public class DeblinCore extends Resource {
 
     Date dateMiseDisposition;
     String source;
-    String couverture;
+    Date couverture;
     
 }

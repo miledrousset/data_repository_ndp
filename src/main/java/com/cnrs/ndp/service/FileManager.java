@@ -1,5 +1,6 @@
 package com.cnrs.ndp.service;
 
+import com.cnrs.ndp.model.Label;
 import com.cnrs.ndp.model.resources.*;
 import com.cnrs.ndp.outils.ImageManager;
 import com.cnrs.ndp.outils.PdfManager;
@@ -12,11 +13,15 @@ import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.io.*;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -31,6 +36,9 @@ public class FileManager {
 
     @Autowired
     private VideoManager videoManager;
+
+    @Autowired
+    private ThesaurusService thesaurusService;
 
     @Value("${upload.file.path}")
     private String pathUpload;
@@ -71,8 +79,13 @@ public class FileManager {
     private final static int BUFFER_SIZE = 8192;
 
 
-    public Resource uploadFiles(UploadedFile file, String repoName, String groupeTravailSelected,
-                                String repertoirSelected, String schemasSelected, List<Resource> listMetadonnes) {
+    public Resource uploadFiles(UploadedFile file,
+                                String repoName,
+                                String groupeTravailSelected,
+                                String repertoirSelected,
+                                String schemasSelected,
+                                List<Resource> listMetadonnes,
+                                int groupSelectedIndex) {
         Resource resource = null;
         try {
             String destinationPath = createDestinationDirectoryPath(repoName, groupeTravailSelected, repertoirSelected);
@@ -81,49 +94,67 @@ public class FileManager {
             InputStream is = file.getInputstream();
             copyFile(is, fileOut, destinationPath + smallDirectory + fileName);
             String titre = StringUtils.formatFileName(fileName.substring(0, fileName.lastIndexOf(".")));
-            resource = createResource(schemasSelected, titre, listMetadonnes, fileOut);
+            resource = createResource(schemasSelected, titre, listMetadonnes, fileOut, groupSelectedIndex);
             resource.setFile(fileOut);
         } catch (Exception e) { }
         return resource;
     }
 
 
-    private Resource createResource(String schemasSelected, String fileName, List<Resource> listMetadonnes,  File fileOut) {
-        Resource resource = getResourceFromMetadonnes(listMetadonnes, fileName);
+    private Resource createResource(String schemasSelected, String fileName, List<Resource> listMetadonnes,
+                                    File fileOut, int groupSelectedIndex) {
+        Resource resource = getResourceFromMetadonnes(listMetadonnes, fileName, groupSelectedIndex);
         if (resource == null) {
             switch(Integer.parseInt(schemasSelected)) {
                 case 1 :
                     resource = new DeblinCore();
+                    ((DeblinCore) resource).setDateMiseDisposition(new Date());
+                    ((DeblinCore) resource).setCouverture(new Date());
                     break;
                 case 2:
                     resource = new ArticlePresse();
+                    ((ArticlePresse) resource).setDateCreationPDF(new Date());
+                    ((ArticlePresse) resource).setDateConsultation(new Date());
+                    ((ArticlePresse) resource).setDateCreationFichier(new Date());
                     break;
                 case 3:
                     resource = new Url();
+                    ((Url) resource).setDateCreationFichier(new Date());
                     break;
                 case 4:
                     resource = new Video();
+                    ((Video) resource).setDateCreationFichier(new Date());
+                    ((Video) resource).setDateCreationMp4(new Date());
+                    ((Video) resource).setDateConsultation(new Date());
                     break;
                 case 5:
                     resource = new Image();
+                    ((Image) resource).setDateCreation(new Date());
+                    ((Image) resource).setDateMiseDisposition(new Date());
                     break;
                 case 6:
                     resource = new AudioWaweBwf();
+                    ((AudioWaweBwf) resource).setOriginationDate(new Date());
+                    ((AudioWaweBwf) resource).setIcrd(new Date());
                     break;
                 case 7:
                     resource = new DonneeLaserBrut();
+                    ((DonneeLaserBrut) resource).setDateMiseDisposition(new Date());
                     break;
                 case 8:
                     resource = new DonneeLaserConso();
+                    ((DonneeLaserConso) resource).setDateMiseDisposition(new Date());
                     break;
                 case 9:
                     resource = new NuagePointsPhotogrammetrie();
+                    ((NuagePointsPhotogrammetrie) resource).setDateMiseDisposition(new Date());
                     break;
                 case 10:
                     resource = new Maillage3dPhotogrammetrie();
                     break;
                 case 11:
                     resource = new Maillage3dGeometry();
+                    ((Maillage3dGeometry) resource).setDateFichier(new Date());
                     break;
             }
             resource.setTitre(fileName);
@@ -132,13 +163,34 @@ public class FileManager {
         return resource;
     }
 
-    private Resource getResourceFromMetadonnes(List<Resource> listMetadonnes, String fileName) {
+    private Resource getResourceFromMetadonnes(List<Resource> listMetadonnes, String fileName, int groupSelectedIndex) {
         Resource resourceFound = null;
         for (Resource resource : listMetadonnes) {
             if (resource.getTitre().equalsIgnoreCase(fileName)) {
                 resourceFound = resource;
             }
         }
+
+        if (!ObjectUtils.isEmpty(resourceFound)) {
+            List<Label> motsValide = new ArrayList<>();
+            List<Label> motsNonValide = new ArrayList<>();
+            for (Label label : resourceFound.getMotsClesLabel()) {
+                List<Label> mots = thesaurusService.getListTermes(label.getLabel(), groupSelectedIndex);
+                if (!CollectionUtils.isEmpty(mots)) {
+                    Label newLabel = new Label();
+                    newLabel.setLabel(label.getLabel());
+                    newLabel.setUri(mots.get(0).getUri());
+                    motsValide.add(newLabel);
+                } else {
+                    Label newLabel = new Label();
+                    newLabel.setLabel(label.getLabel());
+                    motsNonValide.add(newLabel);
+                }
+            }
+            resourceFound.setMotsClesValide(motsValide);
+            resourceFound.setMotsClesNonValide(motsNonValide);
+        }
+
         return resourceFound;
     }
 

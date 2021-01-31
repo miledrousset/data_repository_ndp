@@ -24,7 +24,8 @@
             <div class="col-sm-9 form-group">
                 <p:autoComplete id="autoDeblin" value="#{dataDepotManager.deblinCoreSelected.motCle}"
                                 completeMethod="#{dataDepotManager.rechercheMotsCle}"
-                                onkeypress="if (event.keyCode == 13) { deblinRemCo(); return false; }">
+                                onkeypress="if (event.keyCode == 13) { deblinRemCo(); return false; }"
+                                scrollHeight="400">
                     <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.deblinCoreSelected.motCle)}"
                             update="motcleFormDebian autoDeblin"/>
                 </p:autoComplete>
@@ -109,7 +110,7 @@
         <div class="form-group row">
             <h:outputText class="col-sm-3 col-form-label" style="font-size: 14px" value="Couverture *" />
             <div class="col-sm-9 form-group">
-                <h:inputText value="#{dataDepotManager.deblinCoreSelected.couverture}" class="form-control" />
+                <p:calendar value="#{dataDepotManager.deblinCoreSelected.couverture}" pattern="yyyy-MM-dd" />
             </div>
         </div>
 

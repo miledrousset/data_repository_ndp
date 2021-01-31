@@ -24,6 +24,8 @@ public class Resource implements Serializable {
     String motCle;
     List<String> motsCles;
     List<Label> motsClesLabel;
+    List<Label> motsClesNonValide;
+    List<Label> motsClesValide;
     String description;
     String editeur;
     String contributeur;

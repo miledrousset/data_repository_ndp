@@ -27,6 +27,8 @@ public class Depots {
     String nomDepot;
     
     Date dateDepot;
+
+    String source;
     
     String groupeTravail;
     

@@ -17,7 +17,7 @@ public class Video extends Resource {
     Date dateCreationFichier;
     String lienInternet;
     String extension;
-    String dateConsultation;
+    Date dateConsultation;
     Date dateCreationMp4;
     String preparation;
     String collecteur;

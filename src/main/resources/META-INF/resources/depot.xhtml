@@ -64,7 +64,7 @@
                                         <b:selectOneMenu value="#{dataDepotManager.schemasSelected}"
                                                          style="width:100%; font-size: 14px;"
                                                          disabled="#{dataDepotManager.detailDepotVisible}">
-                                            <f:selectItem itemLabel="Deblin Core" itemValue="1"/>
+                                            <f:selectItem itemLabel="Dublin Core" itemValue="1"/>
                                             <f:selectItem itemLabel="Article de Press (gt-Emotion)" itemValue="2" />
                                             <f:selectItem itemLabel="URL" itemValue="3" />
                                             <f:selectItem itemLabel="Vidéo" itemValue="4" />
@@ -77,7 +77,9 @@
                                             <f:selectItem itemLabel="Restitution 3D Geometry" itemValue="11" />
                                         </b:selectOneMenu>
 
-                                        <div class="modal-footer">
+                                        <div style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap;
+                                                    -ms-flex-align: center; align-items: center; -ms-flex-pack: end;
+                                                    justify-content: flex-end;">
                                            <b:commandButton value="Valider" actionListener="#{dataDepotManager.onValiderSchema()}"
                                                             disabled="#{dataDepotManager.detailDepotVisible}"
                                                             update="mainDepos" style="border-color: #d9232d;
@@ -115,7 +117,20 @@
                                                 </div>
                                             </div>
 
+                                            <div class="form-group row">
+                                                <h:outputText class="col-sm-2 col-form-label" style="font-size: 14px" value="Source :" />
+                                                <div class="col-sm-10">
+                                                    <b:selectOneMenu value="#{dataDepotManager.sourceSelected}"
+                                                                     style="width:100%; font-size: 14px;" dynamic="true"
+                                                                     disabled="#{dataDepotManager.uploadFilesVisible}">
+                                                        <f:selectItems value="#{dataDepotManager.sources}" var="source"
+                                                                       itemLabel="#{source}" itemValue="#{source}" />
+                                                    </b:selectOneMenu>
+                                                </div>
+                                            </div>
+
                                             <p style="font-size: 14px;">Chargement du métadata</p>
+                                            <p style="font-size: 10px;">Cette étape est optionelle, formats acceptées : CSV et XSL</p>
                                             <div class="input-group">
                                                 <h:form style="width: 100%" enctype="multipart/form-data">
                                                     <p:fileUpload fileUploadListener="#{dataDepotManager.uploadMetadonneFile}"
@@ -133,11 +148,13 @@
                                                 <p>Nombre total des metadonnées chargés : <B>#{dataDepotManager.listMetadonnes.size()}</B></p>
                                             </div>
 
-                                            <div class="modal-footer">
+                                            <div style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap;
+                                                                    -ms-flex-align: center; align-items: center; -ms-flex-pack: end;
+                                                                    justify-content: flex-end;">
                                                 <b:commandButton value="Annuler" action="#{dataDepotManager.initComposant()}" update="mainDepos"
                                                                  style="border-color: #d9232d; background: #ffffff;
                                                                  color: #d9232d; border-radius: 4px; padding: 3px; white-space: nowrap;
-                                                                 transition: 0.3s; font-size: 12px; display: inline-block;" />
+                                                                 transition: 0.3s; font-size: 12px; display: inline-block; margin-right:10px" />
 
                                                 <b:commandButton value="Valider" actionListener="#{dataDepotManager.onValiderUploadParams()}"
                                                                  disabled="#{dataDepotManager.uploadFilesVisible}"
@@ -193,7 +210,7 @@
                                                     <table id="resourceArray" class="table table-striped table-hover">
                                                         <thead>
                                                         <tr>
-                                                            <th >Titre</th>
+                                                            <th><h:outputText value="Titre"/></th>
                                                             <th>Créateur</th>
                                                             <th>Type</th>
                                                             <th>Format</th>
@@ -209,7 +226,6 @@
                                                                         <td><h:outputText value="#{res.type}"/></td>
                                                                         <td><h:outputText value="#{res.format}"/></td>
                                                                         <td>
-
                                                                             <b:navCommandLink tooltip="Supprimer la resource" icon-awesome="fas fa-plus-circle"
                                                                                               oncomplete="PF('modifierResource').show();" ajax="false"
                                                                                               style="color: #f47b2a" update="testDepot"
