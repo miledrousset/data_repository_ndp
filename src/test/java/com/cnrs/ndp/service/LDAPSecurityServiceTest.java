@@ -1,6 +1,6 @@
 package com.cnrs.ndp.service;
 
-import com.cnrs.ndp.service.LDAPSecurityService;
+import com.cnrs.ndp.service.impl.LDAPSecurityServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class LDAPSecurityServiceTest {
 
 
     @Autowired
-    private LDAPSecurityService ldapSecurityConfig;
+    private LDAPSecurityServiceImpl ldapSecurityConfig;
 
 
     @Test

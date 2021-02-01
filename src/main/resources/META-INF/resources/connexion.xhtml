@@ -62,12 +62,14 @@
                                     <div class="col-md-12 form-group">
                                         <h:inputSecret value="#{connexionBean.password}" class="form-control"/>
                                     </div>
-                                    <p:commandButton value="Connexion"
-                                                     update="connexionPanel"
-                                                     style="border-color: #d9232d; background: #d9232d; color: #fff;
+                                    <div class="col-md-12 form-group">
+                                        <p:commandButton value="Connexion"
+                                                         update="connexionPanel"
+                                                         style="border-color: #d9232d; background: #d9232d; color: #fff;
                                                      border-radius: 4px; padding: 8px 30px 9px 30px; white-space: nowrap;
                                                      transition: 0.3s; font-size: 14px; display: inline-block;margin-left: auto!important"
-                                                     actionListener="#{connexionBean.connexion()}" />
+                                                         actionListener="#{connexionBean.connexion()}" />
+                                    </div>
                                 </h:form>
                             </div>
                         </div>

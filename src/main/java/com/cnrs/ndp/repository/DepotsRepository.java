@@ -12,6 +12,6 @@ public interface DepotsRepository extends JpaRepository<Depots, Long> {
 
     Depots findByNomDepot(String depotName);
 
-    List<Depots> findAllByDepotHumaNumOrderByDateDepot(String depotHumaNum);
+    List<Depots> findAllByDepotHumaNumOrderByDateDepotDesc(String depotHumaNum);
 
 }

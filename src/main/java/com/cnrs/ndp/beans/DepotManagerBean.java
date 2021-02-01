@@ -40,8 +40,8 @@ public class DepotManagerBean implements Serializable {
 
     @PostConstruct
     public void initComposant() {
-        depotsList = depotsRepository.findAllByDepotHumaNumOrderByDateDepot("A venir");
-        depotsDoneList = depotsRepository.findAllByDepotHumaNumOrderByDateDepot("Déposé");
+        depotsList = depotsRepository.findAllByDepotHumaNumOrderByDateDepotDesc("A venir");
+        depotsDoneList = depotsRepository.findAllByDepotHumaNumOrderByDateDepotDesc("Déposé");
 
         InputStream is = DepotManagerBean.class.getResourceAsStream("/Tutoriel de dépôt HumanumBox Janvier 2021.pdf");
         streamedContent = new DefaultStreamedContent(is, "application/pdf");
@@ -89,8 +89,8 @@ public class DepotManagerBean implements Serializable {
     public void modifierDepot() {
         if (!ObjectUtils.isEmpty(depotSelected)) {
             depotsRepository.save(depotSelected);
-            depotsList = depotsRepository.findAllByDepotHumaNumOrderByDateDepot("A venir");
-            depotsDoneList = depotsRepository.findAllByDepotHumaNumOrderByDateDepot("Déposé");
+            depotsList = depotsRepository.findAllByDepotHumaNumOrderByDateDepotDesc("A venir");
+            depotsDoneList = depotsRepository.findAllByDepotHumaNumOrderByDateDepotDesc("Déposé");
             showMessage(FacesMessage.SEVERITY_INFO, "Dépôt modifié avec sucée !");
         }
 

@@ -38,10 +38,13 @@ public class DataDepotBean implements Serializable {
     private DepotManagerBean depotManagerBean;
 
     @Autowired
-    private FileManager fileManager;
+    private FileManagerService fileManagerService;
 
     @Autowired
-    private MetadonneService metadonneService;
+    private MetadonneExcelService metadonneExcelService;
+
+    @Autowired
+    private MetadonneCsvService metadonneCsvService;
 
     @Autowired
     private DepotsRepository depotsRepository;
@@ -53,13 +56,10 @@ public class DataDepotBean implements Serializable {
     private ThesaurusService thesaurusService;
 
     @Autowired
-    private FormValidateur formValidateur;
+    private ForumValidateur formValidateur;
 
     @Autowired
     private ConnexionBean connexionBean;
-
-    @Autowired
-    private MetadonneCsvService metadonneCsvService;
 
 
     @Value("#{'${upload.file.repertoires}'.split(';')}")
@@ -255,10 +255,14 @@ public class DataDepotBean implements Serializable {
                 if (CollectionUtils.isEmpty(articlePresseSelected.getMotsCles())) {
                     articlePresseSelected.setMotsClesLabel(new ArrayList<>());
                     articlePresseSelected.setMotsCles(new ArrayList<>());
+                    articlePresseSelected.setMotsClesValide(new ArrayList<>());
+                    articlePresseSelected.setMotsClesNonValide(new ArrayList<>());
                 }
                 if (!isExistingLabel(articlePresseSelected.getMotsClesLabel(), name)) {
                     articlePresseSelected.getMotsCles().add(name);
                     articlePresseSelected.getMotsClesLabel().add(labelSelected);
+                    if (isValidate) articlePresseSelected.getMotsClesValide().add(labelSelected);
+                    else articlePresseSelected.getMotsClesNonValide().add(labelSelected);
                 }
                 articlePresseSelected.setMotCle("");
                 break;
@@ -266,10 +270,14 @@ public class DataDepotBean implements Serializable {
                 if (CollectionUtils.isEmpty(urlSelected.getMotsCles())) {
                     urlSelected.setMotsClesLabel(new ArrayList<>());
                     urlSelected.setMotsCles(new ArrayList<>());
+                    urlSelected.setMotsClesValide(new ArrayList<>());
+                    urlSelected.setMotsClesNonValide(new ArrayList<>());
                 }
                 if (!isExistingLabel(urlSelected.getMotsClesLabel(), name)) {
                     urlSelected.getMotsCles().add(name);
                     urlSelected.getMotsClesLabel().add(labelSelected);
+                    if (isValidate) urlSelected.getMotsClesValide().add(labelSelected);
+                    else urlSelected.getMotsClesNonValide().add(labelSelected);
                 }
                 urlSelected.setMotCle("");
                 break;
@@ -277,10 +285,14 @@ public class DataDepotBean implements Serializable {
                 if (CollectionUtils.isEmpty(videoSelected.getMotsCles())) {
                     videoSelected.setMotsClesLabel(new ArrayList<>());
                     videoSelected.setMotsCles(new ArrayList<>());
+                    videoSelected.setMotsClesValide(new ArrayList<>());
+                    videoSelected.setMotsClesNonValide(new ArrayList<>());
                 }
                 if (!isExistingLabel(videoSelected.getMotsClesLabel(), name)) {
                     videoSelected.getMotsCles().add(name);
                     videoSelected.getMotsClesLabel().add(labelSelected);
+                    if (isValidate) videoSelected.getMotsClesValide().add(labelSelected);
+                    else videoSelected.getMotsClesNonValide().add(labelSelected);
                 }
                 videoSelected.setMotCle("");
                 break;
@@ -288,10 +300,14 @@ public class DataDepotBean implements Serializable {
                 if (CollectionUtils.isEmpty(imageSelected.getMotsCles())) {
                     imageSelected.setMotsClesLabel(new ArrayList<>());
                     imageSelected.setMotsCles(new ArrayList<>());
+                    imageSelected.setMotsClesValide(new ArrayList<>());
+                    imageSelected.setMotsClesNonValide(new ArrayList<>());
                 }
                 if (!isExistingLabel(imageSelected.getMotsClesLabel(), name)) {
                     imageSelected.getMotsCles().add(name);
                     imageSelected.getMotsClesLabel().add(labelSelected);
+                    if (isValidate) imageSelected.getMotsClesValide().add(labelSelected);
+                    else imageSelected.getMotsClesNonValide().add(labelSelected);
                 }
                 imageSelected.setMotCle("");
                 break;
@@ -299,10 +315,14 @@ public class DataDepotBean implements Serializable {
                 if (CollectionUtils.isEmpty(audioSelected.getMotsCles())) {
                     audioSelected.setMotsClesLabel(new ArrayList<>());
                     audioSelected.setMotsCles(new ArrayList<>());
+                    audioSelected.setMotsClesValide(new ArrayList<>());
+                    audioSelected.setMotsClesNonValide(new ArrayList<>());
                 }
                 if (!isExistingLabel(audioSelected.getMotsClesLabel(), name)) {
                     audioSelected.getMotsCles().add(name);
                     audioSelected.getMotsClesLabel().add(labelSelected);
+                    if (isValidate) audioSelected.getMotsClesValide().add(labelSelected);
+                    else audioSelected.getMotsClesNonValide().add(labelSelected);
                 }
                 audioSelected.setMotCle("");
                 break;
@@ -310,10 +330,14 @@ public class DataDepotBean implements Serializable {
                 if (CollectionUtils.isEmpty(donneeLaserBrutSelected.getMotsCles())) {
                     donneeLaserBrutSelected.setMotsClesLabel(new ArrayList<>());
                     donneeLaserBrutSelected.setMotsCles(new ArrayList<>());
+                    donneeLaserBrutSelected.setMotsClesValide(new ArrayList<>());
+                    donneeLaserBrutSelected.setMotsClesNonValide(new ArrayList<>());
                 }
                 if (!isExistingLabel(donneeLaserBrutSelected.getMotsClesLabel(), name)) {
                     donneeLaserBrutSelected.getMotsCles().add(name);
                     donneeLaserBrutSelected.getMotsClesLabel().add(labelSelected);
+                    if (isValidate) donneeLaserBrutSelected.getMotsClesValide().add(labelSelected);
+                    else donneeLaserBrutSelected.getMotsClesNonValide().add(labelSelected);
                 }
                 donneeLaserBrutSelected.setMotCle("");
                 break;
@@ -321,10 +345,14 @@ public class DataDepotBean implements Serializable {
                 if (CollectionUtils.isEmpty(donneeLaserConsoSelected.getMotsCles())) {
                     donneeLaserConsoSelected.setMotsClesLabel(new ArrayList<>());
                     donneeLaserConsoSelected.setMotsCles(new ArrayList<>());
+                    donneeLaserConsoSelected.setMotsClesValide(new ArrayList<>());
+                    donneeLaserConsoSelected.setMotsClesNonValide(new ArrayList<>());
                 }
                 if (!isExistingLabel(donneeLaserConsoSelected.getMotsClesLabel(), name)) {
                     donneeLaserConsoSelected.getMotsCles().add(name);
                     donneeLaserConsoSelected.getMotsClesLabel().add(labelSelected);
+                    if (isValidate) donneeLaserConsoSelected.getMotsClesValide().add(labelSelected);
+                    else donneeLaserConsoSelected.getMotsClesNonValide().add(labelSelected);
                 }
                 donneeLaserConsoSelected.setMotCle("");
                 break;
@@ -332,10 +360,14 @@ public class DataDepotBean implements Serializable {
                 if (CollectionUtils.isEmpty(nuagePointsPhotogrammetrieSelected.getMotsCles())) {
                     nuagePointsPhotogrammetrieSelected.setMotsClesLabel(new ArrayList<>());
                     nuagePointsPhotogrammetrieSelected.setMotsCles(new ArrayList<>());
+                    nuagePointsPhotogrammetrieSelected.setMotsClesValide(new ArrayList<>());
+                    nuagePointsPhotogrammetrieSelected.setMotsClesNonValide(new ArrayList<>());
                 }
                 if (!isExistingLabel(nuagePointsPhotogrammetrieSelected.getMotsClesLabel(), name)) {
                     nuagePointsPhotogrammetrieSelected.getMotsCles().add(name);
                     nuagePointsPhotogrammetrieSelected.getMotsClesLabel().add(labelSelected);
+                    if (isValidate) nuagePointsPhotogrammetrieSelected.getMotsClesValide().add(labelSelected);
+                    else nuagePointsPhotogrammetrieSelected.getMotsClesNonValide().add(labelSelected);
                 }
                 nuagePointsPhotogrammetrieSelected.setMotCle("");
                 break;
@@ -343,10 +375,14 @@ public class DataDepotBean implements Serializable {
                 if (CollectionUtils.isEmpty(maillage3dPhotogrammetrieSelected.getMotsCles())) {
                     maillage3dPhotogrammetrieSelected.setMotsClesLabel(new ArrayList<>());
                     maillage3dPhotogrammetrieSelected.setMotsCles(new ArrayList<>());
+                    maillage3dPhotogrammetrieSelected.setMotsClesValide(new ArrayList<>());
+                    maillage3dPhotogrammetrieSelected.setMotsClesNonValide(new ArrayList<>());
                 }
                 if (!isExistingLabel(maillage3dPhotogrammetrieSelected.getMotsClesLabel(), name)) {
                     maillage3dPhotogrammetrieSelected.getMotsCles().add(name);
                     maillage3dPhotogrammetrieSelected.getMotsClesLabel().add(labelSelected);
+                    if (isValidate) maillage3dPhotogrammetrieSelected.getMotsClesValide().add(labelSelected);
+                    else maillage3dPhotogrammetrieSelected.getMotsClesNonValide().add(labelSelected);
                 }
                 maillage3dPhotogrammetrieSelected.setMotCle("");
                 break;
@@ -354,10 +390,14 @@ public class DataDepotBean implements Serializable {
                 if (CollectionUtils.isEmpty(maillage3dGeometrySelected.getMotsCles())) {
                     maillage3dGeometrySelected.setMotsClesLabel(new ArrayList<>());
                     maillage3dGeometrySelected.setMotsCles(new ArrayList<>());
+                    maillage3dGeometrySelected.setMotsClesValide(new ArrayList<>());
+                    maillage3dGeometrySelected.setMotsClesNonValide(new ArrayList<>());
                 }
                 if (!isExistingLabel(maillage3dGeometrySelected.getMotsClesLabel(), name)) {
                     maillage3dGeometrySelected.getMotsCles().add(name);
                     maillage3dGeometrySelected.getMotsClesLabel().add(labelSelected);
+                    if (isValidate) maillage3dGeometrySelected.getMotsClesValide().add(labelSelected);
+                    else maillage3dGeometrySelected.getMotsClesNonValide().add(labelSelected);
                 }
                 maillage3dGeometrySelected.setMotCle("");
                 break;
@@ -404,7 +444,7 @@ public class DataDepotBean implements Serializable {
         String depoFile = new StringBuffer(pathDepot).append("/").append(groupeTravailSelected).append("/")
                 .append(repertoirSelected).append("/").append(depotName).append("/").toString();
 
-        repportService.createDeblinCoreRepport(deblinCoreUploated, depoFile, depotName, schemasSelected);
+        repportService.createMetadonneFile(deblinCoreUploated, depoFile, depotName, schemasSelected);
     }
 
     public void modifierResource() {
@@ -531,13 +571,13 @@ public class DataDepotBean implements Serializable {
 
     public void uploadFiles(FileUploadEvent event) {
 
-        if (fileManager.validateFormatFile(schemasSelected, FilenameUtils.getExtension(event.getFile().getFileName()))) {
+        if (fileManagerService.validateFormatFile(schemasSelected, FilenameUtils.getExtension(event.getFile().getFileName()))) {
 
             if (StringUtils.isEmpty(depotName)) {
                 depotName = connexionBean.getUsername() + "_" + DateUtils.getDateTime(DIRECTORY_NAME);
                 deblinCoreUploated = new ArrayList<>();
             }
-            deblinCoreUploated.add(fileManager.uploadFiles(event.getFile(), depotName, groupeTravailSelected,
+            deblinCoreUploated.add(fileManagerService.uploadFiles(event.getFile(), depotName, groupeTravailSelected,
                     repertoirSelected, schemasSelected, listMetadonnes, groupeTravail.indexOf(groupeTravailSelected)));
 
             FacesMessage message = new FacesMessage("Successful", "All files are uploaded.");
@@ -578,10 +618,10 @@ public class DataDepotBean implements Serializable {
 
             InputStream is = event.getFile().getInputstream();
             File fileUploated = new File(event.getFile().getFileName());
-            fileManager.uploadFile(is, fileUploated);
+            fileManagerService.uploadFile(is, fileUploated);
 
             if (file.getFileName().toLowerCase().endsWith(".xlsx")) {
-                listMetadonnes = metadonneService.readDeblinCoreMetadonne(fileUploated, schemasSelected);
+                listMetadonnes = metadonneExcelService.readDeblinCoreMetadonne(fileUploated, schemasSelected);
             } else {
                 listMetadonnes = metadonneCsvService.readCsvMetadonne(fileUploated, schemasSelected);
             }

@@ -5,7 +5,7 @@
              xmlns:p="http://primefaces.org/ui">
 
     <p:dialog header="Resource : #{dataDepotManager.resourceName}" widgetVar="modifierResource" modal="true"
-              height="500" width="800" style="background-color: #eeeeee;">
+              minHeight="300" height="500" width="800" style="background-color: #eeeeee;">
 
         <h:panelGroup rendered="#{dataDepotManager.isDeblinSchemaSelected()}">
             <ui:include src="/depot/deblinCore.xhtml"/>

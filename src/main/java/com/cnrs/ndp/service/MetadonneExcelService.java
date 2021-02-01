@@ -6,8 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public interface MetadonneCsvService {
 
-    List<Resource> readCsvMetadonne(File file, String schemasSelected) throws IOException;
+public interface MetadonneExcelService {
+
+    List<Resource> readDeblinCoreMetadonne(File file, String schemasSelected) throws IOException;
 
 }

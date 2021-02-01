@@ -24,12 +24,12 @@
             <div class="col-sm-9 form-group">
                 <p:autoComplete id="autoAudio" value="#{dataDepotManager.audioSelected.motCle}"
                                 completeMethod="#{dataDepotManager.rechercheMotsCle}" scrollHeight="400"
-                                onkeypress="if (event.keyCode == 13) { imageRemCo(); return false; }">
+                                onkeypress="if (event.keyCode == 13) { audioRemCo(); return false; }">
                     <p:ajax event="itemSelect" listener="#{dataDepotManager.rechercheMotCle(dataDepotManager.audioSelected.motCle)}"
                             update="motcleFormAudio autoAudio"/>
                 </p:autoComplete>
                 <p:remoteCommand name="audioRemCo" action="#{dataDepotManager.addNewLabel(dataDepotManager.audioSelected.motCle)}"
-                                 process="@this audioRemCo" update="motcleFormAudio autoAudio"/>
+                                 process="@this autoAudio" update="motcleFormAudio autoAudio"/>
                 <br/>
                 <p:chips id="motcleFormAudio" value="#{dataDepotManager.audioSelected.motsCles}">
                     <p:ajax event="itemUnselect" listener="#{dataDepotManager.elementDelete}" update="motcleFormAudio" />

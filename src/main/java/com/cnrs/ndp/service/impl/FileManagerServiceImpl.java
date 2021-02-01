@@ -1,9 +1,11 @@
-package com.cnrs.ndp.service;
+package com.cnrs.ndp.service.impl;
 
 import com.cnrs.ndp.model.Label;
 import com.cnrs.ndp.model.resources.*;
 import com.cnrs.ndp.outils.ImageManager;
 import com.cnrs.ndp.outils.PdfManager;
+import com.cnrs.ndp.service.FileManagerService;
+import com.cnrs.ndp.service.ThesaurusService;
 import com.cnrs.ndp.utils.StringUtils;
 import com.cnrs.ndp.outils.VideoManager;
 
@@ -26,7 +28,7 @@ import java.util.List;
 
 
 @Service
-public class FileManager {
+public class FileManagerServiceImpl implements FileManagerService {
 
     @Autowired
     private ImageManager imageManager;
@@ -216,25 +218,31 @@ public class FileManager {
     }
 
     private void createSmallFile(File file, String destinationPath) throws Exception {
-        URLConnection connection = file.toURL().openConnection();
-        String mimeType = connection.getContentType();
-        switch (mimeType) {
-            case "image/jpeg":
-            case "image/png":
-            case "image/tiff":
-                imageManager.imageTraitement(file, destinationPath);
-                break;
-            case "application/pdf":
-                pdfManager.pdfTraitement(file, destinationPath);
-                break;
-            case "video/mp4":
-            case "video/webm":
-                videoManager.videoTraitement(file.getPath(), destinationPath);
-                break;
-            default:
-                File destination = new File(destinationPath.substring(0, destinationPath.lastIndexOf(".")+1) + "jpg");
-                createDefaultImage(destination);
+        try {
+            URLConnection connection = file.toURL().openConnection();
+            String mimeType = connection.getContentType();
+            switch (mimeType) {
+                case "image/jpeg":
+                case "image/png":
+                case "image/tiff":
+                    imageManager.imageTraitement(file, destinationPath);
+                    break;
+                case "application/pdf":
+                    pdfManager.pdfTraitement(file, destinationPath);
+                    break;
+                case "video/mp4":
+                case "video/webm":
+                    videoManager.videoTraitement(file.getPath(), destinationPath);
+                    break;
+                default:
+                    File destination = new File(destinationPath.substring(0, destinationPath.lastIndexOf(".")+1) + "jpg");
+                    createDefaultImage(destination);
+            }
+        } catch (Exception ex) {
+            File destination = new File(destinationPath.substring(0, destinationPath.lastIndexOf(".")) + ".jpg");
+            createDefaultImage(destination);
         }
+
     }
 
     private void createDefaultImage(File destination) throws IOException {

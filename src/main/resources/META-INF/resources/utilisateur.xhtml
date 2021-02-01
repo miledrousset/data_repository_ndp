@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
@@ -23,10 +25,10 @@
             <section id="breadcrumbs" class="breadcrumbs">
                 <div class="container">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h2>Utilisateurs</h2>
+                        <h2>Métadonnées</h2>
                         <ol>
                             <li><a href="index.xhtml">Accueil</a></li>
-                            <li>Utilisateur</li>
+                            <li>Métadonnées</li>
                         </ol>
                     </div>
 
@@ -43,16 +45,39 @@
 
                             <article class="entry entry-single">
 
-                                <h2 class="entry-title">
-                                    <a href="blog-single.html">Détail de l'utilisateur</a>
-                                </h2>
+                                <h2 class="entry-title">Exemple de fichier méthadonnée pour chaque schéemas</h2>
 
                                 <div class="entry-content">
-                                    <p>
-                                        La page est en cours de construction ...
-                                    </p>
+                                    <table id="resourceArray" class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th><h:outputText style="font-size: 14px" value="Nom du schémas"/></th>
+                                                <th><h:outputText style="font-size: 14px" value="Format fichier autorisées"/></th>
+                                                <th><h:outputText style="font-size: 14px" value="Exemple fichier CSV"/></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <h:form>
+                                                <ui:repeat value="#{metadonneBean.metadonneList}" var="metadonne">
+                                                    <tr>
+                                                        <td>
+                                                            <h:outputText style="font-size: 14px" value="#{metadonne.nom}"/>
+                                                        </td>
+                                                        <td>
+                                                            <b:commandButton tooltip="Télécharger la version CSV" icon-awesome="fas fa-plus-circle"
+                                                                             style="color: #f47b2a">
+                                                                <p:fileDownload value="#{metadonneBean.dowloadFile(metadonne.csvFilePath, 'csv')}"/>
+                                                            </b:commandButton>
+                                                        </td>
+                                                        <td>
+                                                            <h:outputText style="font-size: 14px" value="#{metadonne.formatsAutorisees}"/>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </h:form>
+                                        </tbody>
+                                    </table>
                                 </div>
-
                             </article>
                         </div>
                     </div>

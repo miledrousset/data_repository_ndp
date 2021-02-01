@@ -1,14 +1,17 @@
-package com.cnrs.ndp.service;
+package com.cnrs.ndp.service.impl;
 
 import com.cnrs.ndp.model.resources.*;
+
+import com.cnrs.ndp.service.ForumValidateur;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Objects;
 
+
 @Service
-public class FormValidateur {
+public class ForumValidateurImpl implements ForumValidateur {
 
 
     public boolean forumValidateur(String shemasValidateur, Resource resource) {

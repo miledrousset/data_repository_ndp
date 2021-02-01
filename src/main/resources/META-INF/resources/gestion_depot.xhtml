@@ -63,29 +63,33 @@
                         <div class="col-lg-12 entries">
                             <article class="entry entry-single">
 
-                                <h2 class="entry-title">Liste des dépôts effectués</h2>
+                                <b:row>
+                                    <b:column span="9">
+                                        <h2 class="entry-title">Liste des dépôts effectués</h2>
+                                    </b:column>
 
-                                <div style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap;
-                                        -ms-flex-align: center; align-items: center; -ms-flex-pack: end;
-                                        justify-content: flex-end;">
+                                    <b:column span="3">
+                                        <div style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap;
+                                            -ms-flex-align: center; align-items: center; -ms-flex-pack: end;
+                                            justify-content: flex-end;">
 
-                                    <h:form id="aide" style="margin-bottom: 10px">
-                                        <b:navCommandLink tooltip="Afficher le manuel d'utilisation"
-                                                          icon-awesome="fa-newspaper-o" iconSize="2x"
-                                                          oncomplete="PF('manuelUtilisation').show();"
-                                                          ajax="false"
-                                                          style="color: #d9232d; font-size: 12px;"
-                                                          update="aide" />
+                                            <h:form id="aide" style="margin-bottom: 10px">
+                                                <b:navCommandLink tooltip="Afficher le manuel d'utilisation"
+                                                                  icon-awesome="fa-newspaper-o" iconSize="2x"
+                                                                  oncomplete="PF('manuelUtilisation').show();"
+                                                                  ajax="false"
+                                                                  style="color: #d9232d; font-size: 12px;"
+                                                                  update="aide" />
 
-                                        <!-- Visualiser Manuel d'utilsiation -->
-                                        <p:dialog header="Tutoriel de dépôt HumanumBox" widgetVar="manuelUtilisation"
-                                                  modal="true" width="1000px" height="500px" closable="true" resizable="false">
-                                            <p:media value="#{depotManagerBean.streamedContent}" width="100%" height="100%" player="pdf" />
-                                        </p:dialog>
-                                    </h:form>
-
-                                </div>
-
+                                                <!-- Visualiser Manuel d'utilsiation -->
+                                                <p:dialog header="Tutoriel de dépôt HumanumBox" widgetVar="manuelUtilisation"
+                                                          modal="true" width="1000px" height="500px" closable="true" resizable="false">
+                                                    <p:media value="#{depotManagerBean.streamedContent}" width="100%" height="100%" player="pdf" />
+                                                </p:dialog>
+                                            </h:form>
+                                        </div>
+                                    </b:column>
+                                </b:row>
 
                                 <div class="entry-content">
                                     <p:tabView>
@@ -163,6 +167,7 @@
                                                     <th>Source</th>
                                                     <th>Groupe</th>
                                                     <th>Répertoire</th>
+                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
 
@@ -182,6 +187,30 @@
                                                         <td><h:outputText value="#{depot.source}"/></td>
                                                         <td><h:outputText value="#{depot.groupeTravail}"/></td>
                                                         <td><h:outputText value="#{depot.repertoir}"/></td>
+                                                        <td>
+                                                            <h:form>
+                                                                <p:menuButton>
+                                                                    <p:menuitem value="Modifier" oncomplete="PF('modifierDepot').show()"
+                                                                                update="mainDepos" icon="pi pi-pencil">
+                                                                        <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
+                                                                    </p:menuitem>
+
+                                                                    <p:separator />
+
+                                                                    <p:menuitem value="Télécharger" oncomplete="PF('depotDownload').show()"
+                                                                                update="mainDepos" icon="pi pi-download">
+                                                                        <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
+                                                                    </p:menuitem>
+
+                                                                    <p:separator />
+
+                                                                    <p:menuitem value="Supprimer" oncomplete="PF('deleteDepot').show()"
+                                                                                upload="mainDepos" icon="pi pi-times-circle">
+                                                                        <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
+                                                                    </p:menuitem>
+                                                                </p:menuButton>
+                                                            </h:form>
+                                                        </td>
                                                     </tr>
                                                 </ui:repeat>
                                                 </tbody>

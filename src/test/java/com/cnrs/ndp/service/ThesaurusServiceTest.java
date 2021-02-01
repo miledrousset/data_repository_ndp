@@ -1,6 +1,7 @@
 package com.cnrs.ndp.service;
 
 import com.cnrs.ndp.model.Label;
+import com.cnrs.ndp.service.impl.ThesaurusServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +18,7 @@ import java.util.List;
 public class ThesaurusServiceTest {
 
     @Autowired
-    private ThesaurusService thesaurusService;
+    private ThesaurusServiceImpl thesaurusService;
 
 
     @Test

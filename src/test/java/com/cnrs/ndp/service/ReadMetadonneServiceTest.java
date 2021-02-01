@@ -22,7 +22,7 @@ public class ReadMetadonneServiceTest {
 
 
     @Autowired
-    private MetadonneService readMetadonneService;
+    private MetadonneExcelService readMetadonneService;
 
 
     @Test

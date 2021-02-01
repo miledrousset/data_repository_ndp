@@ -1,7 +1,8 @@
-package com.cnrs.ndp.service;
+package com.cnrs.ndp.service.impl;
 
 import com.cnrs.ndp.model.Label;
 import com.cnrs.ndp.model.resources.*;
+import com.cnrs.ndp.service.MetadonneExcelService;
 import com.cnrs.ndp.utils.DateUtils;
 import com.cnrs.ndp.utils.StringUtils;
 
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class MetadonneService {
+public class MetadonneExcelServiceImpl implements MetadonneExcelService {
 
     private String motCleSeparateurMot = ";";
 
@@ -128,36 +128,36 @@ public class MetadonneService {
     private ArticlePresse readArticlePresse(Row row) {
         try {
             ArticlePresse articlePresse = new ArticlePresse();
-            articlePresse.setTitre(StringUtils.formatFileName(readStringValue(row, 1)));
-            articlePresse.setCreateur(readStringValue(row, 2));
+            articlePresse.setTitre(StringUtils.formatFileName(readStringValue(row, 0)));
+            articlePresse.setCreateur(readStringValue(row, 1));
 
-            List<Label> labelList = motsCleList(readStringValue(row, 3));
+            List<Label> labelList = motsCleList(readStringValue(row, 2));
             if (!CollectionUtils.isEmpty(labelList)) {
                 articlePresse.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
                 articlePresse.setMotsClesLabel(labelList);
             }
 
-            articlePresse.setDescription(readStringValue(row, 4));
-            articlePresse.setMedia(readStringValue(row, 5));
-            articlePresse.setEditeur(readStringValue(row, 6));
-            articlePresse.setContributeur(readStringValue(row, 7));
-            articlePresse.setLangue(readStringValue(row, 8));
-            articlePresse.setDateCreationFichier(DateUtils.formatStringToDate(readStringValue(row, 9)));
-            articlePresse.setType(readStringValue(row, 10));
-            articlePresse.setSupport(readStringValue(row, 11));
-            articlePresse.setFormat(readStringValue(row, 12));
-            articlePresse.setIdentifiantUnique(readStringValue(row, 13));
-            articlePresse.setExtension(readStringValue(row, 14));
-            articlePresse.setLienInternet(readStringValue(row, 15));
-            articlePresse.setDateConsultation(DateUtils.formatStringToDate(readStringValue(row, 16)));
-            articlePresse.setRelation(readStringValue(row, 17));
-            articlePresse.setRelationLien(readStringValue(row, 18));
-            articlePresse.setDateCreationPDF(DateUtils.formatStringToDate(readStringValue(row, 19)));
-            articlePresse.setNotesInternes(readStringValue(row, 20));
-            articlePresse.setPreparation(readStringValue(row, 21));
-            articlePresse.setCollecteur(readStringValue(row, 22));
-            articlePresse.setCitationBibliographie(readStringValue(row, 23));
-            articlePresse.setGestionDesDroits(readStringValue(row, 24));
+            articlePresse.setDescription(readStringValue(row, 3));
+            articlePresse.setMedia(readStringValue(row, 4));
+            articlePresse.setEditeur(readStringValue(row, 5));
+            articlePresse.setContributeur(readStringValue(row, 6));
+            articlePresse.setLangue(readStringValue(row, 7));
+            articlePresse.setDateCreationFichier(DateUtils.formatStringToDate(readStringValue(row, 8)));
+            articlePresse.setType(readStringValue(row, 9));
+            articlePresse.setSupport(readStringValue(row, 10));
+            articlePresse.setFormat(readStringValue(row, 11));
+            articlePresse.setIdentifiantUnique(readStringValue(row, 12));
+            articlePresse.setExtension(readStringValue(row, 13));
+            articlePresse.setLienInternet(readStringValue(row, 14));
+            articlePresse.setDateConsultation(DateUtils.formatStringToDate(readStringValue(row, 15)));
+            articlePresse.setRelation(readStringValue(row, 16));
+            articlePresse.setRelationLien(readStringValue(row, 17));
+            articlePresse.setDateCreationPDF(DateUtils.formatStringToDate(readStringValue(row, 18)));
+            articlePresse.setNotesInternes(readStringValue(row, 19));
+            articlePresse.setPreparation(readStringValue(row, 20));
+            articlePresse.setCollecteur(readStringValue(row, 21));
+            articlePresse.setCitationBibliographie(readStringValue(row, 22));
+            articlePresse.setGestionDesDroits(readStringValue(row, 23));
 
             return articlePresse;
         } catch (Exception ex) {
@@ -188,35 +188,35 @@ public class MetadonneService {
     private Video readVideo(Row row) {
         try {
             Video video = new Video();
-            video.setTitre(StringUtils.formatFileName(readStringValue(row, 1)));
-            video.setCreateur(readStringValue(row, 2));
+            video.setTitre(StringUtils.formatFileName(readStringValue(row, 0)));
+            video.setCreateur(readStringValue(row, 1));
 
-            List<Label> labelList = motsCleList(readStringValue(row, 3));
+            List<Label> labelList = motsCleList(readStringValue(row, 2));
             if (!CollectionUtils.isEmpty(labelList)) {
                 video.setMotsCles(labelList.stream().map(label -> label.getLabel()).collect(Collectors.toList()));
                 video.setMotsClesLabel(labelList);
             }
 
-            video.setDescription(readStringValue(row, 4));
-            video.setMedia(readStringValue(row, 5));
-            video.setEditeur(readStringValue(row, 6));
-            video.setContributeur(readStringValue(row, 7));
-            video.setLangue(readStringValue(row, 8));
-            video.setDateCreationFichier(DateUtils.formatStringToDate(readStringValue(row, 9)));
-            video.setType(readStringValue(row, 10));
-            video.setSupport(readStringValue(row, 11));
-            video.setFormat(readStringValue(row, 12));
-            video.setIdentifiantUnique(readStringValue(row, 13));
-            video.setExtension(readStringValue(row, 14));
-            video.setLienInternet(readStringValue(row, 15));
-            video.setDateConsultation(DateUtils.formatStringToDate(readStringValue(row, 16)));
-            video.setDateCreationMp4(DateUtils.formatStringToDate(readStringValue(row, 17)));
-            video.setRelation(readStringValue(row, 18));
-            video.setNotesInternes(readStringValue(row, 19));
-            video.setPreparation(readStringValue(row, 20));
-            video.setCollecteur(readStringValue(row, 21));
-            video.setCitationBibliographie(readStringValue(row, 22));
-            video.setGestionDesDroits(readStringValue(row, 23));
+            video.setDescription(readStringValue(row, 3));
+            video.setMedia(readStringValue(row, 4));
+            video.setEditeur(readStringValue(row, 5));
+            video.setContributeur(readStringValue(row, 6));
+            video.setLangue(readStringValue(row, 7));
+            video.setDateCreationFichier(DateUtils.formatStringToDate(readStringValue(row, 8)));
+            video.setType(readStringValue(row, 9));
+            video.setSupport(readStringValue(row, 10));
+            video.setFormat(readStringValue(row, 11));
+            video.setIdentifiantUnique(readStringValue(row, 12));
+            video.setExtension(readStringValue(row, 13));
+            video.setLienInternet(readStringValue(row, 14));
+            video.setDateConsultation(DateUtils.formatStringToDate(readStringValue(row, 15)));
+            video.setDateCreationMp4(DateUtils.formatStringToDate(readStringValue(row, 16)));
+            video.setRelation(readStringValue(row, 17));
+            video.setNotesInternes(readStringValue(row, 18));
+            video.setPreparation(readStringValue(row, 19));
+            video.setCollecteur(readStringValue(row, 20));
+            video.setCitationBibliographie(readStringValue(row, 21));
+            video.setGestionDesDroits(readStringValue(row, 22));
 
             return video;
         } catch (Exception ex) {
@@ -511,6 +511,10 @@ public class MetadonneService {
     }
 
     private Date readDateValue(Row row, int index) {
-        return row.getCell(index) == null ? null : row.getCell(index).getDateCellValue();
+        try {
+            return row.getCell(index) == null ? null : row.getCell(index).getDateCellValue();
+        } catch (IllegalStateException ex) {
+            return row.getCell(index) == null ? null : DateUtils.formatStringToDate(row.getCell(index).getStringCellValue());
+        }
     }
 }
