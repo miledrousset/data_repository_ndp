@@ -68,9 +68,6 @@ public class DataDepotBean implements Serializable {
     @Value("#{'${upload.file.groupes_travail}'.split(';')}")
     private List<String> groupeTravail;
 
-    @Value("#{'${upload.file.source}'.split(';')}")
-    private List<String> sources;
-
     @Value("${upload.file.small_name}")
     private String smallRep;
 
@@ -79,7 +76,7 @@ public class DataDepotBean implements Serializable {
 
 
     private boolean saveDepot, detailDepotVisible, uploadFilesVisible;
-    private String schemasSelected, repertoirSelected, groupeTravailSelected, sourceSelected, depotName, resourceName;
+    private String schemasSelected, repertoirSelected, groupeTravailSelected, typeSelected, depotName, resourceName;
     private UploadedFile file;
     private Depots depotCreated;
 
@@ -599,7 +596,7 @@ public class DataDepotBean implements Serializable {
                 depots.setArcheodrid("A venir");
                 depots.setDepotHumaNum("A venir");
                 depots.setDateDepot(new Date());
-                depots.setSource(sourceSelected);
+                depots.setType(typeSelected);
                 depotCreated = depotsRepository.save(depots);
                 depotManagerBean.initComposant();
             }
@@ -881,19 +878,11 @@ public class DataDepotBean implements Serializable {
         return "11".equals(schemasSelected);
     }
 
-    public List<String> getSources() {
-        return sources;
+    public String getTypeSelected() {
+        return typeSelected;
     }
 
-    public void setSources(List<String> sources) {
-        this.sources = sources;
-    }
-
-    public String getSourceSelected() {
-        return sourceSelected;
-    }
-
-    public void setSourceSelected(String sourceSelected) {
-        this.sourceSelected = sourceSelected;
+    public void setTypeSelected(String typeSelected) {
+        this.typeSelected = typeSelected;
     }
 }

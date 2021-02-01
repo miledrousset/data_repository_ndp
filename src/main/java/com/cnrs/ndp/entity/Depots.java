@@ -28,7 +28,7 @@ public class Depots {
     
     Date dateDepot;
 
-    String source;
+    String type;
     
     String groupeTravail;
     

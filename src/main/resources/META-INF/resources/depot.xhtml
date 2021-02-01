@@ -118,13 +118,13 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <h:outputText class="col-sm-2 col-form-label" style="font-size: 14px" value="Source :" />
+                                                <h:outputText class="col-sm-2 col-form-label" style="font-size: 14px" value="Type de données :" />
                                                 <div class="col-sm-10">
-                                                    <b:selectOneMenu value="#{dataDepotManager.sourceSelected}"
+                                                    <b:selectOneMenu value="#{dataDepotManager.typeSelected}"
                                                                      style="width:100%; font-size: 14px;" dynamic="true"
                                                                      disabled="#{dataDepotManager.uploadFilesVisible}">
-                                                        <f:selectItems value="#{dataDepotManager.sources}" var="source"
-                                                                       itemLabel="#{source}" itemValue="#{source}" />
+                                                        <f:selectItem itemLabel="Données collectées" itemValue="Données collectées"/>
+                                                        <f:selectItem itemLabel="Données produites" itemValue="Données produites" />
                                                     </b:selectOneMenu>
                                                 </div>
                                             </div>

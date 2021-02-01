@@ -40,13 +40,9 @@
             <h:panelGroup id="mainDepos" rendered="#{connexionBean.isUserConnected}">
                 <section id="blog" class="blog">
                     <div class="container">
-
                         <div class="col-lg-12 entries">
-
                             <article class="entry entry-single">
-
-                                <h2 class="entry-title">Exemple de fichier méthadonnée pour chaque schéemas</h2>
-
+                                <h5 class="entry-title">Exemple de fichier méthadonnée pour chaque schémas</h5>
                                 <div class="entry-content">
                                     <table id="resourceArray" class="table table-striped table-hover">
                                         <thead>
@@ -64,19 +60,38 @@
                                                             <h:outputText style="font-size: 14px" value="#{metadonne.nom}"/>
                                                         </td>
                                                         <td>
-                                                            <b:commandButton tooltip="Télécharger la version CSV" icon-awesome="fas fa-plus-circle"
+                                                            <h:outputText style="font-size: 14px" value="#{metadonne.formatsAutorisees}"/>
+                                                        </td>
+                                                        <td>
+                                                            <b:commandButton tooltip="Télécharger la version CSV" icon-awesome="cloud-download" iconSize="2x"
                                                                              style="color: #f47b2a">
                                                                 <p:fileDownload value="#{metadonneBean.dowloadFile(metadonne.csvFilePath, 'csv')}"/>
                                                             </b:commandButton>
-                                                        </td>
-                                                        <td>
-                                                            <h:outputText style="font-size: 14px" value="#{metadonne.formatsAutorisees}"/>
                                                         </td>
                                                     </tr>
                                                 </ui:repeat>
                                             </h:form>
                                         </tbody>
                                     </table>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="blog" class="blog">
+                    <div class="container">
+                        <div class="col-lg-12 entries" style="font-size: 14px">
+                            <article class="entry entry-single">
+                                <h5 class="entry-title">Les régles à respecter</h5>
+                                <div class="entry-content">
+                                    <ul>
+                                        <li>Format du date : dd/M/yyyy. Exemple : 22/11/2021</li>
+                                        <li>Les mots clés doivent être séparer par ' ### '. Exemple : MOT_CLE_1 ### MOT_CLE_2 ###</li>
+                                        <li>Chaque mot clé est sous forme : label#URI. Avec URI est un champs optionnel.</li>
+                                        <li>Touts les carectères sont autorisés.</li>
+                                        <li>Le nombre des clonnes doivent être respecter. Si un champs vide est doit etre syboliser par ''.</li>
+                                    </ul>
                                 </div>
                             </article>
                         </div>

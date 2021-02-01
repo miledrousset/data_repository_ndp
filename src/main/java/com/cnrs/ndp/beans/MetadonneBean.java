@@ -4,6 +4,7 @@ import com.cnrs.ndp.model.Metadonne;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import java.util.List;
 public class MetadonneBean implements Serializable {
 
     private List<Metadonne> metadonneList;
+
     @Value("#{'${upload.file.format.image}'.split(';')}")
     private List<String> imagesFormat;
 
@@ -46,6 +48,7 @@ public class MetadonneBean implements Serializable {
     @Value("#{'${upload.file.format.nuage_point}'.split(';')}")
     private List<String> nuagePointsFormat;
 
+
     @PostConstruct
     public void initComposant() {
 
@@ -54,32 +57,57 @@ public class MetadonneBean implements Serializable {
         metadonneList.add(new Metadonne("Deblin core",
                 "metadonnes/csv/Dublin Core.csv",
                 "metadonnes/xlsx/Dublin Core.xlsx",
-                "Toutes les formats"));
+                "[Tous les formats]"));
 
         metadonneList.add(new Metadonne("Article de Press (gt-Emotion)",
                 "metadonnes/csv/Article de press.csv",
                 "metadonnes/xlsx/Article de press.xlsx",
-                textsFormat.toString()));
+                (CollectionUtils.isEmpty(textsFormat))? "[Tous les formats]" : textsFormat.toString()));
 
         metadonneList.add(new Metadonne("URL",
                 "metadonnes/csv/Url.csv",
                 "metadonnes/xlsx/Url.xlsx",
-                urlsFormat.toString()));
+                (CollectionUtils.isEmpty(urlsFormat))? "[Tous les formats]" : urlsFormat.toString()));
 
         metadonneList.add(new Metadonne("Vidéo",
                 "metadonnes/csv/Video.csv",
                 "metadonnes/xlsx/Video.xlsx",
-                videosFormat.toString()));
+                (CollectionUtils.isEmpty(videosFormat))? "[Tous les formats]" : videosFormat.toString()));
 
         metadonneList.add(new Metadonne("Image (LRMH)",
                 "metadonnes/csv/Image.csv",
                 "metadonnes/xlsx/Image.xlsx",
-                imagesFormat.toString()));
+                (CollectionUtils.isEmpty(imagesFormat))? "[Tous les formats]" : imagesFormat.toString()));
 
         metadonneList.add(new Metadonne("Audio Wawe BWF",
                 "metadonnes/csv/Audio.csv",
                 "metadonnes/xlsx/Audio.xlsx",
-                audiosFormat.toString()));
+                (CollectionUtils.isEmpty(audiosFormat))? "[Tous les formats]" : audiosFormat.toString()));
+
+        metadonneList.add(new Metadonne("Données laser brutes",
+                "metadonnes/csv/Données laser brutes.csv",
+                "metadonnes/xlsx/Données laser brutes.xlsx",
+                "[Tous les formats]"));
+
+        metadonneList.add(new Metadonne("Données laser conso",
+                "metadonnes/csv/Données laser conso.csv",
+                "metadonnes/xlsx/Données laser conso.xlsx",
+                "[Tous les formats]"));
+
+        metadonneList.add(new Metadonne("Nuage de points photogrammétrie",
+                "metadonnes/csv/Nuage de points photogrammétrie.csv",
+                "metadonnes/xlsx/Nuage de points photogrammétrie.xlsx",
+                (CollectionUtils.isEmpty(nuagePointsFormat))? "[Tous les formats]" : nuagePointsFormat.toString()));
+
+        metadonneList.add(new Metadonne("Maillage 3D photogrammétrie",
+                "metadonnes/csv/Maillage 3D photogrammétrie.csv",
+                "metadonnes/xlsx/Maillage 3D photogrammétrie.xlsx",
+                (CollectionUtils.isEmpty(representations2DsFormat))? "[Tous les formats]" : representations2DsFormat.toString()));
+
+        metadonneList.add(new Metadonne("Restitution 3D Geometry",
+                "metadonnes/csv/Restitution 3D Geometry.csv",
+                "metadonnes/xlsx/Restitution 3D Geometry.xlsx",
+                (CollectionUtils.isEmpty(representations3DsFormat))? "[Tous les formats]" : representations3DsFormat.toString()));
 
     }
 

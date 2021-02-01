@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class MetadonneCsvServiceImpl implements MetadonneCsvService {
 
+    @Value("${format.mot_cle.separateur_mot}")
     private String motCleSeparateurMot = ";";
 
     @Value("${format.mot_cle.separateur_url}")
