@@ -206,13 +206,14 @@ public class DataDepotBean implements Serializable {
     }
 
     public void addNewLabel(String name) {
-        Label newLabel = new Label();
-        newLabel.setLabel(name);
-        addLabel(name, newLabel, false);
+        if (!StringUtils.isEmpty(name)) {
+            Label newLabel = new Label();
+            newLabel.setLabel(name);
+            addLabel(name, newLabel, false);
+        }
     }
 
     public void rechercheMotCle(String name) {
-
         Label labelSelected = null;
         for (Label label : labelsSearched) {
             if (label.getLabel().equals(name)) {
@@ -566,44 +567,61 @@ public class DataDepotBean implements Serializable {
         deblinCoreUploated.remove(resource);
     }
 
+    private boolean isAlreadyUploaded(String fileName) {
+        String fileNameFormated = com.cnrs.ndp.utils.StringUtils.formatFileName(fileName);
+        boolean isFound = false;
+        for (Resource resource : deblinCoreUploated) {
+            if (com.cnrs.ndp.utils.StringUtils.formatFileName(resource.getFile().getName())
+                    .equalsIgnoreCase(fileNameFormated)) {
+                isFound = true;
+                break;
+            }
+        }
+        return isFound;
+    }
+
     public void uploadFiles(FileUploadEvent event) {
 
         if (fileManagerService.validateFormatFile(schemasSelected, FilenameUtils.getExtension(event.getFile().getFileName()))) {
 
-            if (StringUtils.isEmpty(depotName)) {
-                depotName = connexionBean.getUsername() + "_" + DateUtils.getDateTime(DIRECTORY_NAME);
-                deblinCoreUploated = new ArrayList<>();
+            if (!isAlreadyUploaded(event.getFile().getFileName())) {
+                if (StringUtils.isEmpty(depotName)) {
+                    depotName = connexionBean.getUsername() + "_" + DateUtils.getDateTime(DIRECTORY_NAME);
+                    deblinCoreUploated = new ArrayList<>();
+                }
+                deblinCoreUploated.add(fileManagerService.uploadFiles(event.getFile(), depotName, groupeTravailSelected,
+                        repertoirSelected, schemasSelected, listMetadonnes, groupeTravail.indexOf(groupeTravailSelected)));
+
+                FacesMessage message = new FacesMessage("Successful", "All files are uploaded.");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+
+                PrimeFaces pf = PrimeFaces.current();
+                if (pf.isAjaxRequest()) {
+                    pf.ajax().update("mainDepos");
+                }
+
+                updateMethadonneFinalFile();
+
+                if (saveDepot) {
+                    saveDepot = false;
+                    Depots depots = new Depots();
+                    depots.setNomDepot(depotName);
+                    depots.setRepertoir(repertoirSelected);
+                    depots.setGroupeTravail(groupeTravailSelected);
+                    depots.setArcheodrid("A venir");
+                    depots.setDepotHumaNum("A venir");
+                    depots.setDateDepot(new Date());
+                    depots.setType(typeSelected);
+                    depotCreated = depotsRepository.save(depots);
+                    depotManagerBean.initComposant();
+                }
+            } else {
+                showMessage(FacesMessage.SEVERITY_WARN, "Le fichier '" + event.getFile().getFileName()
+                        + "' est déjà chargé !");
             }
-            deblinCoreUploated.add(fileManagerService.uploadFiles(event.getFile(), depotName, groupeTravailSelected,
-                    repertoirSelected, schemasSelected, listMetadonnes, groupeTravail.indexOf(groupeTravailSelected)));
-
-            FacesMessage message = new FacesMessage("Successful", "All files are uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-
-            PrimeFaces pf = PrimeFaces.current();
-            if (pf.isAjaxRequest()) {
-                pf.ajax().update("mainDepos");
-            }
-
-            updateMethadonneFinalFile();
-
-            if (saveDepot) {
-                saveDepot = false;
-                Depots depots = new Depots();
-                depots.setNomDepot(depotName);
-                depots.setRepertoir(repertoirSelected);
-                depots.setGroupeTravail(groupeTravailSelected);
-                depots.setArcheodrid("A venir");
-                depots.setDepotHumaNum("A venir");
-                depots.setDateDepot(new Date());
-                depots.setType(typeSelected);
-                depotCreated = depotsRepository.save(depots);
-                depotManagerBean.initComposant();
-            }
-
         } else {
-            showMessage(FacesMessage.SEVERITY_WARN, "Le format du fichier '" + event.getFile().getFileName()
-                    + "' n'est pas valide !");
+            showMessage(FacesMessage.SEVERITY_WARN, "Format du fichier '" + event.getFile().getFileName()
+                    + "' n'est pas valide. Formats acceptés : " + fileManagerService.getFormatsListBySchema(schemasSelected));
         }
     }
 
@@ -617,15 +635,19 @@ public class DataDepotBean implements Serializable {
             File fileUploated = new File(event.getFile().getFileName());
             fileManagerService.uploadFile(is, fileUploated);
 
-            if (file.getFileName().toLowerCase().endsWith(".xlsx")) {
-                listMetadonnes = metadonneExcelService.readDeblinCoreMetadonne(fileUploated, schemasSelected);
-            } else {
-                listMetadonnes = metadonneCsvService.readCsvMetadonne(fileUploated, schemasSelected);
+            try {
+                if (file.getFileName().toLowerCase().endsWith(".xlsx")) {
+                    listMetadonnes = metadonneExcelService.readDeblinCoreMetadonne(fileUploated, schemasSelected);
+                } else {
+                    listMetadonnes = metadonneCsvService.readCsvMetadonne(fileUploated, schemasSelected);
+                }
+            } catch (IndexOutOfBoundsException ex) {
+                showMessage(FacesMessage.SEVERITY_ERROR, "La structure du fichier metadonne est invalide !");
             }
 
             fileUploated.delete();
             PrimeFaces pf = PrimeFaces.current();
-            pf.ajax().update("mainDepos");
+            pf.ajax().update("metadonnePanel");
 
         } else {
             showMessage(FacesMessage.SEVERITY_ERROR, "Le format du fichier metadonne est invalide !");
@@ -885,4 +907,6 @@ public class DataDepotBean implements Serializable {
     public void setTypeSelected(String typeSelected) {
         this.typeSelected = typeSelected;
     }
+
+
 }

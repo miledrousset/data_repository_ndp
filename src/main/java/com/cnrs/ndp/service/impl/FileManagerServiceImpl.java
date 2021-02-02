@@ -1,5 +1,6 @@
 package com.cnrs.ndp.service.impl;
 
+import com.cnrs.ndp.beans.MetadonneBean;
 import com.cnrs.ndp.model.Label;
 import com.cnrs.ndp.model.resources.*;
 import com.cnrs.ndp.outils.ImageManager;
@@ -90,15 +91,23 @@ public class FileManagerServiceImpl implements FileManagerService {
                                 int groupSelectedIndex) {
         Resource resource = null;
         try {
+            System.out.println("Début d'upload file");
             String destinationPath = createDestinationDirectoryPath(repoName, groupeTravailSelected, repertoirSelected);
             String fileName = StringUtils.formatFileName(file.getFileName());
             File fileOut = new File(destinationPath + fileName);
             InputStream is = file.getInputstream();
+            System.out.println("Début du copie du fichier");
             copyFile(is, fileOut, destinationPath + smallDirectory + fileName);
+            System.out.println("Fin du copie du fichier");
             String titre = StringUtils.formatFileName(fileName.substring(0, fileName.lastIndexOf(".")));
+            System.out.println("Début du create Resource");
             resource = createResource(schemasSelected, titre, listMetadonnes, fileOut, groupSelectedIndex);
+            System.out.println("Fin du create Resource");
             resource.setFile(fileOut);
-        } catch (Exception e) { }
+            System.out.println("Fin d'upload file");
+        } catch (Exception e) {
+            System.out.println("Erreur dans upload Files : " + e.getMessage());
+        }
         return resource;
     }
 
@@ -111,7 +120,6 @@ public class FileManagerServiceImpl implements FileManagerService {
                 case 1 :
                     resource = new DeblinCore();
                     ((DeblinCore) resource).setDateMiseDisposition(new Date());
-                    ((DeblinCore) resource).setCouverture(new Date());
                     break;
                 case 2:
                     resource = new ArticlePresse();
@@ -246,11 +254,8 @@ public class FileManagerServiceImpl implements FileManagerService {
     }
 
     private void createDefaultImage(File destination) throws IOException {
-
-        ClassLoader classLoader = getClass().getClassLoader();
-        File original = new File(classLoader.getResource(defaultIcon).getFile());
-
-        FileUtils.copyFile(original, destination);
+        InputStream inputStream = MetadonneBean.class.getResourceAsStream(defaultIcon);
+        FileUtils.copyInputStreamToFile(inputStream, destination);
     }
 
     public String createDestinationDirectoryPath(String repoName, String groupeTravailSelected, String repertoirSelected)
@@ -261,6 +266,37 @@ public class FileManagerServiceImpl implements FileManagerService {
         Files.createDirectories(Paths.get(path));
         Files.createDirectories(Paths.get(path + smallDirectory));
         return path;
+    }
+
+    public String getFormatsListBySchema(String schemaSelected) {
+        String formats = "";
+        switch(Integer.parseInt(schemaSelected)) {
+            case 2:
+                formats = textsFormat.toString();
+                break;
+            case 3:
+                formats = urlsFormat.toString();
+                break;
+            case 4:
+                formats = videosFormat.toString();
+                break;
+            case 5:
+                formats = imagesFormat.toString();
+                break;
+            case 6:
+                formats = audiosFormat.toString();
+                break;
+            case 9:
+                formats = nuagePointsFormat.toString();
+                break;
+            case 10:
+                formats = representations2DsFormat.toString();
+                break;
+            case 11:
+                formats = representations3DsFormat.toString();
+                break;
+        }
+        return formats;
     }
 
     public boolean validateFormatFile(String schemaSelected, String extentionFile) {

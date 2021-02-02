@@ -25,9 +25,9 @@
                                         onclick="#{connexionBean.setItemMenuSelected('Gestion du dépôt')}"
                                         style="#{connexionBean.getTitleMenuStyle('Gestion du dépôt')}" value="Gestion du dépôt"/></li>
 
-                            <li><p:link rendered="#{connexionBean.isUserConnected}" outcome="utilisateur"
-                                        onclick="#{connexionBean.setItemMenuSelected('Utilisateur')}"
-                                        style="#{connexionBean.getTitleMenuStyle('Utilisateur')}" value="Métadonnées"/></li>
+                            <li><p:link rendered="#{connexionBean.isUserConnected}" outcome="metadonnees" onmousedown="#{connexionBean.setItemMenuSelected('Métadonnées')}"
+                                        onclick="#{connexionBean.setItemMenuSelected('Métadonnées')}"
+                                        style="#{connexionBean.getTitleMenuStyle('Métadonnées')}" value="Métadonnées"/></li>
                         </ul>
                     </nav>
 

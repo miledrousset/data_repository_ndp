@@ -32,7 +32,7 @@ public class MetadonneExcelServiceImpl implements MetadonneExcelService {
     private String motCleSeparateurUrl;
 
 
-    public List<Resource> readDeblinCoreMetadonne(File file, String schemasSelected) throws IOException {
+    public List<Resource> readDeblinCoreMetadonne(File file, String schemasSelected) throws IOException, IndexOutOfBoundsException {
 
         FileInputStream fis = new FileInputStream(file);
         XSSFWorkbook myWorkBook = new XSSFWorkbook (fis);
@@ -43,76 +43,110 @@ public class MetadonneExcelServiceImpl implements MetadonneExcelService {
         List<Resource> resources = new ArrayList<>();
 
         while (rowIterator.hasNext()) {
+
+            Row row = rowIterator.next();
+
             if (excludFirstLigne) {
                 excludFirstLigne = false;
                 rowIterator.next();
                 continue;
             }
 
-            Row row = rowIterator.next();
             switch (Integer.parseInt(schemasSelected)) {
                 case 1:
+                    if (row.getRowNum() != 15) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     DeblinCore deblinCore = readDeblinCore(row);
                     if (!ObjectUtils.isEmpty(deblinCore)) {
                         resources.add(deblinCore);
                     }
                     break;
                 case 2:
+                    if (row.getRowNum() != 24) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     ArticlePresse articlePresse = readArticlePresse(row);
                     if (!ObjectUtils.isEmpty(articlePresse)) {
                         resources.add(articlePresse);
                     }
                     break;
                 case 3:
+                    if (row.getRowNum() != 10) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     Url url = readUrl(row);
                     if (!ObjectUtils.isEmpty(url)) {
                         resources.add(url);
                     }
                     break;
                 case 4:
+                    if (row.getRowNum() != 23) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     Video video = readVideo(row);
                     if (!ObjectUtils.isEmpty(video)) {
                         resources.add(video);
                     }
                     break;
                 case 5:
+                    if (row.getRowNum() != 26) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     Image image = readImage(row);
                     if (!ObjectUtils.isEmpty(image)) {
                         resources.add(image);
                     }
-                    resources.add(readImage(row));
                     break;
                 case 6:
+                    if (row.getRowNum() != 27) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     AudioWaweBwf audioWaweBwf = readAudioWaweBwf(row);
                     if (!ObjectUtils.isEmpty(audioWaweBwf)) {
                         resources.add(audioWaweBwf);
                     }
                     break;
                 case 7:
+                    if (row.getRowNum() != 23) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     DonneeLaserBrut donneeLaserBrut = readDonneeLaserBrut(row);
                     if (!ObjectUtils.isEmpty(donneeLaserBrut)) {
                         resources.add(donneeLaserBrut);
                     }
                     break;
                 case 8:
+                    if (row.getRowNum() != 19) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     DonneeLaserConso donneeLaserConso = readDonneeLaserConso(row);
                     if (!ObjectUtils.isEmpty(donneeLaserConso)) {
                         resources.add(donneeLaserConso);
                     }
                     break;
                 case 9:
+                    if (row.getRowNum() != 20) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     NuagePointsPhotogrammetrie nuagePointsPhotogrammetrie = readNuagePointsPhotogrammetrie(row);
                     if (!ObjectUtils.isEmpty(nuagePointsPhotogrammetrie)) {
                         resources.add(nuagePointsPhotogrammetrie);
                     }
                     break;
                 case 10:
+                    if (row.getRowNum() != 7) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     Maillage3dPhotogrammetrie maillage3dPhotogrammetrie = readMaillage3dPhotogrammetrie(row);
                     if (!ObjectUtils.isEmpty(maillage3dPhotogrammetrie)) {
                         resources.add(maillage3dPhotogrammetrie);
                     }
                     break;
                 case 11:
+                    if (row.getRowNum() != 14) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     Maillage3dGeometry maillage3dGeometry = readMaillage3dGeometry(row);
                     if (!ObjectUtils.isEmpty(maillage3dGeometry)) {
                         resources.add(maillage3dGeometry);
@@ -480,18 +514,18 @@ public class MetadonneExcelServiceImpl implements MetadonneExcelService {
             deblinCore.setSource(readStringValue(row, 10));
             deblinCore.setLangue(readStringValue(row, 11));
             deblinCore.setRelation(readStringValue(row, 12));
-            deblinCore.setCouverture(readDateValue(row, 13));
+            deblinCore.setCouverture(readStringValue(row, 13));
             deblinCore.setGestionDesDroits(readStringValue(row, 14));
             return deblinCore;
-        } catch (Exception ex) {
-            return null;
+        } catch (IndexOutOfBoundsException ex) {
+            throw new IndexOutOfBoundsException();
         }
     }
 
     private List<Label> motsCleList(String str) {
         List<Label> labels = new ArrayList<>();
 
-        List<String> labelsStr = Arrays.asList(str.split(" " + motCleSeparateurMot + " "));
+        List<String> labelsStr = Arrays.asList(str.split(motCleSeparateurMot));
         for (String labelStr : labelsStr) {
             Label label = new Label();
             List<String> tmp = Arrays.asList(labelStr.split(motCleSeparateurUrl));

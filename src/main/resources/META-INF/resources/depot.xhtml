@@ -33,7 +33,52 @@
     <h:body style="background: #FFFFFF">
         <p:growl id="messages" showDetail="true" />
 
-        <ui:include src="header.xhtml"/>
+        <h:form>
+            <header id="header" class="fixed-top ">
+                <h:panelGroup id="headerPanel">
+                    <div class="container d-flex align-items-center">
+                        <h1 class="logo">
+                            <a href="index.xhtml">GT Numérique</a>
+                        </h1>
+                        <nav class="nav-menu d-none d-lg-block">
+                            <ul>
+                                <li><p:link outcome="index" value="Accueil"/></li>
+
+                                <li><p:link rendered="#{connexionBean.isUserConnected}" outcome="depot"
+                                            style="color: #d9232d; font-weight: bold;" value="Dépôt de données"/></li>
+
+                                <li><p:link rendered="#{connexionBean.isUserConnected}" outcome="gestion_depot"
+                                            value="Gestion du dépôt"/></li>
+
+                                <li><p:link rendered="#{connexionBean.isUserConnected}" outcome="metadonnees" value="Métadonnées"/></li>
+                            </ul>
+                        </nav>
+
+                        <b:commandButton rendered="#{connexionBean.isUserConnected}" value="Se déconnecter"
+                                         oncomplete="PF('deconnexionDialog').show();" ajax="true"
+                                         style="margin-left: auto!important; margin-left: 25px; border-color: #d9232d; background: #d9232d;
+                                     color: #fff; border-radius: 4px; padding: 8px 30px 9px 30px; white-space: nowrap;
+                                     transition: 0.3s; font-size: 14px; display: inline-block;"
+                                         update="headerPanel"/>
+
+                        <b:link rendered="#{!connexionBean.isUserConnected}" outcome="connexion" value="Se connecter"
+                                class="get-started-btn ml-auto"/>
+
+                    </div>
+                </h:panelGroup>
+            </header>
+
+            <p:dialog header="Se déconnecter" widgetVar="deconnexionDialog" modal="true" resizable="false">
+                <div class="modal-body">
+                    <p>Voulez-vous vraiment vous déconnecter ?</p>
+                </div>
+                <div class="modal-footer">
+                    <b:commandButton value="Annuler" onclick="PF('deconnexionDialog').hide();" class="btn btn-default"/>
+                    <b:commandButton value="Se déconnecter" actionListener="#{connexionBean.deconnexion()}"
+                                     class="btn btn-success" update="headerPanel"/>
+                </div>
+            </p:dialog>
+        </h:form>
 
         <main id="main">
             <section id="breadcrumbs" class="breadcrumbs">
@@ -81,6 +126,7 @@
                                                     -ms-flex-align: center; align-items: center; -ms-flex-pack: end;
                                                     justify-content: flex-end;">
                                            <b:commandButton value="Valider" actionListener="#{dataDepotManager.onValiderSchema()}"
+                                                            tooltip="Valider le schéma et passer à l'étape suivante"
                                                             disabled="#{dataDepotManager.detailDepotVisible}"
                                                             update="mainDepos" style="border-color: #d9232d;
                                                             background: #d9232d; color: #fff; border-radius: 4px;
@@ -139,13 +185,55 @@
                                                                   style="width:100%; font-size: 12px;"
                                                                   label="Parcourir"
                                                                   mode="advanced"
-                                                                  update="mainDepos"
+                                                                  update="metadonnePanel"
                                                                   multiple="true"
                                                                   uploadLabel="Charger"
                                                                   cancelLabel="Annuler"
                                                                   dragDropSupport="true"/>
+
+                                                    <h:panelGroup id="metadonnePanel">
+                                                        <div>
+                                                            <p>Nombre total des metadonnées chargés : <B>#{dataDepotManager.listMetadonnes.size()}</B></p>
+                                                            <b:navCommandLink value="Afficher les noms des donnés chargés"
+                                                                              rendered="#{dataDepotManager.listMetadonnes.size() > 0}"
+                                                                              tooltip="Afficher les noms des resources contenu dans le fichier métadonnée chargé"
+                                                                              oncomplete="PF('metadonneCharge').show();" ajax="false"
+                                                                              style="color: #f47b2a; font-size: 13px" update="mainDepos"/>
+                                                        </div>
+                                                    </h:panelGroup>
                                                 </h:form>
-                                                <p>Nombre total des metadonnées chargés : <B>#{dataDepotManager.listMetadonnes.size()}</B></p>
+
+                                                <p:dialog header="Liste des métadonnes chargées" widgetVar="metadonneCharge"
+                                                          modal="true" maximizable="400" resizable="false" style="background-color: #eeeeee;">
+
+                                                    <div style="background-color: #eeeeee;">
+                                                        <table class="table table-striped table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Nom du fichier</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <ui:repeat value="#{dataDepotManager.listMetadonnes}" var="metadonne">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <b:navCommandLink icon-awesome="fa-chevron-down" style="color: #556570" disabled="true" />
+                                                                            <h:outputText value="#{metadonne.titre}"/></td>
+                                                                    </tr>
+                                                                </ui:repeat>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <p:commandButton value="Annuler" onclick="PF('metadonneCharge').hide();"
+                                                                         style="border-color: #d9232d; background: #ffffff;
+                                                                         color: #d9232d; border-radius: 4px; padding: 3px; white-space: nowrap;
+                                                                         transition: 0.3s; font-size: 12px; display: inline-block;"/>
+                                                    </div>
+
+                                                </p:dialog>
+
                                             </div>
 
                                             <div style="display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap;
@@ -226,7 +314,7 @@
                                                                         <td><h:outputText value="#{res.type}"/></td>
                                                                         <td><h:outputText value="#{res.format}"/></td>
                                                                         <td>
-                                                                            <b:navCommandLink tooltip="Supprimer la resource" icon-awesome="fas fa-plus-circle"
+                                                                            <b:navCommandLink tooltip="Editer la resource" icon-awesome="fas fa-plus-circle"
                                                                                               oncomplete="PF('modifierResource').show();" ajax="false"
                                                                                               style="color: #f47b2a" update="testDepot"
                                                                                               actionListener="#{dataDepotManager.setResourceSelected(res)}" />

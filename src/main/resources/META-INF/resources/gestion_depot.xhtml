@@ -37,7 +37,40 @@
 
         <p:growl id="messages" showDetail="true" />
 
-        <ui:include src="header.xhtml"/>
+        <h:form>
+            <header id="header" class="fixed-top ">
+                <h:panelGroup id="headerPanel">
+                    <div class="container d-flex align-items-center">
+                        <h1 class="logo">
+                            <a href="index.xhtml">GT Numérique</a>
+                        </h1>
+                        <nav class="nav-menu d-none d-lg-block">
+                            <ul>
+                                <li><p:link outcome="index" value="Accueil"/></li>
+
+                                <li><p:link rendered="#{connexionBean.isUserConnected}" outcome="depot" value="Dépôt de données"/></li>
+
+                                <li><p:link rendered="#{connexionBean.isUserConnected}" outcome="gestion_depot"
+                                            value="Gestion du dépôt" style="color: #d9232d; font-weight: bold;"/></li>
+
+                                <li><p:link rendered="#{connexionBean.isUserConnected}" outcome="metadonnees" value="Métadonnées"/></li>
+                            </ul>
+                        </nav>
+
+                        <b:commandButton rendered="#{connexionBean.isUserConnected}" value="Se déconnecter"
+                                         oncomplete="PF('deconnexionDialog').show();" ajax="true"
+                                         style="margin-left: auto!important; margin-left: 25px; border-color: #d9232d; background: #d9232d;
+                                     color: #fff; border-radius: 4px; padding: 8px 30px 9px 30px; white-space: nowrap;
+                                     transition: 0.3s; font-size: 14px; display: inline-block;"
+                                         update="headerPanel"/>
+
+                        <b:link rendered="#{!connexionBean.isUserConnected}" outcome="connexion" value="Se connecter"
+                                class="get-started-btn ml-auto"/>
+
+                    </div>
+                </h:panelGroup>
+            </header>
+        </h:form>
 
         <main id="main">
 
@@ -114,10 +147,14 @@
                                                             <tr>
                                                                 <td>
                                                                     <h:form id="etat">
-                                                                        <b:navCommandLink rendered="#{!depot.status}" tooltip="Dépôt n'a pas été terminé !" icon-awesome="fas fa-remove"
+                                                                        <b:navCommandLink rendered="#{!depot.status}"
+                                                                                          tooltip="Le dépôt n'a pas encore terminé !"
+                                                                                          icon-awesome="fas fa-remove"
                                                                                           style="color: #d9232d" disabled="true" />
 
-                                                                        <b:navCommandLink rendered="#{depot.status}" tooltip="Dépôt validé !" icon-awesome="fa-chevron-down"
+                                                                        <b:navCommandLink rendered="#{depot.status}"
+                                                                                          tooltip="Le dépôt est terminé !"
+                                                                                          icon-awesome="fa-chevron-down"
                                                                                           style="color: #556570 " disabled="true" />
                                                                     </h:form>
                                                                 </td>

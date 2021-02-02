@@ -151,7 +151,7 @@ public class RepportServiceImpl implements RepportService {
 
     private List<String[]> createNuagePointsPhotogrammetrieRepport(List<Resource> resources) {
         List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "Titre", "Createur", "Mots clés", "Description", "Editeur", "Contributeur", "Date de mise à disposition",
+        data.add(new String[] { "Titre", "Createur", "Mots clés validés", "Mots clés libre", "Description", "Editeur", "Contributeur", "Date de mise à disposition",
                 "Type", "Format", "Identifiant unique", "Source", "Langue", "Relation", "Couverture", "Gestion des droits",
                 "ID Sources", "Logiciel de traitement", "Densité de points moyenne", "Système de coordonnées", "Architecture du fichier"});
 
@@ -161,7 +161,8 @@ public class RepportServiceImpl implements RepportService {
             data.add(new String[] {
                     nuagePointsPhotogrammetrie.getTitre(),
                     nuagePointsPhotogrammetrie.getCreateur(),
-                    generetMotCle(nuagePointsPhotogrammetrie.getMotsClesLabel()),
+                    generetMotCle(nuagePointsPhotogrammetrie.getMotsClesValide()),
+                    generetMotCle(nuagePointsPhotogrammetrie.getMotsClesNonValide()),
                     nuagePointsPhotogrammetrie.getDescription(),
                     nuagePointsPhotogrammetrie.getEditeur(),
                     nuagePointsPhotogrammetrie.getContributeur(),
@@ -186,7 +187,7 @@ public class RepportServiceImpl implements RepportService {
 
     private List<String[]> createDonneLaserConsoRepport(List<Resource> resources) {
         List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "Titre", "Createur", "Mots clés", "Description", "Editeur", "Contributeur", "Date de mise à disposition",
+        data.add(new String[] { "Titre", "Createur", "Mots clés validés", "Mots clés libre", "Description", "Editeur", "Contributeur", "Date de mise à disposition",
                 "Type", "Format", "Identifiant unique", "Source", "Langue", "Relation", "Couverture",
                 "Gestion des droits", "ID Sources", "Logiciel", "Méthode de consolidation", "Système de coordonnées"});
 
@@ -196,7 +197,8 @@ public class RepportServiceImpl implements RepportService {
             data.add(new String[] {
                     donneeLaserConso.getTitre(),
                     donneeLaserConso.getCreateur(),
-                    generetMotCle(donneeLaserConso.getMotsClesLabel()),
+                    generetMotCle(donneeLaserConso.getMotsClesValide()),
+                    generetMotCle(donneeLaserConso.getMotsClesNonValide()),
                     donneeLaserConso.getDescription(),
                     donneeLaserConso.getEditeur(),
                     donneeLaserConso.getContributeur(),
@@ -220,7 +222,7 @@ public class RepportServiceImpl implements RepportService {
 
     private List<String[]> createDonneLaserBruitRepport(List<Resource> resources) {
         List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "Titre", "Createur", "Mots clés", "Description", "Editeur", "Contributeur", "Date de mise à disposition",
+        data.add(new String[] { "Titre", "Createur", "Mots clés validés", "Mots clés libre", "Description", "Editeur", "Contributeur", "Date de mise à disposition",
                 "Type", "Format", "Identifiant unique", "Source", "Langue", "Nuage", "Relation", "Couverture",
                 "Gestion des droits", "Matériel", "Méthode métrologique", "Résolution angulaire", "Résolution spatiale",
                 "Densité de points moyenne", "Champ horizontal de la station", "Champ vertical de la station" });
@@ -231,7 +233,8 @@ public class RepportServiceImpl implements RepportService {
             data.add(new String[] {
                     donneeLaserBrut.getTitre(),
                     donneeLaserBrut.getCreateur(),
-                    generetMotCle(donneeLaserBrut.getMotsClesLabel()),
+                    generetMotCle(donneeLaserBrut.getMotsClesValide()),
+                    generetMotCle(donneeLaserBrut.getMotsClesNonValide()),
                     donneeLaserBrut.getDescription(),
                     donneeLaserBrut.getEditeur(),
                     donneeLaserBrut.getContributeur(),
@@ -259,7 +262,7 @@ public class RepportServiceImpl implements RepportService {
 
     private List<String[]> createAudioRepport(List<Resource> resources) {
         List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "Titre", "Createur", "Mots clés", "Editeur", "Contributeur", "Format", "Identifiant unique",
+        data.add(new String[] { "Titre", "Createur", "Mots clés validés", "Mots clés libre", "Editeur", "Contributeur", "Format", "Identifiant unique",
                 "Description", "Langue", "Relation", "Source", "Gestion des droits", "Couverture", "ICRD", "IGNR",
                 "Origination Reference", "Origination Date", "Origination Time", "Time Reference translated",
                 "Time Reference", "Bext Version", "Coding History", "IARL", "ICMT", "IENG", "IMED", "ISFT" });
@@ -270,7 +273,8 @@ public class RepportServiceImpl implements RepportService {
             data.add(new String[] {
                     audioWaweBwf.getTitre(),
                     audioWaweBwf.getCreateur(),
-                    generetMotCle(audioWaweBwf.getMotsClesLabel()),
+                    generetMotCle(audioWaweBwf.getMotsClesValide()),
+                    generetMotCle(audioWaweBwf.getMotsClesNonValide()),
                     audioWaweBwf.getEditeur(),
                     audioWaweBwf.getContributeur(),
                     audioWaweBwf.getFormat(),
@@ -302,42 +306,42 @@ public class RepportServiceImpl implements RepportService {
 
     private List<String[]> createImageRepport(List<Resource> resources) {
         List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "Titre", "Createur", "Mots clés", "Description", "Media", "Éditeur", "Contributeur",
-                "Langue", "Date de création du fichier", "Type", "Support", "Format", "Identifiant unique",
-                "Extension", "Lien internet", "Date de consultation", "Date de création du .mp4", "Relation",
-                "Lien internet", "Preparation", "Collecteur", "Citation Bibliographique", "Gestion des droits" });
+        data.add(new String[] { "Titre", "Createur", "Mots clés validés", "Mots clés libre", "Editeur", "Contributeur",
+                "Date de création", "Type", "Support original du fichier", "Extension", "Date de mise à disposition", "Citation bibliographie",
+                "Gestion des droits", "Identifiant unique", "File size", "Model", "Image size", "Quality", "Focal Length",
+                "Shutter Speed", "Aperture", "ISO", "White Balance", "Flash", "X Resolution", "Y Resolution", "Preserved FileName"});
 
         for (Resource rowData : resources) {
-            Image video = (Image) rowData;
+            Image image = (Image) rowData;
 
             data.add(new String[] {
-                    video.getTitre(),
-                    video.getCreateur(),
-                    generetMotCle(video.getMotsClesLabel()),
-                    video.getEditeur(),
-                    video.getContributeur(),
-                    video.getDateCreation() != null ? DateUtils.formatDateToString(video.getDateCreation()) : "",
-                    video.getType(),
-                    video.getSupportOriginalFichier(),
-                    video.getExtension(),
-                    video.getDateMiseDisposition() != null ? DateUtils.formatDateToString(video.getDateMiseDisposition()) : "",
-                    video.getCitationBibliographie(),
-                    video.getGestionDesDroits(),
-                    video.getIdentifiantUnique(),
-                    video.getFileSize(),
-                    video.getModel(),
-                    video.getImageSize(),
-                    video.getQuality(),
-                    video.getFocalLength(),
-                    video.getShutterSpeed(),
-                    video.getAperture(),
-                    video.getAperture(),
-                    video.getIso(),
-                    video.getWhiteBalance(),
-                    video.getFlash(),
-                    video.getXResolution(),
-                    video.getYResolution(),
-                    video.getPreservedFileName()});
+                    image.getTitre(),
+                    image.getCreateur(),
+                    generetMotCle(image.getMotsClesValide()),
+                    generetMotCle(image.getMotsClesNonValide()),
+                    image.getEditeur(),
+                    image.getContributeur(),
+                    image.getDateCreation() != null ? DateUtils.formatDateToString(image.getDateCreation()) : "",
+                    image.getType(),
+                    image.getSupportOriginalFichier(),
+                    image.getExtension(),
+                    image.getDateMiseDisposition() != null ? DateUtils.formatDateToString(image.getDateMiseDisposition()) : "",
+                    image.getCitationBibliographie(),
+                    image.getGestionDesDroits(),
+                    image.getIdentifiantUnique(),
+                    image.getFileSize(),
+                    image.getModel(),
+                    image.getImageSize(),
+                    image.getQuality(),
+                    image.getFocalLength(),
+                    image.getShutterSpeed(),
+                    image.getAperture(),
+                    image.getIso(),
+                    image.getWhiteBalance(),
+                    image.getFlash(),
+                    image.getXResolution(),
+                    image.getYResolution(),
+                    image.getPreservedFileName()});
         }
         return data;
     }
@@ -345,7 +349,7 @@ public class RepportServiceImpl implements RepportService {
 
     private List<String[]> createVideoRepport(List<Resource> resources) {
         List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "Titre", "Createur", "Mots clés", "Description", "Media", "Éditeur", "Contributeur",
+        data.add(new String[] { "Titre", "Createur", "Mots clés validés", "Mots clés libre", "Description", "Media", "Éditeur", "Contributeur",
                 "Langue", "Date de création du fichier", "Type", "Support", "Format", "Identifiant unique",
                 "Extension", "Lien internet", "Date de consultation", "Date de création du .mp4", "Relation",
                 "Lien internet", "Preparation", "Collecteur", "Citation Bibliographique", "Gestion des droits" });
@@ -356,7 +360,8 @@ public class RepportServiceImpl implements RepportService {
             data.add(new String[] {
                     video.getTitre(),
                     video.getCreateur(),
-                    generetMotCle(video.getMotsClesLabel()),
+                    generetMotCle(video.getMotsClesValide()),
+                    generetMotCle(video.getMotsClesNonValide()),
                     video.getDescription(),
                     video.getMedia(),
                     video.getEditeur(),
@@ -408,7 +413,7 @@ public class RepportServiceImpl implements RepportService {
 
     private List<String[]> createArticlePresseRepport(List<Resource> resources) {
         List<String[]> data = new ArrayList<>();
-        data.add(new String[] { "Titre", "Createur", "Mots clés", "Description", "Media", "Éditeur", "Contributeur",
+        data.add(new String[] { "Titre", "Createur", "Mots clés validés", "Mots clés libre", "Description", "Media", "Éditeur", "Contributeur",
                 "Langue", "Date de création du fichier", "Type", "Support", "Format", "Identifiant unique",
                 "Extension", "Lien internet", "Date de consultation", "Relation", "Lien relation", "Date de cration du PDF",
                 "Notes internes", "Preparation", "Collecteur", "Citation Bibliographique", "Gestion des droits" });
@@ -419,7 +424,8 @@ public class RepportServiceImpl implements RepportService {
             data.add(new String[] {
                     articlePresse.getTitre(),
                     articlePresse.getCreateur(),
-                    generetMotCle(articlePresse.getMotsClesLabel()),
+                    generetMotCle(articlePresse.getMotsClesValide()),
+                    generetMotCle(articlePresse.getMotsClesNonValide()),
                     articlePresse.getDescription(),
                     articlePresse.getMedia(),
                     articlePresse.getEditeur(),
@@ -469,7 +475,7 @@ public class RepportServiceImpl implements RepportService {
                         deblinCore.getSource(),
                         deblinCore.getLangue(),
                         deblinCore.getRelation(),
-                        deblinCore.getCouverture() != null ? DateUtils.formatDateToString(deblinCore.getCouverture()) : "",
+                        deblinCore.getCouverture(),
                         deblinCore.getGestionDesDroits()});
             }
         }

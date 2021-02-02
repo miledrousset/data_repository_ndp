@@ -21,4 +21,6 @@ public interface FileManagerService {
     String createDestinationDirectoryPath(String repoName, String groupeTravailSelected, String repertoirSelected)
             throws IOException;
 
+    String getFormatsListBySchema(String schemaSelected);
+
 }

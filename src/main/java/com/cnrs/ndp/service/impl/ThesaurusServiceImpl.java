@@ -39,9 +39,7 @@ public class ThesaurusServiceImpl implements ThesaurusService {
 
         if (indexGroupTravail != -1) {
             List<Label> labels = new ArrayList<>();
-
             String[] parts = thesoNames.get(indexGroupTravail).split(splitTheso);
-
             for (int i=0; i<parts.length; i++) {
                 try {
                     List<Label> list = Arrays.asList(new RestTemplate().getForObject(createUrl(terme, parts[i]), Label[].class));

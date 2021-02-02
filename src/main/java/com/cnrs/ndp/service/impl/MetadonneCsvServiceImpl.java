@@ -72,7 +72,6 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
     }
 
 
-
     private List<NuagePointsPhotogrammetrie> readNuagePointsPhotogrammetrieCsv(Reader file) {
 
         List<NuagePointsPhotogrammetrie> resources = new ArrayList<>();
@@ -81,6 +80,9 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
+                    if (line.split(CHAMPS_DELIMITER).length != 20) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     isFirstLine = false;
                     continue;
                 }
@@ -141,6 +143,9 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
+                    if (line.split(CHAMPS_DELIMITER).length != 14) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     isFirstLine = false;
                     continue;
                 }
@@ -188,6 +193,9 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
+                    if (line.split(CHAMPS_DELIMITER).length != 7) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     isFirstLine = false;
                     continue;
                 }
@@ -228,6 +236,9 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
+                    if (line.split(CHAMPS_DELIMITER).length != 23) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     isFirstLine = false;
                     continue;
                 }
@@ -291,6 +302,9 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
+                    if (line.split(CHAMPS_DELIMITER).length != 19) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     isFirstLine = false;
                     continue;
                 }
@@ -350,6 +364,9 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
+                    if (line.split(CHAMPS_DELIMITER).length != 27) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     isFirstLine = false;
                     continue;
                 }
@@ -417,6 +434,9 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
+                    if (line.split(CHAMPS_DELIMITER).length != 26) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     isFirstLine = false;
                     continue;
                 }
@@ -483,6 +503,9 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
+                    if (line.split(CHAMPS_DELIMITER).length != 23) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     isFirstLine = false;
                     continue;
                 }
@@ -546,6 +569,9 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
+                    if (line.split(CHAMPS_DELIMITER).length != 10) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     isFirstLine = false;
                     continue;
                 }
@@ -590,6 +616,9 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
+                    if (line.split(CHAMPS_DELIMITER).length != 24) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     isFirstLine = false;
                     continue;
                 }
@@ -646,7 +675,7 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
         }
     }
 
-    private List<DeblinCore> readDeblinCoreCsv(Reader file) {
+    private List<DeblinCore> readDeblinCoreCsv(Reader file) throws IndexOutOfBoundsException {
 
         List<DeblinCore> deblinCoresList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(file)) {
@@ -655,6 +684,9 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
                     isFirstLine = false;
+                    if (line.split(CHAMPS_DELIMITER).length != 15) {
+                        throw new IndexOutOfBoundsException();
+                    }
                     continue;
                 }
                 String[] values = line.split(CHAMPS_DELIMITER);
@@ -692,7 +724,7 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             deblinCore.setSource(readStringValue(row, 10));
             deblinCore.setLangue(readStringValue(row, 11));
             deblinCore.setRelation(readStringValue(row, 12));
-            deblinCore.setCouverture(readDateValue(row, 13));
+            deblinCore.setCouverture(readStringValue(row, 13));
             deblinCore.setGestionDesDroits(readStringValue(row, 14));
 
             return deblinCore;
@@ -704,7 +736,7 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
     private List<Label> motsCleList(String str) {
         List<Label> labels = new ArrayList<>();
 
-        List<String> labelsStr = Arrays.asList(str.split(" " + motCleSeparateurMot + " "));
+        List<String> labelsStr = Arrays.asList(str.split(motCleSeparateurMot));
         for (String labelStr : labelsStr) {
             Label label = new Label();
             List<String> tmp = Arrays.asList(labelStr.split(motCleSeparateurUrl));
@@ -720,10 +752,18 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
     }
 
     private String readStringValue(List<String> row, int index) {
-        return row.get(index) == null ? "" : row.get(index);
+        try {
+            return org.springframework.util.StringUtils.isEmpty(row.get(index)) ? "" : row.get(index);
+        } catch (Exception ex) {
+            return "";
+        }
     }
 
     private Date readDateValue(List<String> row, int index) {
-        return row.get(index) == null ? null : DateUtils.formatStringToDate(row.get(index));
+        try {
+            return org.springframework.util.StringUtils.isEmpty(row.get(index)) ? null : DateUtils.formatStringToDate(row.get(index));
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }
