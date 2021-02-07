@@ -118,13 +118,23 @@
                             <article class="entry entry-single">
                                 <h5 class="entry-title">Les régles à respecter</h5>
                                 <div class="entry-content">
+                                    <p>Structure du fichier :</p>
                                     <ul>
-                                        <li>Format du date : dd/MM/yyyy. Exemple : 22/11/2021</li>
-                                        <li>Les mots clés doivent être séparer par '###'. Exemple : MOT_CLE_1###MOT_CLE_2 ###</li>
+                                        <li>Chauqe fichier méthadonnée contient une ligne qui sert d'exemple.</li>
+                                        <li>La 1er ligne du fichier méthadonnée est reservée aux titres des colonnes.</li>
+                                        <li>Le systhème s'attends à un nombre de colonne précis selon le schéma choisie préalablement, dans le cas contraire vous aurez un message d'erreur et aucune ligne ne sera chargée.</li>
+                                        <li>Si une valeur n'est pas valide, elle ne sera pas pris en considération et vous aurez la possibilité de la corriger au niveau du formulaire dédié</li>
+                                        <li>Vous ne devez pas utiliser le carectère ';' dans un fichier CSV car il est considéré comme un séparateur de colonne.</li>
+                                    </ul>
+                                </div>
+                                <div class="entry-content">
+                                    <p>Les champs :</p>
+                                    <ul>
+                                        <li>Format d'une date : dd/MM/yyyy. Exemple : 22/11/2021</li>
+                                        <li>Les mots clés doivent être séparer par '###'. Exemple : MOT_CLE_1###MOT_CLE_2</li>
                                         <li>Chaque mot clé est sous forme : label#URI. Avec URI est un champs optionnel.</li>
-                                        <li>Touts les carectères sont autorisés.</li>
-                                        <li>Le nombre des clonnes doivent être respecter.</li>
-                                        <li>On symbolise un champs vide par '' ou bien ' '.</li>
+                                        <li>Tous les carectères sont autorisés.</li>
+                                        <li>Un champs vide est repsenté par '' ou bien ' '.</li>
                                     </ul>
                                 </div>
                             </article>

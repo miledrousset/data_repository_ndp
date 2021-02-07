@@ -405,7 +405,7 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             audioWaweBwf.setSource(readStringValue(row, 10));
             audioWaweBwf.setGestionDesDroits(readStringValue(row, 11));
             audioWaweBwf.setCouverture(readStringValue(row, 12));
-            audioWaweBwf.setOriginationDate(DateUtils.formatStringToDate(readStringValue(row, 13)));
+            audioWaweBwf.setIcrd(DateUtils.formatStringToDate(readStringValue(row, 13)));
             audioWaweBwf.setIgnr(readStringValue(row, 14));
             audioWaweBwf.setOriginatorReference(readStringValue(row, 15));
             audioWaweBwf.setOriginationDate(DateUtils.formatStringToDate(readStringValue(row, 16)));
@@ -503,7 +503,7 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
-                    if (line.split(CHAMPS_DELIMITER).length != 23) {
+                    if (line.split(CHAMPS_DELIMITER).length != 24) {
                         throw new IndexOutOfBoundsException();
                     }
                     isFirstLine = false;
@@ -549,11 +549,12 @@ public class MetadonneCsvServiceImpl implements MetadonneCsvService {
             video.setDateConsultation(DateUtils.formatStringToDate(readStringValue(row, 15)));
             video.setDateCreationMp4(DateUtils.formatStringToDate(readStringValue(row, 16)));
             video.setRelation(readStringValue(row, 17));
-            video.setNotesInternes(readStringValue(row, 18));
-            video.setPreparation(readStringValue(row, 19));
-            video.setCollecteur(readStringValue(row, 20));
-            video.setCitationBibliographie(readStringValue(row, 21));
-            video.setGestionDesDroits(readStringValue(row, 22));
+            video.setLienRelation(readStringValue(row, 18));
+            video.setNotesInternes(readStringValue(row, 19));
+            video.setPreparation(readStringValue(row, 20));
+            video.setCollecteur(readStringValue(row, 21));
+            video.setCitationBibliographie(readStringValue(row, 22));
+            video.setGestionDesDroits(readStringValue(row, 23));
 
             return video;
         } catch (Exception ex) {

@@ -35,6 +35,7 @@ public class Resource implements Serializable {
     String Support;
     String identifiantUnique;
     String relation;
+    String lienRelation;
     String gestionDesDroits;
     String notesInternes;
     String citationBibliographie;

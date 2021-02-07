@@ -91,20 +91,14 @@ public class FileManagerServiceImpl implements FileManagerService {
                                 int groupSelectedIndex) {
         Resource resource = null;
         try {
-            System.out.println("Début d'upload file");
             String destinationPath = createDestinationDirectoryPath(repoName, groupeTravailSelected, repertoirSelected);
             String fileName = StringUtils.formatFileName(file.getFileName());
             File fileOut = new File(destinationPath + fileName);
             InputStream is = file.getInputstream();
-            System.out.println("Début du copie du fichier");
             copyFile(is, fileOut, destinationPath + smallDirectory + fileName);
-            System.out.println("Fin du copie du fichier");
             String titre = StringUtils.formatFileName(fileName.substring(0, fileName.lastIndexOf(".")));
-            System.out.println("Début du create Resource");
             resource = createResource(schemasSelected, titre, listMetadonnes, fileOut, groupSelectedIndex);
-            System.out.println("Fin du create Resource");
             resource.setFile(fileOut);
-            System.out.println("Fin d'upload file");
         } catch (Exception e) {
             System.out.println("Erreur dans upload Files : " + e.getMessage());
         }

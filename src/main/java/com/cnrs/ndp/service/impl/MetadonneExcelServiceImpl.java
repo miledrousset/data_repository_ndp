@@ -81,7 +81,7 @@ public class MetadonneExcelServiceImpl implements MetadonneExcelService {
                     }
                     break;
                 case 4:
-                    if (row.getRowNum() != 23) {
+                    if (row.getRowNum() != 24) {
                         throw new IndexOutOfBoundsException();
                     }
                     Video video = readVideo(row);
@@ -246,11 +246,12 @@ public class MetadonneExcelServiceImpl implements MetadonneExcelService {
             video.setDateConsultation(DateUtils.formatStringToDate(readStringValue(row, 15)));
             video.setDateCreationMp4(DateUtils.formatStringToDate(readStringValue(row, 16)));
             video.setRelation(readStringValue(row, 17));
-            video.setNotesInternes(readStringValue(row, 18));
-            video.setPreparation(readStringValue(row, 19));
-            video.setCollecteur(readStringValue(row, 20));
-            video.setCitationBibliographie(readStringValue(row, 21));
-            video.setGestionDesDroits(readStringValue(row, 22));
+            video.setLienRelation(readStringValue(row, 18));
+            video.setNotesInternes(readStringValue(row, 19));
+            video.setPreparation(readStringValue(row, 20));
+            video.setCollecteur(readStringValue(row, 21));
+            video.setCitationBibliographie(readStringValue(row, 22));
+            video.setGestionDesDroits(readStringValue(row, 23));
 
             return video;
         } catch (Exception ex) {
