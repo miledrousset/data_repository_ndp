@@ -95,8 +95,8 @@ public class MetadonneBean implements Serializable {
                 "[Tous les formats]"));
 
         metadonneList.add(new Metadonne("Nuage de points photogrammétrie",
-                "/metadonnes/csv/Nuage de points photogrammétrie.csv",
-                "/metadonnes/xlsx/Nuage de points photogrammétrie.xlsx",
+                "/metadonnes/csv/Nuage de points photogrammetrie.csv",
+                "/metadonnes/xlsx/Nuage de points photogrammetrie.xlsx",
                 (CollectionUtils.isEmpty(nuagePointsFormat))? "[Tous les formats]" : nuagePointsFormat.toString()));
 
         metadonneList.add(new Metadonne("Maillage 3D photogrammétrie",
@@ -105,7 +105,7 @@ public class MetadonneBean implements Serializable {
                 (CollectionUtils.isEmpty(representations2DsFormat))? "[Tous les formats]" : representations2DsFormat.toString()));
 
         metadonneList.add(new Metadonne("Restitution 3D Geometry",
-                "/metadonnes/csv/Restitution 3D Geometry.csv",
+                "/metadonnes/csv/Restitution_3D_geometry.csv",
                 "/metadonnes/xlsx/Restitution 3D Geometry.xlsx",
                 (CollectionUtils.isEmpty(representations3DsFormat))? "[Tous les formats]" : representations3DsFormat.toString()));
 

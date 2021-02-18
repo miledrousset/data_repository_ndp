@@ -26,6 +26,7 @@
     <properties>
         <poi.version>3.12</poi.version>
         <java.version>1.8</java.version>
+        <opencsv.version>5.3</opencsv.version>
         <cdi-api.version>1.2</cdi-api.version>
         <lombok.version>1.18.8</lombok.version>
         <commons-io.version>2.6</commons-io.version>
@@ -230,6 +231,17 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>-->
 
     </dependencies>
 

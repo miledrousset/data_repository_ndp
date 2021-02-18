@@ -174,15 +174,15 @@
 
                                                                             <p:separator />
 
-                                                                            <p:menuitem value="Télécharger" oncomplete="PF('depotDownload').show()"
-                                                                                        update="mainDepos" icon="pi pi-download">
+                                                                            <p:menuitem value="Supprimer" oncomplete="PF('deleteDepot').show()"
+                                                                                        update="mainDepos" icon="pi pi-times-circle">
                                                                                 <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
                                                                             </p:menuitem>
 
                                                                             <p:separator />
 
-                                                                            <p:menuitem value="Supprimer" oncomplete="PF('deleteDepot').show()"
-                                                                                        upload="mainDepos" icon="pi pi-times-circle">
+                                                                            <p:menuitem value="Télécharger" oncomplete="PF('depotDownload').show()"
+                                                                                        update="mainDepos" icon="pi pi-download">
                                                                                 <f:setPropertyActionListener value="#{depot}" target="#{depotManagerBean.depotSelected}" />
                                                                             </p:menuitem>
                                                                         </p:menuButton>
@@ -262,14 +262,12 @@
 
                 <h:form>
                     <!-- Supprimer dépôt -->
-                    <p:confirmDialog message="Vous êtes sur le point de supprimer le dépôt '#{depotManagerBean.depotSelected.nomDepot}', continuer ?"
+                    <p:confirmDialog message="Vous êtes sur le point de supprimer un dépôt '#{depotManagerBean.depotSelected.nomDepot}', continuer ?"
                                      header="Confirmation" severity="alert" widgetVar="deleteDepot" modal="true">
 
-                        <p:commandButton value="Oui" ajax="false" onclick="PF('deleteDepot').hide()" >
-                            <p:fileDownload value="#{depotManagerBean.deleteDepot()}"/>
-                        </p:commandButton>
+                        <p:commandButton value="Oui" ajax="true" actionListener="#{depotManagerBean.deleteDepot()}" />
 
-                        <p:commandButton value="Non" onclick="PF('deleteDepot').hide();" type="button" />
+                        <p:commandButton value="Non" onclick="PF('deleteDepot').hide();"  />
                     </p:confirmDialog>
 
                     <!-- Téléchargé dépôt -->

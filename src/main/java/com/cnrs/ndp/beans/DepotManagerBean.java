@@ -38,13 +38,17 @@ public class DepotManagerBean implements Serializable {
     private Depots depotSelected;
     private StreamedContent streamedContent;
 
+
     @PostConstruct
     public void initComposant() {
-        depotsList = depotsRepository.findAllByDepotHumaNumOrderByDateDepotDesc("A venir");
-        depotsDoneList = depotsRepository.findAllByDepotHumaNumOrderByDateDepotDesc("Déposé");
-
+        initTableux();
         InputStream is = DepotManagerBean.class.getResourceAsStream("/Tutoriel de dépôt HumanumBox Janvier 2021.pdf");
         streamedContent = new DefaultStreamedContent(is, "application/pdf");
+    }
+
+    private void initTableux() {
+        depotsList = depotsRepository.findAllByDepotHumaNumOrderByDateDepotDesc("A venir");
+        depotsDoneList = depotsRepository.findAllByDepotHumaNumOrderByDateDepotDesc("Déposé");
     }
 
     public StreamedContent dowloadDepot() {
@@ -77,9 +81,10 @@ public class DepotManagerBean implements Serializable {
                     + depotSelected.getRepertoir() + "/" + depotSelected.getNomDepot());
             FileSystemUtils.deleteRecursively(depoFile);
 
+            initTableux();
+
             showMessage(FacesMessage.SEVERITY_INFO, "Dépôt supprimé avec sucée !");
             PrimeFaces.current().ajax().update("mainDepos");
-            PrimeFaces.current().ajax().update("etat");
 
         } catch (Exception e) {
             showMessage(FacesMessage.SEVERITY_ERROR, "Une erreur est survenu pendant la suppression !");
@@ -89,14 +94,13 @@ public class DepotManagerBean implements Serializable {
     public void modifierDepot() {
         if (!ObjectUtils.isEmpty(depotSelected)) {
             depotsRepository.save(depotSelected);
-            depotsList = depotsRepository.findAllByDepotHumaNumOrderByDateDepotDesc("A venir");
-            depotsDoneList = depotsRepository.findAllByDepotHumaNumOrderByDateDepotDesc("Déposé");
+            initTableux();
             showMessage(FacesMessage.SEVERITY_INFO, "Dépôt modifié avec sucée !");
         }
 
         PrimeFaces.current().executeScript("PF('modifierDepot').hide();");
         PrimeFaces.current().ajax().update("mainDepos");
-        PrimeFaces.current().ajax().update("etat");
+        //PrimeFaces.current().ajax().update("etat");
     }
 
     private void showMessage(FacesMessage.Severity messageType, String messageValue) {

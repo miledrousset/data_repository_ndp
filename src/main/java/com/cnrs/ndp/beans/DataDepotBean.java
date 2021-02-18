@@ -495,7 +495,7 @@ public class DataDepotBean implements Serializable {
         }
     }
 
-    public void annulerDepot() {
+    public void annulerDepot() throws IOException {
 
         if (StringUtils.isNotEmpty(depotName)) {
             Depots depot = depotsRepository.findByNomDepot(depotName);
@@ -505,7 +505,9 @@ public class DataDepotBean implements Serializable {
 
         initComposant();
 
-        PrimeFaces.current().ajax().update("mainDepos");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("depot.xhtml");
+
+        //PrimeFaces.current().ajax().update("mainDepos");
     }
 
     public void supprimerResource() {

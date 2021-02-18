@@ -176,23 +176,25 @@ public class FileManagerServiceImpl implements FileManagerService {
         }
 
         if (!ObjectUtils.isEmpty(resourceFound)) {
-            List<Label> motsValide = new ArrayList<>();
-            List<Label> motsNonValide = new ArrayList<>();
-            for (Label label : resourceFound.getMotsClesLabel()) {
-                List<Label> mots = thesaurusService.getListTermes(label.getLabel(), groupSelectedIndex);
-                if (!CollectionUtils.isEmpty(mots)) {
-                    Label newLabel = new Label();
-                    newLabel.setLabel(label.getLabel());
-                    newLabel.setUri(mots.get(0).getUri());
-                    motsValide.add(newLabel);
-                } else {
-                    Label newLabel = new Label();
-                    newLabel.setLabel(label.getLabel());
-                    motsNonValide.add(newLabel);
+            if (!CollectionUtils.isEmpty(resourceFound.getMotsClesLabel())) {
+                List<Label> motsValide = new ArrayList<>();
+                List<Label> motsNonValide = new ArrayList<>();
+                for (Label label : resourceFound.getMotsClesLabel()) {
+                    List<Label> mots = thesaurusService.getListTermes(label.getLabel(), groupSelectedIndex);
+                    if (!CollectionUtils.isEmpty(mots)) {
+                        Label newLabel = new Label();
+                        newLabel.setLabel(label.getLabel());
+                        newLabel.setUri(mots.get(0).getUri());
+                        motsValide.add(newLabel);
+                    } else {
+                        Label newLabel = new Label();
+                        newLabel.setLabel(label.getLabel());
+                        motsNonValide.add(newLabel);
+                    }
                 }
+                resourceFound.setMotsClesValide(motsValide);
+                resourceFound.setMotsClesNonValide(motsNonValide);
             }
-            resourceFound.setMotsClesValide(motsValide);
-            resourceFound.setMotsClesNonValide(motsNonValide);
         }
 
         return resourceFound;

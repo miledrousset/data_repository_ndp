@@ -1,13 +1,14 @@
 <ui:fragment xmlns="http://www.w3.org/1999/xhtml"
              xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:h="http://xmlns.jcp.org/jsf/html">
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:p="http://primefaces.org/ui">
 
     <div class="reply-form" style="background-color: #eeeeee;">
 
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Date de création *</label>
             <div class="col-sm-8">
-                <h:inputText value="#{dataDepotManager.urlSelected.dateCreationFichier}" class="form-control" />
+                <p:calendar value="#{dataDepotManager.urlSelected.dateCreationFichier}" pattern="yyyy-MM-dd" />
             </div>
         </div>
 
