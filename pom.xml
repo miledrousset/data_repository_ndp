@@ -54,8 +54,8 @@
 
     <repositories>
         <repository>
-            <id>dcm4che repository</id>
-            <url>http://www.dcm4che.org/maven2/</url>
+            <id>xuggle repo</id>
+            <url>https://files.liferay.com/mirrors/xuggle.googlecode.com/svn/trunk/repo/share/java/</url>
         </repository>
     </repositories>
 
@@ -132,7 +132,7 @@
         <dependency>
             <groupId>org.primefaces.extensions</groupId>
             <artifactId>all-themes</artifactId>
-            <version>1.0.8</version>
+            <version>1.0.10</version>
         </dependency>
 
         <dependency>
